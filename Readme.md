@@ -128,4 +128,4 @@ Phase 1 focuses on building the MVP and validating the product with coaching ins
 
 ## Author
 
-Anurag Kumar Tiwari
+Gourav Mishra & Anurag Tiwari
