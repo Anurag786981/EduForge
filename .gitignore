@@ -1,0 +1,18 @@
+.idea/compiler.xml
+.idea/EDU Forge.iml
+.idea/encodings.xml
+.idea/jarRepositories.xml
+.idea/material_theme_project_new.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+# VS Code configuration directory
+.vscode/
+# Node
+node_modules/
+
+# Angular build output
+dist/
+
+# Logs
+*.log
