@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { LoginComponent } from './fetaures/auth/login/login.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [LoginComponent,RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

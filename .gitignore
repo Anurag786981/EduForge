@@ -16,3 +16,4 @@ dist/
 
 # Logs
 *.log
+.idea/.gitignore
