@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class LoginComponent {
 
   hidePassword: boolean = true;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [
         Validators.required,
@@ -42,13 +43,9 @@ export class LoginComponent {
     });
   }
 
-  onSubmit(): void {
+ onSubmit(): void {
 
   console.log('Login button clicked');
-
-  console.log(this.loginForm.value);
-
-  console.log(this.loginForm.valid);
 
   if (this.loginForm.invalid) {
     console.log('Form is invalid');
@@ -56,13 +53,18 @@ export class LoginComponent {
     return;
   }
 
-  console.log('Form is valid');
+  const loginRequest = this.loginForm.value;
 
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
+  console.log('Request Payload:', loginRequest);
 
-    console.log(this.loginForm.value);
-  }
+  this.authService.login(loginRequest)
+    .subscribe({
+      next: (response) => {
+        console.log('Success Response:', response);
+      },
+      error: (error) => {
+        console.log('Error Response:', error);
+      }
+    });
+}
 }
