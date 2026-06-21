@@ -1,0 +1,1605 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EduForge Dashboard Mockup Directions</title>
+  <style>
+    :root {
+      --page-bg: #f4f6f8;
+      --page-ink: #17202a;
+      --page-muted: #687384;
+      --line: #dce2ea;
+      --white: #ffffff;
+      --shadow: 0 18px 42px rgba(24, 37, 56, 0.12);
+      --radius: 8px;
+      --font-ui: "Segoe UI", Arial, sans-serif;
+      --font-display: Georgia, "Times New Roman", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page-bg);
+      color: var(--page-ink);
+      font-family: var(--font-ui);
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 32px 24px 56px;
+    }
+
+    .board-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 28px;
+    }
+
+    .intro,
+    .scope-card,
+    .direction-note {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .intro {
+      padding: 28px;
+    }
+
+    .intro h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.08;
+      font-weight: 760;
+    }
+
+    .intro p {
+      max-width: 940px;
+      margin: 0;
+      color: var(--page-muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .scope-card {
+      padding: 20px;
+    }
+
+    .scope-card h2,
+    .direction-note h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      line-height: 1.25;
+      text-transform: uppercase;
+      font-weight: 760;
+    }
+
+    .scope-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: #495466;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .scope-list li {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 9px;
+      align-items: start;
+    }
+
+    .check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      background: #e9f7ef;
+      color: #147a4a;
+    }
+
+    .check::before {
+      content: "";
+      width: 8px;
+      height: 4px;
+      border-left: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg);
+      margin-top: -1px;
+    }
+
+    .direction-section {
+      margin-top: 34px;
+    }
+
+    .direction-note {
+      padding: 22px;
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px 280px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .direction-note h2 {
+      margin: 0 0 8px;
+      font-size: 25px;
+      line-height: 1.15;
+    }
+
+    .direction-note p {
+      margin: 0;
+      color: #596578;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .note-stack {
+      display: grid;
+      gap: 8px;
+      color: #596578;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .note-stack b {
+      color: #222b38;
+    }
+
+    .screen-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .screen-wrap {
+      min-width: 0;
+    }
+
+    .role-caption {
+      margin: 0 0 8px;
+      color: #4f5d6f;
+      font-size: 13px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .screen {
+      min-height: 720px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(20, 30, 45, 0.13);
+      box-shadow: var(--shadow);
+      background: #ffffff;
+      position: relative;
+    }
+
+    .role-principal { --role: #2762d8; --role-soft: #eaf1ff; --role-ink: #173f92; }
+    .role-admin { --role: #0f8d7a; --role-soft: #e8f7f4; --role-ink: #096757; }
+    .role-teacher { --role: #b45a13; --role-soft: #fff1e4; --role-ink: #87400d; }
+    .role-parent { --role: #9a3fb0; --role-soft: #f7eafd; --role-ink: #713083; }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      vertical-align: middle;
+      color: currentColor;
+    }
+
+    .icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .btn {
+      height: 36px;
+      border: 0;
+      border-radius: 6px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 760;
+      background: var(--role);
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .ghost-btn {
+      background: transparent;
+      color: inherit;
+      border: 1px solid currentColor;
+    }
+
+    .mini-tag {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 6px;
+      background: var(--role-soft);
+      color: var(--role-ink);
+      font-size: 12px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .metric-card {
+      border: 1px solid rgba(28, 42, 64, 0.11);
+      border-radius: var(--radius);
+      padding: 13px;
+      min-width: 0;
+      background: #ffffff;
+    }
+
+    .metric-card .label,
+    .panel-label,
+    .row-label,
+    .small-label {
+      color: #687384;
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 680;
+    }
+
+    .metric-card .value {
+      margin-top: 7px;
+      color: #17202a;
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 820;
+    }
+
+    .panel {
+      border: 1px solid rgba(28, 42, 64, 0.11);
+      border-radius: var(--radius);
+      background: #ffffff;
+      min-width: 0;
+    }
+
+    .panel-head {
+      min-height: 48px;
+      padding: 13px 14px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(28, 42, 64, 0.1);
+    }
+
+    .panel-head h4 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    .panel-body {
+      padding: 14px;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      display: grid;
+      grid-template-columns: 9px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      color: #3c4656;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--role);
+    }
+
+    .bars {
+      display: grid;
+      gap: 11px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr) 42px;
+      gap: 10px;
+      align-items: center;
+      font-size: 12px;
+      color: #4b5666;
+    }
+
+    .track {
+      height: 8px;
+      border-radius: 999px;
+      background: #e7ebf0;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: var(--w);
+      border-radius: inherit;
+      background: var(--role);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .table th,
+    .table td {
+      text-align: left;
+      padding: 9px 8px;
+      border-bottom: 1px solid rgba(28, 42, 64, 0.09);
+      white-space: nowrap;
+    }
+
+    .table th {
+      color: #6e7787;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .table td {
+      color: #303b4a;
+      font-weight: 650;
+    }
+
+    .chip-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .media-strip {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 10px;
+      min-height: 120px;
+    }
+
+    .media-tile {
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0)),
+        var(--media, #dde7f8);
+      border: 1px solid rgba(28, 42, 64, 0.08);
+      padding: 12px;
+      display: flex;
+      align-items: end;
+      color: #111827;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* Direction A */
+    .theme-a {
+      --a-bg: #f8fafc;
+      --a-side: #152238;
+      --a-side-2: #21385c;
+      background: var(--a-bg);
+      color: #17202a;
+      display: grid;
+      grid-template-columns: 188px 1fr;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .a-sidebar {
+      background: var(--a-side);
+      color: #dbe6f5;
+      padding: 18px 14px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 18px;
+    }
+
+    .a-brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 830;
+      color: #ffffff;
+      font-size: 17px;
+    }
+
+    .mark {
+      width: 30px;
+      height: 30px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--role);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .a-nav {
+      display: grid;
+      gap: 6px;
+    }
+
+    .a-nav a {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 10px;
+      border-radius: 7px;
+      color: #c4d1e4;
+      font-size: 13px;
+      font-weight: 690;
+      text-decoration: none;
+    }
+
+    .a-nav a:first-child {
+      background: var(--a-side-2);
+      color: #ffffff;
+    }
+
+    .a-user {
+      padding: 12px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .a-user b {
+      display: block;
+      color: #ffffff;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .a-main {
+      min-width: 0;
+      padding: 20px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 16px;
+    }
+
+    .a-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .a-title h3 {
+      margin: 0;
+      font-size: 27px;
+      line-height: 1.08;
+      font-weight: 820;
+    }
+
+    .a-title p {
+      margin: 5px 0 0;
+      color: #657286;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .a-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .a-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .a-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+      gap: 14px;
+      min-height: 0;
+    }
+
+    .a-left {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .a-hero {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 16px;
+      align-items: stretch;
+      background: #ffffff;
+      border-radius: var(--radius);
+      border: 1px solid rgba(28, 42, 64, 0.11);
+      padding: 14px;
+    }
+
+    .a-score {
+      border-radius: var(--radius);
+      background: var(--role-soft);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--role-ink);
+      padding: 16px;
+    }
+
+    .a-score strong {
+      display: block;
+      font-size: 52px;
+      line-height: 0.95;
+      font-weight: 860;
+    }
+
+    .a-score span {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 1.3;
+      font-weight: 760;
+    }
+
+    .a-hero-copy h4 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      line-height: 1.15;
+      font-weight: 820;
+    }
+
+    .a-hero-copy p {
+      margin: 0 0 12px;
+      color: #566275;
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .a-bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .a-right {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    /* Direction B */
+    .theme-b {
+      --b-bg: #fbfbf8;
+      --b-ink: #20312b;
+      --b-line: #d9ded6;
+      --b-panel: #ffffff;
+      background: var(--b-bg);
+      color: var(--b-ink);
+      padding: 22px;
+      font-family: "Aptos", "Segoe UI", Arial, sans-serif;
+      display: grid;
+      gap: 16px;
+    }
+
+    .b-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--b-line);
+    }
+
+    .b-title {
+      display: grid;
+      gap: 8px;
+    }
+
+    .b-title h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 32px;
+      line-height: 1.06;
+      font-weight: 700;
+    }
+
+    .b-title p {
+      margin: 0;
+      max-width: 650px;
+      color: #5e6d65;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .b-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: end;
+      max-width: 380px;
+    }
+
+    .b-tabs span {
+      min-height: 30px;
+      padding: 7px 10px;
+      border: 1px solid var(--b-line);
+      border-radius: 6px;
+      background: #ffffff;
+      color: #4c5a53;
+      font-size: 12px;
+      font-weight: 730;
+    }
+
+    .b-tabs span:first-child {
+      border-color: var(--role);
+      color: var(--role-ink);
+      background: var(--role-soft);
+    }
+
+    .b-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+      gap: 16px;
+      min-height: 612px;
+    }
+
+    .b-focus {
+      border: 1px solid var(--b-line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 16px;
+    }
+
+    .b-focus h4 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 25px;
+      line-height: 1.12;
+      font-weight: 700;
+    }
+
+    .b-big-number {
+      display: grid;
+      grid-template-columns: 116px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--b-line);
+      border-radius: var(--radius);
+      background: #f5f8f3;
+    }
+
+    .b-big-number strong {
+      font-size: 48px;
+      line-height: 0.96;
+      font-family: var(--font-display);
+      color: var(--role-ink);
+    }
+
+    .b-big-number span {
+      color: #53645b;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 650;
+    }
+
+    .b-timeline {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .b-step {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .b-time {
+      color: var(--role-ink);
+      font-size: 13px;
+      font-weight: 820;
+    }
+
+    .b-step-card {
+      border-left: 3px solid var(--role);
+      background: #ffffff;
+      padding: 9px 11px;
+      box-shadow: inset 0 0 0 1px var(--b-line);
+      border-radius: 0 7px 7px 0;
+    }
+
+    .b-step-card b {
+      display: block;
+      color: #24332e;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .b-step-card span {
+      display: block;
+      margin-top: 2px;
+      color: #65736d;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .b-workspace {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .b-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .b-metrics .metric-card {
+      background: #ffffff;
+      border-color: var(--b-line);
+    }
+
+    .b-work-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 0.72fr);
+      gap: 16px;
+    }
+
+    .theme-b .panel {
+      border-color: var(--b-line);
+    }
+
+    .theme-b .panel-head {
+      border-color: var(--b-line);
+      background: #f8faf6;
+    }
+
+    /* Direction C */
+    .theme-c {
+      --c-bg: #111820;
+      --c-panel: #18222d;
+      --c-panel-2: #202d3a;
+      --c-ink: #f3f7fb;
+      --c-muted: #9daaba;
+      --c-line: #2a3948;
+      background: var(--c-bg);
+      color: var(--c-ink);
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+    }
+
+    .c-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .c-title {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .c-title .mark {
+      width: 42px;
+      height: 42px;
+      background: #f5d44c;
+      color: #111820;
+    }
+
+    .c-title h3 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.08;
+      font-weight: 850;
+    }
+
+    .c-title p {
+      margin: 4px 0 0;
+      color: var(--c-muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .c-tools {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .theme-c .ghost-btn {
+      color: #d6e0ec;
+      border-color: #415366;
+    }
+
+    .c-grid {
+      display: grid;
+      grid-template-columns: minmax(310px, 0.95fr) minmax(0, 1.25fr) minmax(230px, 0.72fr);
+      gap: 14px;
+      min-height: 632px;
+    }
+
+    .c-pane {
+      border: 1px solid var(--c-line);
+      border-radius: var(--radius);
+      background: var(--c-panel);
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .c-pane-head {
+      min-height: 46px;
+      padding: 12px 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      background: var(--c-panel-2);
+      border-bottom: 1px solid var(--c-line);
+    }
+
+    .c-pane-head h4 {
+      margin: 0;
+      color: #f3f7fb;
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: 850;
+    }
+
+    .c-pane-body {
+      padding: 13px;
+    }
+
+    .c-signal {
+      display: grid;
+      gap: 13px;
+    }
+
+    .c-main-stat {
+      padding: 17px;
+      border-radius: var(--radius);
+      background: #0f141b;
+      border: 1px solid var(--c-line);
+    }
+
+    .c-main-stat strong {
+      display: block;
+      color: #f5d44c;
+      font-size: 58px;
+      line-height: 0.95;
+      font-weight: 850;
+    }
+
+    .c-main-stat span {
+      display: block;
+      margin-top: 9px;
+      color: #b8c5d2;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .c-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .theme-c .metric-card {
+      background: #121b24;
+      border-color: var(--c-line);
+    }
+
+    .theme-c .metric-card .label,
+    .theme-c .panel-label,
+    .theme-c .row-label,
+    .theme-c .small-label {
+      color: #9daaba;
+    }
+
+    .theme-c .metric-card .value,
+    .theme-c .table td {
+      color: #f3f7fb;
+    }
+
+    .theme-c .table th,
+    .theme-c .list li {
+      color: #aeb9c6;
+    }
+
+    .theme-c .table th,
+    .theme-c .table td {
+      border-color: var(--c-line);
+    }
+
+    .theme-c .track {
+      background: #2b3947;
+    }
+
+    .theme-c .bar-row,
+    .theme-c .bar-row b {
+      color: #aeb9c6;
+    }
+
+    .theme-c .fill {
+      background: #4cc9f0;
+    }
+
+    .c-alerts {
+      display: grid;
+      gap: 9px;
+    }
+
+    .c-alert {
+      display: grid;
+      grid-template-columns: 4px 1fr;
+      gap: 10px;
+      align-items: stretch;
+      min-height: 54px;
+      border-radius: 7px;
+      background: #121b24;
+      overflow: hidden;
+      border: 1px solid var(--c-line);
+    }
+
+    .c-alert i {
+      display: block;
+      background: var(--role);
+    }
+
+    .c-alert span {
+      padding: 10px 10px 10px 0;
+      color: #d6e0ec;
+      font-size: 13px;
+      line-height: 1.35;
+      font-style: normal;
+      font-weight: 650;
+    }
+
+    .theme-c .panel {
+      background: #121b24;
+      border-color: var(--c-line);
+    }
+
+    .theme-c .panel-head {
+      background: #18222d;
+      border-color: var(--c-line);
+    }
+
+    .theme-c .panel-head h4 {
+      color: #f3f7fb;
+    }
+
+    .theme-c .media-tile {
+      color: #111820;
+      border-color: var(--c-line);
+    }
+
+    @media (max-width: 1180px) {
+      .board-top,
+      .direction-note,
+      .screen-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .direction-note {
+        gap: 14px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 18px 12px 36px;
+      }
+
+      .intro {
+        padding: 20px;
+      }
+
+      .intro h1 {
+        font-size: 28px;
+      }
+
+      .screen {
+        min-height: auto;
+      }
+
+      .theme-a {
+        grid-template-columns: 1fr;
+      }
+
+      .a-sidebar {
+        grid-template-rows: auto auto;
+      }
+
+      .a-user {
+        display: none;
+      }
+
+      .a-summary,
+      .b-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .a-content,
+      .a-hero,
+      .a-bottom-grid,
+      .b-layout,
+      .b-work-grid,
+      .c-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .b-header,
+      .c-top {
+        grid-template-columns: 1fr;
+      }
+
+      .b-tabs,
+      .c-tools {
+        justify-content: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="board-top">
+      <div class="intro">
+        <h1>EduForge Dashboard Mockup Recommendations</h1>
+        <p>
+          Three dashboard design directions for the MVP, each translated across Principal, Admin, Teacher, and Parent views.
+          The layouts prioritize the role outcomes from the requirements PDF: operational overview, records and finance workflows,
+          classroom execution, parent confidence, pickup confirmation, and visible Question Bank / Paper Generator entry points.
+        </p>
+      </div>
+      <aside class="scope-card">
+        <h2>MVP modules covered</h2>
+        <ul class="scope-list">
+          <li><span class="check"></span><span>Role-based dashboards and role-specific navigation.</span></li>
+          <li><span class="check"></span><span>Attendance, fees, approvals, notifications, calendar, pickup, and maintenance.</span></li>
+          <li><span class="check"></span><span>Teacher workflows for timetable, attendance, progress, homework, feedback, and questions.</span></li>
+          <li><span class="check"></span><span>Parent-facing child progress, school activity media, fee state, homework, and pickup status.</span></li>
+        </ul>
+      </aside>
+    </section>
+
+    <main id="mockupBoard"></main>
+  </div>
+
+  <script>
+    const iconSet = {
+      home: '<svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg>',
+      users: '<svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.85"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+      money: '<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 9v.01M18 15v.01"/></svg>',
+      bell: '<svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>',
+      calendar: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+      edit: '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+      chart: '<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>',
+      wrench: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5 5L3 18v3h3l6.7-6.7a4 4 0 0 0 5-5l-2.4 2.4-2.8-2.8Z"/></svg>',
+      book: '<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg>',
+      file: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>',
+      bus: '<svg viewBox="0 0 24 24"><path d="M6 17h12"/><path d="M6 17v2M18 17v2"/><rect x="4" y="4" width="16" height="13" rx="2"/><path d="M4 10h16"/><circle cx="7.5" cy="14" r="1"/><circle cx="16.5" cy="14" r="1"/></svg>',
+      plus: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+      arrow: '<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>'
+    };
+
+    const icon = (name) => `<span class="icon">${iconSet[name] || iconSet.home}</span>`;
+
+    const roles = {
+      principal: {
+        label: "Principal",
+        person: "Dr. Meera Iyer",
+        nav: [
+          ["Overview", "home"],
+          ["Attendance", "users"],
+          ["Finance", "money"],
+          ["Approvals", "bell"],
+          ["Reports", "chart"]
+        ],
+        title: "Principal Control Room",
+        subtitle: "Daily school health, financial oversight, approvals, staff leave, progress, and maintenance in one view.",
+        action: "Review Approvals",
+        health: "87",
+        healthLabel: "School health score",
+        focusTitle: "This week is steady, with two items needing attention",
+        focusCopy: "Attendance is above the target, fee collection is on pace, and maintenance needs approval on one repair payment.",
+        kpis: [
+          ["Student attendance", "91%"],
+          ["Staff attendance", "96%"],
+          ["Fees collected", "Rs 8.4L"],
+          ["Pending approvals", "7"]
+        ],
+        bars: [
+          ["Classes present", 91],
+          ["Staff present", 96],
+          ["Fee target", 78],
+          ["Progress updates", 68]
+        ],
+        alerts: [
+          ["Approve science lab repair payment", "High"],
+          ["Class 8B attendance below target", "Watch"],
+          ["Five teacher leave requests this month", "Review"]
+        ],
+        timeline: [
+          ["08:15", "Morning attendance review", "Student and staff summary ready"],
+          ["10:30", "Payment approval queue", "Salary and repair requests pending"],
+          ["13:00", "Progress check", "Class progress highlights available"]
+        ],
+        tableTitle: "Approval queue",
+        table: [
+          ["Repair", "Lab lights", "Rs 18.5K", "Pending"],
+          ["Salary", "Contract staff", "Rs 42K", "Pending"],
+          ["Vendor", "Transport", "Rs 31K", "Approved"]
+        ],
+        chips: ["Teacher leave view", "Fee dues", "Maintenance", "Reports"],
+        media: ["Campus activity", "Exam calendar"]
+      },
+      admin: {
+        label: "Admin",
+        person: "Anita Sharma",
+        nav: [
+          ["Work Queue", "home"],
+          ["Admissions", "file"],
+          ["Students", "users"],
+          ["Fees", "money"],
+          ["Reminders", "bell"]
+        ],
+        title: "Admin Operations Desk",
+        subtitle: "Admissions, profiles, ID cards, ledgers, salary payments, reminders, and approval workflows.",
+        action: "Add Student",
+        health: "42",
+        healthLabel: "Open admin tasks",
+        focusTitle: "Records and finance workflows stay at the top",
+        focusCopy: "The dashboard starts with the operational queue, then supports student data and approval-controlled payments.",
+        kpis: [
+          ["New admissions", "18"],
+          ["Fee reminders", "42"],
+          ["Payment requests", "9"],
+          ["ID cards ready", "31"]
+        ],
+        bars: [
+          ["Profiles complete", 84],
+          ["Fees reconciled", 72],
+          ["Reminder queue", 64],
+          ["Pickup audit", 88]
+        ],
+        alerts: [
+          ["Generate ID cards for Class 1A", "Today"],
+          ["Send fee reminders to 42 parents", "Due"],
+          ["Prepare salary payment batch", "Draft"]
+        ],
+        timeline: [
+          ["09:00", "Admission review", "Verify documents for 6 students"],
+          ["11:15", "Fee ledger update", "Post payments and mark dues"],
+          ["15:10", "Pickup confirmation audit", "Resolve 3 missing entries"]
+        ],
+        tableTitle: "Fee and payment workflow",
+        table: [
+          ["Fee", "Class 6B dues", "42 parents", "Reminder"],
+          ["Salary", "June batch", "Rs 3.2L", "Needs approval"],
+          ["Expense", "Maintenance", "Rs 18.5K", "Submitted"]
+        ],
+        chips: ["Admission form", "Student profile", "ID card", "Payment request"],
+        media: ["Profile photo slots", "Document status"]
+      },
+      teacher: {
+        label: "Teacher",
+        person: "Rahul Menon",
+        nav: [
+          ["Today", "home"],
+          ["Timetable", "calendar"],
+          ["Attendance", "users"],
+          ["Progress", "chart"],
+          ["Questions", "book"]
+        ],
+        title: "Teacher Classroom Workspace",
+        subtitle: "Timetable, attendance, student progress, feedback, homework, parent concerns, and question tools.",
+        action: "Mark Attendance",
+        health: "38",
+        healthLabel: "Present in 7A",
+        focusTitle: "The first screen is built around today's class work",
+        focusCopy: "Teachers get fast access to attendance, progress notes, homework sharing, and EduForge question tools.",
+        kpis: [
+          ["Class 7A present", "38/42"],
+          ["Homework due", "11"],
+          ["Parent comments", "5"],
+          ["Question Bank", "124"]
+        ],
+        bars: [
+          ["Attendance marked", 90],
+          ["Progress updated", 66],
+          ["Homework shared", 76],
+          ["Question tags", 58]
+        ],
+        alerts: [
+          ["Parent comment from Aarav's mother", "New"],
+          ["Holiday homework pending for 7A", "Draft"],
+          ["Not enough questions for 40-mark paper", "Tool"]
+        ],
+        timeline: [
+          ["08:45", "Class 7A Mathematics", "Mark attendance and start fractions"],
+          ["11:20", "Class 8B Science", "Add progress comments"],
+          ["14:05", "Question paper preview", "Select topic and difficulty mix"]
+        ],
+        tableTitle: "Classroom tasks",
+        table: [
+          ["Attend", "Class 7A", "42 students", "Open"],
+          ["Progress", "Class 8B", "12 updates", "Draft"],
+          ["Paper", "Science", "40 marks", "Preview"]
+        ],
+        chips: ["Homework", "Feedback", "Question Bank", "Generate Paper"],
+        media: ["Class activity", "Homework attachment"]
+      },
+      parent: {
+        label: "Parent",
+        person: "Priya Kapoor",
+        nav: [
+          ["My Child", "home"],
+          ["Progress", "chart"],
+          ["Homework", "book"],
+          ["Fees", "money"],
+          ["Pickup", "bus"]
+        ],
+        title: "Parent Child View",
+        subtitle: "A clean parent dashboard for attendance, progress, feedback, homework, fee status, activity media, and pickup.",
+        action: "View Homework",
+        health: "94",
+        healthLabel: "Attendance this month",
+        focusTitle: "A parent-friendly view that explains the child's day",
+        focusCopy: "The screen avoids administrative density and brings progress, homework, timetable, fee status, and pickup reassurance forward.",
+        kpis: [
+          ["Attendance", "94%"],
+          ["Math progress", "82%"],
+          ["Homework due", "2"],
+          ["Pickup status", "Done"]
+        ],
+        bars: [
+          ["Attendance", 94],
+          ["English", 86],
+          ["Mathematics", 82],
+          ["Science", 79]
+        ],
+        alerts: [
+          ["Homework: English worksheet due Friday", "Due"],
+          ["Pickup confirmed at 3:42 PM", "Done"],
+          ["Fee installment paid for June", "Paid"]
+        ],
+        timeline: [
+          ["08:45", "Mathematics", "Fractions and practice quiz"],
+          ["11:20", "Art activity", "Photo shared in activity media"],
+          ["15:42", "Pickup confirmation", "Marked picked up by guardian"]
+        ],
+        tableTitle: "Child updates",
+        table: [
+          ["Homework", "English", "Worksheet", "Due"],
+          ["Feedback", "Science", "Good progress", "New"],
+          ["Fee", "June", "Paid", "Clear"]
+        ],
+        chips: ["Attendance", "Progress", "Homework", "Activity media"],
+        media: ["Sports day photo", "Art room video"]
+      }
+    };
+
+    const directions = [
+      {
+        key: "a",
+        title: "Mockup 1 - Operational Command Center",
+        summary: "Best for a disciplined MVP launch where users need quick confidence that all core school operations are under control.",
+        palette: "Palette: white, ink navy, teal, saffron, violet role accents.",
+        hierarchy: "Hierarchy: left navigation, large status score, KPI strip, then workflow panels.",
+        typography: "Typography: compact sans-serif, strong numeric scale, dense but calm dashboard rhythm."
+      },
+      {
+        key: "b",
+        title: "Mockup 2 - Academic Ledger",
+        summary: "Best for schools that want the product to feel trustworthy, less software-heavy, and closer to an academic operations diary.",
+        palette: "Palette: soft white, forest green, coral, paper gray, restrained role accents.",
+        hierarchy: "Hierarchy: editorial page title, large daily focus area, timeline, then operational workspace.",
+        typography: "Typography: serif display headings with sans-serif UI text for a warmer school identity."
+      },
+      {
+        key: "c",
+        title: "Mockup 3 - Signal Studio",
+        summary: "Best for demos where EduForge should feel modern, differentiated, and data-forward without becoming a generic admin panel.",
+        palette: "Palette: graphite, bright cyan, lemon, coral, and strong role indicators.",
+        hierarchy: "Hierarchy: command bar, signal score, central live workspace, right alert rail.",
+        typography: "Typography: high-contrast sans-serif, larger numeric signals, compact console labels."
+      }
+    ];
+
+    const metricCards = (role, limit) => role.kpis.slice(0, limit || 4).map(([label, value]) => `
+      <article class="metric-card">
+        <div class="label">${label}</div>
+        <div class="value">${value}</div>
+      </article>
+    `).join("");
+
+    const barList = (role) => `
+      <div class="bars">
+        ${role.bars.map(([label, value]) => `
+          <div class="bar-row">
+            <span>${label}</span>
+            <div class="track"><div class="fill" style="--w:${value}%"></div></div>
+            <b>${value}%</b>
+          </div>
+        `).join("")}
+      </div>
+    `;
+
+    const alertList = (role) => `
+      <ul class="list">
+        ${role.alerts.map(([label, status]) => `
+          <li><span class="dot"></span><span>${label}</span><b class="mini-tag">${status}</b></li>
+        `).join("")}
+      </ul>
+    `;
+
+    const timeline = (role) => `
+      <div class="b-timeline">
+        ${role.timeline.map(([time, title, body]) => `
+          <div class="b-step">
+            <div class="b-time">${time}</div>
+            <div class="b-step-card"><b>${title}</b><span>${body}</span></div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+
+    const table = (role) => `
+      <table class="table">
+        <thead><tr><th>Type</th><th>Item</th><th>Detail</th><th>Status</th></tr></thead>
+        <tbody>
+          ${role.table.map((row) => `
+            <tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+
+    const chips = (role) => `<div class="chip-row">${role.chips.map((item) => `<span class="mini-tag">${item}</span>`).join("")}</div>`;
+
+    const media = (role) => `
+      <div class="media-strip">
+        <div class="media-tile" style="--media:#d8efe8">${role.media[0]}</div>
+        <div class="media-tile" style="--media:#f4ded7">${role.media[1]}</div>
+      </div>
+    `;
+
+    function screenA(roleKey) {
+      const role = roles[roleKey];
+      return `
+        <section class="screen theme-a role-${roleKey}">
+          <aside class="a-sidebar">
+            <div class="a-brand"><span class="mark">E</span><span>EduForge</span></div>
+            <nav class="a-nav">
+              ${role.nav.map(([label, ic]) => `<a href="#">${icon(ic)}<span>${label}</span></a>`).join("")}
+            </nav>
+            <div class="a-user"><b>${role.person}</b><span>${role.label} access</span></div>
+          </aside>
+          <div class="a-main">
+            <header class="a-topbar">
+              <div class="a-title">
+                <h3>${role.title}</h3>
+                <p>${role.subtitle}</p>
+              </div>
+              <div class="a-actions">
+                <button class="btn ghost-btn">${icon("bell")} Alerts</button>
+                <button class="btn">${icon("arrow")} ${role.action}</button>
+              </div>
+            </header>
+            <div class="a-summary">${metricCards(role)}</div>
+            <div class="a-content">
+              <div class="a-left">
+                <article class="a-hero">
+                  <div class="a-score"><strong>${role.health}</strong><span>${role.healthLabel}</span></div>
+                  <div class="a-hero-copy">
+                    <h4>${role.focusTitle}</h4>
+                    <p>${role.focusCopy}</p>
+                    ${chips(role)}
+                  </div>
+                </article>
+                <div class="a-bottom-grid">
+                  <article class="panel">
+                    <div class="panel-head"><h4>Progress signals</h4><span class="panel-label">This month</span></div>
+                    <div class="panel-body">${barList(role)}</div>
+                  </article>
+                  <article class="panel">
+                    <div class="panel-head"><h4>${role.tableTitle}</h4><span class="panel-label">Live</span></div>
+                    <div class="panel-body">${table(role)}</div>
+                  </article>
+                </div>
+              </div>
+              <aside class="a-right">
+                <article class="panel">
+                  <div class="panel-head"><h4>Priority alerts</h4><span class="panel-label">Actionable</span></div>
+                  <div class="panel-body">${alertList(role)}</div>
+                </article>
+                <article class="panel">
+                  <div class="panel-head"><h4>Activity preview</h4><span class="panel-label">Shared view</span></div>
+                  <div class="panel-body">${media(role)}</div>
+                </article>
+              </aside>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function screenB(roleKey) {
+      const role = roles[roleKey];
+      return `
+        <section class="screen theme-b role-${roleKey}">
+          <header class="b-header">
+            <div class="b-title">
+              <span class="mini-tag">${role.label} dashboard</span>
+              <h3>${role.title}</h3>
+              <p>${role.subtitle}</p>
+            </div>
+            <div class="b-tabs">
+              ${role.nav.map(([label]) => `<span>${label}</span>`).join("")}
+            </div>
+          </header>
+          <div class="b-layout">
+            <aside class="b-focus">
+              <h4>${role.focusTitle}</h4>
+              <div class="b-big-number">
+                <strong>${role.health}</strong>
+                <span>${role.healthLabel}. ${role.focusCopy}</span>
+              </div>
+              ${timeline(role)}
+              <button class="btn">${icon("arrow")} ${role.action}</button>
+            </aside>
+            <div class="b-workspace">
+              <div class="b-metrics">${metricCards(role)}</div>
+              <div class="b-work-grid">
+                <article class="panel">
+                  <div class="panel-head"><h4>${role.tableTitle}</h4><span class="panel-label">Workspace</span></div>
+                  <div class="panel-body">${table(role)}<div style="height:12px"></div>${chips(role)}</div>
+                </article>
+                <article class="panel">
+                  <div class="panel-head"><h4>Signals and media</h4><span class="panel-label">Current</span></div>
+                  <div class="panel-body">${barList(role)}<div style="height:14px"></div>${media(role)}</div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function screenC(roleKey) {
+      const role = roles[roleKey];
+      return `
+        <section class="screen theme-c role-${roleKey}">
+          <header class="c-top">
+            <div class="c-title">
+              <span class="mark">E</span>
+              <div>
+                <h3>${role.title}</h3>
+                <p>${role.subtitle}</p>
+              </div>
+            </div>
+            <div class="c-tools">
+              <button class="btn ghost-btn">${icon("calendar")} Calendar</button>
+              <button class="btn">${icon("arrow")} ${role.action}</button>
+            </div>
+          </header>
+          <div class="c-grid">
+            <aside class="c-pane">
+              <div class="c-pane-head"><h4>${role.label} signal</h4><span class="mini-tag">Now</span></div>
+              <div class="c-pane-body c-signal">
+                <div class="c-main-stat"><strong>${role.health}</strong><span>${role.healthLabel}. ${role.focusCopy}</span></div>
+                <div class="c-metrics">${metricCards(role, 4)}</div>
+              </div>
+            </aside>
+            <main class="c-pane">
+              <div class="c-pane-head"><h4>Live workspace</h4><span class="mini-tag">${role.action}</span></div>
+              <div class="c-pane-body">
+                <article class="panel">
+                  <div class="panel-head"><h4>${role.tableTitle}</h4><span class="panel-label">Priority list</span></div>
+                  <div class="panel-body">${table(role)}</div>
+                </article>
+                <div style="height:12px"></div>
+                <article class="panel">
+                  <div class="panel-head"><h4>Operational progress</h4><span class="panel-label">Measured</span></div>
+                  <div class="panel-body">${barList(role)}</div>
+                </article>
+              </div>
+            </main>
+            <aside class="c-pane">
+              <div class="c-pane-head"><h4>Alert rail</h4><span class="mini-tag">3</span></div>
+              <div class="c-pane-body c-alerts">
+                ${role.alerts.map(([label]) => `<div class="c-alert"><i></i><span>${label}</span></div>`).join("")}
+                ${chips(role)}
+                ${media(role)}
+              </div>
+            </aside>
+          </div>
+        </section>
+      `;
+    }
+
+    const renderScreen = (theme, roleKey) => {
+      if (theme === "a") return screenA(roleKey);
+      if (theme === "b") return screenB(roleKey);
+      return screenC(roleKey);
+    };
+
+    const roleOrder = ["principal", "admin", "teacher", "parent"];
+
+    document.getElementById("mockupBoard").innerHTML = directions.map((direction) => `
+      <section class="direction-section">
+        <div class="direction-note">
+          <div>
+            <h2>${direction.title}</h2>
+            <p>${direction.summary}</p>
+          </div>
+          <div class="note-stack"><span><b>Color theme</b></span><span>${direction.palette}</span><span>${direction.typography}</span></div>
+          <div class="note-stack"><span><b>Component hierarchy</b></span><span>${direction.hierarchy}</span><span>Recommended for: ${direction.key === "a" ? "MVP pilot operations" : direction.key === "b" ? "school-friendly adoption" : "investor and demo impact"}.</span></div>
+        </div>
+        <div class="screen-grid">
+          ${roleOrder.map((roleKey) => `
+            <div class="screen-wrap">
+              <p class="role-caption">${roles[roleKey].label} dashboard - ${direction.title}</p>
+              ${renderScreen(direction.key, roleKey)}
+            </div>
+          `).join("")}
+        </div>
+      </section>
+    `).join("");
+  </script>
+</body>
+</html>
