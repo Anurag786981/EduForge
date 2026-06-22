@@ -1,0 +1,26 @@
+.teacher-dashboard-main-container {
+    display: flex;
+    height: 100vh;
+}
+
+.teacher-sidebar-container {
+    width: 250px;
+    border-right: 1px solid #ccc;
+}
+
+.teacher-dashboard-main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.teacher-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.teacher-dashboard-body {
+    display: flex;
+    justify-content: space-between;
+}

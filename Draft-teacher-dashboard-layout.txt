@@ -1,0 +1,72 @@
+<div class = "dashboard-container">     
+    <div class = "teacher-sidebar-container">
+        <app-teacher-sidebar></app-teacher-sidebar>
+    </div>
+
+    <div class = "teacher-dashboard-content">
+        <div class = "teacher-dashboard-header">
+            <h1>Teacher Dashboard</h1>
+            <p>teacher-dashboard works for me!</p>
+        </div>
+        
+         <div class = "teacher-dashboard-body">
+            <div class ="teacher-dashboard-kpis">
+                <div class = "kpi-card-class-attendance-count">
+                    <h2>Class Attendance</h2>
+                    <p>38/42</p>
+                </div>
+                <div class = "kpi-card-due-homework-count">
+                    <h2>Assignments due</h2>
+                    <p>11</p>
+                </div>
+                <div class = "kpi-card-parent-comments-count">
+                    <h2>Parent comments</h2>
+                    <p>5</p>
+                </div>
+                <div class = "kpi-card-today-classes-count">
+                    <h2>Today's Classes</h2>
+                    <p>4</p>
+                </div>
+            </div>
+            <div class = "teacher-dashboard-overall-summary"> 
+                <div class = "overall-summary">
+                    <div class = "overall-summary-card">
+                        <h2>Overall Summary</h2>
+                    </div>
+                    <div class = "teacher-dashboard-progress-tasks-summary">
+                        <div class = "teacher-dashboard-progress-signal-card">
+                            <h3>Progress Signal 2</h3>
+                            <p>Details about progress signal 2.</p>
+                        </div>
+                        <div class = "teacher-dashboard-classroom-live-tasks-summary">
+                            <h3>Classroom Tasks Summary</h3>
+                            <p>Details about classroom tasks summary.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class = "teacher-alerts-and-activities">
+                    <div class = "teacher-priority-alerts">
+                        <h2>Alerts</h2>
+                        <ul>
+                            <li>Alert 1</li>
+                            <li>Alert 2</li>
+                            <li>Alert 3</li>
+                        </ul>
+                    </div>
+                    <div class = "teacher-class-activities">
+                        <h2>Activities</h2>
+                        <ul>
+                            <li>Activity 1</li>
+                            <li>Activity 2</li>
+                            <li>Activity 3</li>
+                        </ul>
+                    </div>
+            </div>
+                
+            <!-- <p>Welcome to the Teacher Dashboard!</p>
+            <p>Here you can manage your classes, assignments, and students.</p> -->
+         </div>
+    </div>
+
+</div>
+
