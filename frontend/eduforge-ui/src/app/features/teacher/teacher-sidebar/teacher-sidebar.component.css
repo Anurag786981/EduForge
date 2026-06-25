@@ -1,0 +1,260 @@
+/* ==========================================================
+   EduForge Teacher Sidebar
+========================================================== */
+
+/* ===============================
+   Root
+=============================== */
+
+:host{
+    display:block;
+    height:100%;
+}
+
+/* ===============================
+   Sidebar Menu
+=============================== */
+
+.teacher-sidebar-menu{
+
+    height:100%;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:8px;
+
+    padding:16px 12px;
+
+    background:#ffffff;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    box-sizing:border-box;
+}
+
+/* Scrollbar */
+
+.teacher-sidebar-menu::-webkit-scrollbar{
+
+    width:6px;
+}
+
+.teacher-sidebar-menu::-webkit-scrollbar-thumb{
+
+    background:#cbd5e1;
+
+    border-radius:20px;
+}
+
+.teacher-sidebar-menu::-webkit-scrollbar-track{
+
+    background:transparent;
+}
+
+/* Push items toward top while allowing natural stretch */
+
+.teacher-sidebar-menu::after{
+
+    content:"";
+
+    flex-grow:1;
+}
+
+/* ===============================
+   Menu Item
+=============================== */
+
+.teacher-sidebar-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    width:100%;
+
+    min-height:52px;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    color:#475569;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    transition:
+        background .25s,
+        color .25s,
+        transform .18s,
+        box-shadow .25s;
+}
+
+/* ===============================
+   Hover
+=============================== */
+
+.teacher-sidebar-item:hover{
+
+    background:#eef4ff;
+
+    color:#2563eb;
+
+    transform:translateX(4px);
+}
+
+/* ===============================
+   Active
+=============================== */
+
+.teacher-sidebar-item.active{
+
+    background:#2563eb;
+
+    color:white;
+
+    box-shadow:0 6px 18px rgba(37,99,235,.18);
+}
+
+/* ===============================
+   Icon
+=============================== */
+
+.teacher-sidebar-icon{
+
+    width:24px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:18px;
+
+    flex-shrink:0;
+}
+
+/* ===============================
+   Label
+=============================== */
+
+.teacher-sidebar-label{
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width:1024px){
+
+.teacher-sidebar-menu{
+
+    align-items:center;
+
+    padding:16px 8px;
+}
+
+.teacher-sidebar-item{
+
+    justify-content:center;
+
+    width:56px;
+
+    height:56px;
+
+    min-height:56px;
+
+    padding:0;
+
+    border-radius:14px;
+}
+
+.teacher-sidebar-item:hover{
+
+    transform:scale(1.06);
+}
+
+.teacher-sidebar-label{
+
+    display:none;
+}
+
+.teacher-sidebar-icon{
+
+    font-size:22px;
+}
+
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width:768px){
+
+.teacher-sidebar-menu{
+
+    align-items:stretch;
+
+    padding:16px 12px;
+}
+
+.teacher-sidebar-item{
+
+    justify-content:flex-start;
+
+    width:100%;
+
+    padding:14px 18px;
+}
+
+.teacher-sidebar-label{
+
+    display:block;
+}
+
+.teacher-sidebar-icon{
+
+    width:24px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-shrink:0;
+}
+
+.teacher-sidebar-icon mat-icon{
+
+    font-size:22px;
+
+    width:22px;
+
+    height:22px;
+
+    line-height:22px;
+
+    transition:transform .25s ease;
+}
+
+.teacher-sidebar-item:hover mat-icon{
+
+    transform:scale(1.1);
+}
+}

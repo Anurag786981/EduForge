@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
-import {TeacherSidebarComponent} from './features/teacher/teacher-mainpage/teacher-sidebar/teacher-sidebar.component';
-import {TeacherDashboardComponent} from './features/teacher/teacher-mainpage/teacher-dashboard/teacher-dashboard.component';
+import {TeacherSidebarComponent} from './features/teacher/teacher-sidebar/teacher-sidebar.component';
+import {TeacherDashboardComponent} from './features/teacher/teacher-dashboard/teacher-dashboard.component';
+import { TodayComponent } from './features/teacher/pages/today/today.component';
+import { teacherChildRoutes } from './teacher.routes';
+
 
 export const routes: Routes = [
   {
@@ -15,10 +18,7 @@ export const routes: Routes = [
   },
   {
     path: 'teacher-dashboard',
-    component: TeacherDashboardComponent
-  },
-  {
-    path: 'teacher-sidebar',
-    component: TeacherSidebarComponent
+    component: TeacherDashboardComponent,
+    children: teacherChildRoutes
   }
 ];
