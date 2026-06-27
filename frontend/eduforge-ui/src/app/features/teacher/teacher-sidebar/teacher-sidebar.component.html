@@ -1,0 +1,16 @@
+<nav class = "teacher-sidebar-menu">
+    <a
+        *ngFor="let item of menuItems"
+        [routerLink] = "item.route"
+        routerLinkActive = "active"
+        class = "teacher-sidebar-item">
+
+        <span class = "teacher-sidebar-icon">
+            <mat-icon fontSet="material-icons-outlined">{{ item.icon }}</mat-icon>
+        </span>
+
+        <span class = "teacher-sidebar-label">
+            {{ item.label}}
+        </span>
+    </a>
+</nav>

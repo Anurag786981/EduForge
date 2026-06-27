@@ -45,3 +45,24 @@ Angular 19 + Spring Boot 3.5.15 stack
 Comprehensive testing strategy
 Performance targets (LCP <2.5s, Core Web Vitals passing)
 Security and accessibility guidelines
+
+Proposed Architecture of the Frontend
+AppComponent
+│
+├── Auth Layout
+│      ├── Login
+│      ├── Forgot Password
+│      └── Reset Password
+│
+└── Dashboard Layout
+       │
+       ├── Shared Header
+       ├── Shared Footer (optional)
+       ├── Dynamic Sidebar
+       └── Dynamic Content
+              │
+              ├── Teacher Module
+              ├── Student Module
+              ├── Parent Module
+              ├── Admin Module
+              └── Principal Module
