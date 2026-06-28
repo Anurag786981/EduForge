@@ -1,0 +1,35 @@
+<div class="dashboard-layout">
+
+    <app-dashboard-header
+        [appName]="appName"
+        [userName]="userName"
+        (menuClicked)="toggleSidebar()"
+        >
+
+    </app-dashboard-header>
+
+    <div class="dashboard-body">
+
+        <aside
+            [class.open]="sidebarOpen">
+
+            <ng-content select="[sidebar]"></ng-content>
+
+        </aside>
+
+        <div
+            class="sidebar-overlay"
+            *ngIf="sidebarOpen"
+            (click)="closeSidebar()">
+
+        </div>
+
+        <main class="dashboard-main-content">
+
+            <router-outlet></router-outlet>
+
+        </main>
+
+    </div>
+
+</div>

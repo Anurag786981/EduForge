@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from './fetaures/auth/login/login.component';
+import { LoginComponent } from './features/auth/login/login.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
