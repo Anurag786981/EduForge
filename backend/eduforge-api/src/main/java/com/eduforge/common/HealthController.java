@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/health")
 public class HealthController {
 
-    @GetMapping
-    public String health(){
-        return "EduForge API Running";
-    }
+  @GetMapping
+  public String health() {
+    return "EduForge API Running";
+  }
 }
