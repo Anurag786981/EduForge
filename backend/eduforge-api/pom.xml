@@ -104,6 +104,15 @@
 								<googleJavaFormat/>
 						</java>
 				</configuration>
+				<executions>
+					<execution>
+						<!-- Binds to the 'validate' phase so it runs before compiling -->
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
