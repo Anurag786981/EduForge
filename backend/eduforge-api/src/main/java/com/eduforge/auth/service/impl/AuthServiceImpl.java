@@ -8,10 +8,10 @@ import com.eduforge.auth.entity.User;
 import com.eduforge.auth.exception.InvalidCredentialsException;
 import com.eduforge.auth.exception.UserAlreadyExistsException;
 import com.eduforge.auth.repository.UserRepository;
+import com.eduforge.auth.security.JwtService;
 import com.eduforge.auth.service.AuthService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,7 @@ public class AuthServiceImpl implements AuthService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final JwtService jwtService;
 
   @Override
   public RegisterResponse register(RegisterRequest registerRequest) {
@@ -78,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     // Step 3: Generate JWT
-    String token = " ";
+    String token = jwtService.generateToken(user);
 
     // Step 4: Build LoginResponse
     return LoginResponse.builder()
@@ -86,7 +87,8 @@ public class AuthServiceImpl implements AuthService {
         .firstName(user.getFirstName())
         .lastname(user.getLastName())
         .email(user.getEmail())
-        .role(user.getRole())
+        // TODO: Add role-based authorization is implemented
+        // .role(user.getRole())
         .token(token)
         .schoolId(null)
         .schoolName(null)
