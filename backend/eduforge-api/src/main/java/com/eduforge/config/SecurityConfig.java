@@ -1,18 +1,73 @@
 package com.eduforge.config;
 
+import com.eduforge.auth.security.JwtAuthenticationFilter;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.lang.reflect.Executable;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+  // JWT Filter used to authenticate protected requests
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-        http.csrf(csrf->csrf.disable())
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-        return http.build();
-    }
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+    System.out.println("My Security Config Loaded");
+
+    http.cors(Customizer.withDefaults())
+        .csrf(csrf -> csrf.disable())
+        // Match Everything after Auth /api/auth/login This is Public API  if api/health then it is
+        // protected API
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers(
+                        "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+
+        // Uses JWT instead of HTTP Session
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+  }
+
+  @Bean
+  // Configures Cross-origin resource sharing (CORS) settings for the application
+  public CorsConfigurationSource corsConfigurationSource() {
+
+    // Creates a new CORS configuration Object.
+    CorsConfiguration configuration = new CorsConfiguration();
+
+    // Allows requests from the Angular Application.
+    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+    // Allows the specified HTTP Methods
+    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    // Allows all request headers
+    configuration.setAllowedHeaders(List.of("*"));
+    configuration.setAllowCredentials(true);
+
+    // creates a URL-based CORS configuration source
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+    // Applies the CORS configuration to all application end point
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+  }
 }
