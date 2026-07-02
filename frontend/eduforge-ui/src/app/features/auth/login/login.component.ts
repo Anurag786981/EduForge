@@ -24,9 +24,12 @@ import { AuthService } from '../../../features/auth/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent {
 
   loginForm: FormGroup;
+  successMessage: string = '';
+  errorMessage: string = '';
 
   hidePassword: boolean = true;
 
@@ -42,6 +45,7 @@ export class LoginComponent {
       ]]
     });
   }
+  
 
  onSubmit(): void {
 
@@ -58,13 +62,32 @@ export class LoginComponent {
   console.log('Request Payload:', loginRequest);
 
   this.authService.login(loginRequest)
-    .subscribe({
-      next: (response) => {
-        console.log('Success Response:', response);
-      },
-      error: (error) => {
-        console.log('Error Response:', error);
+  .subscribe({
+
+    next: (response) => {
+
+      this.successMessage = response.message;
+      this.errorMessage = '';
+
+      console.log('Success Response:', response);
+
+      // We will navigate to dashboard after JWT implementation
+      // this.router.navigate(['/dashboard']);
+    },
+
+    error: (error) => {
+
+      this.successMessage = '';
+
+      if (error.error && error.error.message) {
+        this.errorMessage = error.error.message;
+      } else {
+        this.errorMessage = 'Something went wrong. Please try again.';
       }
-    });
+
+      console.log('Error Response:', error);
+    }
+
+  });
 }
 }
