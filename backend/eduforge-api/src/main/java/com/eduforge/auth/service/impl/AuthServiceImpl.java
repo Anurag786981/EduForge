@@ -10,9 +10,8 @@ import com.eduforge.auth.exception.UserAlreadyExistsException;
 import com.eduforge.auth.repository.UserRepository;
 import com.eduforge.auth.security.JwtService;
 import com.eduforge.auth.service.AuthService;
-import java.util.Optional;
-
 import com.eduforge.role.entity.Role;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
