@@ -11,6 +11,8 @@ import com.eduforge.auth.repository.UserRepository;
 import com.eduforge.auth.security.JwtService;
 import com.eduforge.auth.service.AuthService;
 import java.util.Optional;
+
+import com.eduforge.role.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
             .lastName(registerRequest.getLastName())
             .email(registerRequest.getEmail())
             .password(passwordEncoder.encode(registerRequest.getPassword()))
-            .role("USER")
+            .role(Role.builder().build())
             .build();
 
     /*
@@ -55,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
             .firstName(savedUser.getFirstName())
             .lastName(savedUser.getLastName())
             .email(savedUser.getEmail())
-            .role(savedUser.getRole())
+            .role(String.valueOf(savedUser.getRole()))
             .build();
 
     return registerResponse;
