@@ -34,7 +34,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             .timestamp(LocalDateTime.now())
             .status(HttpStatus.FORBIDDEN.value())
             .error(HttpStatus.FORBIDDEN.getReasonPhrase())
-            .message("You are not authorized to access this resource")
+            .message("Access denied You do not have permission to perform this operation. ")
             .path(request.getRequestURI())
             .build();
 
