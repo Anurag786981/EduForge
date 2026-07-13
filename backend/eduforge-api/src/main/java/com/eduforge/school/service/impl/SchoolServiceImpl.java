@@ -5,6 +5,7 @@ import com.eduforge.school.dto.SchoolRequest;
 import com.eduforge.school.dto.SchoolResponse;
 import com.eduforge.school.entity.School;
 import com.eduforge.school.exception.DuplicateDiseCodeException;
+import com.eduforge.school.mapper.SchoolMapper;
 import com.eduforge.school.repository.SchoolRepository;
 import com.eduforge.school.service.SchoolService;
 import java.util.List;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class SchoolServiceImpl implements SchoolService {
 
   private final SchoolRepository schoolRepository;
+
+  private final SchoolMapper schoolMapper;
 
   @Override
   public SchoolResponse createSchool(SchoolRequest schoolRequest) {
@@ -35,7 +38,7 @@ public class SchoolServiceImpl implements SchoolService {
             .build();
 
     School savedSchool = schoolRepository.save(school);
-    return mapToResponse(savedSchool);
+    return schoolMapper.mapToResponse(savedSchool);
   }
 
   @Override
@@ -58,7 +61,7 @@ public class SchoolServiceImpl implements SchoolService {
     school.setAddress(schoolRequest.getAddress());
 
     School upadtedSchool = schoolRepository.save(school);
-    return mapToResponse(upadtedSchool);
+    return schoolMapper.mapToResponse(upadtedSchool);
   }
 
   @Override
@@ -69,13 +72,13 @@ public class SchoolServiceImpl implements SchoolService {
             .findById(schoolId)
             .orElseThrow(
                 () -> new ResourceNotFoundException("School not found with id : " + schoolId));
-    return mapToResponse(school);
+    return schoolMapper.mapToResponse(school);
   }
 
   @Override
   public List<SchoolResponse> getAllSchools() {
     List<School> schools = schoolRepository.findAll();
-    return schools.stream().map(this::mapToResponse).toList();
+    return schoolMapper.toResponseList(schools);
   }
 
   @Override
@@ -88,21 +91,6 @@ public class SchoolServiceImpl implements SchoolService {
     return updateSchoolStatus(schoolId, false);
   }
 
-  // Converts School entity to schoolResponse
-  private SchoolResponse mapToResponse(School school) {
-    return SchoolResponse.builder()
-        .id(school.getId())
-        .schoolName(school.getSchoolName())
-        .diseCode(school.getDiseCode())
-        .email(school.getEmail())
-        .phoneNumber(school.getPhoneNumber())
-        .address(school.getAddress())
-        .active(school.getActive())
-        .createdAt(school.getCreatedAt())
-        .updatedAt(school.getUpdatedAt())
-        .build();
-  }
-
   private SchoolResponse updateSchoolStatus(Long schoolId, Boolean status) {
     School school =
         schoolRepository
@@ -113,6 +101,6 @@ public class SchoolServiceImpl implements SchoolService {
     school.setActive(status);
 
     School upadtedSchool = schoolRepository.save(school);
-    return mapToResponse(upadtedSchool);
+    return schoolMapper.mapToResponse(upadtedSchool);
   }
 }

@@ -12,6 +12,10 @@ public class SchoolRequest {
 
   @NotBlank(message = "School Name is Required")
   @Size(max = 100, message = "School name cannot exceeds 100 characters")
+  @Pattern(
+      regexp = "^[A-Za-z.']+(?: [A-Za-z.']+)*$",
+      message =
+          "School name can contain only letters, single spaces, apostrophe (') and period (.)")
   private String schoolName;
 
   @NotBlank(message = "DISE code is required")
@@ -21,7 +25,7 @@ public class SchoolRequest {
   private String diseCode;
 
   @NotBlank(message = "Email is required")
-  @Email(message = "Please enter a VALID address")
+  @Email(message = "Please enter a valid email address ")
   @Schema(description = "School email address", example = "abcschool@gmail.com")
   private String email;
 
@@ -32,5 +36,9 @@ public class SchoolRequest {
 
   @NotBlank(message = "Address is required")
   @Size(max = 255, message = "Address Cannot exceed 255 characters")
+  @Pattern(
+      regexp = "^[A-Za-z0-9,./#() -]+$",
+      message =
+          "Address can contain only letters, numbers, spaces, comma (,), period (.), #, /, -, and parentheses.")
   private String address;
 }

@@ -1,8 +1,9 @@
 package com.eduforge.role.entity;
 
+import com.eduforge.common.entity.BaseEntity;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "roles")
@@ -10,12 +11,8 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Role {
-  // Unique identifier for the role.
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@SuperBuilder
+public class Role extends BaseEntity {
 
   // Name of the role.
   @Column(nullable = false, unique = true)
@@ -24,29 +21,4 @@ public class Role {
   // Description of the role.
   @Column(length = 500)
   private String description;
-
-  // Indicates whether the role is active.
-  @Column(nullable = false)
-  private Boolean active;
-
-  // Timestamp when the role was created.
-  @Column(nullable = false, updatable = false)
-  private LocalDateTime createdAt;
-
-  // Timestamp when the role was last updated.
-  @Column(nullable = false)
-  private LocalDateTime updatedAt;
-
-  // Sets the initial audit fields before persisting the role.
-  @PrePersist
-  public void onCreate() {
-    createdAt = LocalDateTime.now();
-    updatedAt = LocalDateTime.now();
-  }
-
-  // Updates the audit timestamp before modifying the role.
-  @PreUpdate
-  public void onUpdate() {
-    updatedAt = LocalDateTime.now();
-  }
 }

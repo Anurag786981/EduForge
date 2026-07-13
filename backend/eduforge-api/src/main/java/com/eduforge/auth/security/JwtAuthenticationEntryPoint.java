@@ -34,7 +34,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             .timestamp(LocalDateTime.now())
             .status(HttpStatus.UNAUTHORIZED.value())
             .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
-            .message(authException.getMessage())
+            .message("Please provide a valid JWT token.")
             .path(request.getRequestURI())
             .build();
 
