@@ -1,5 +1,7 @@
 package com.eduforge.config;
 
+import com.eduforge.auth.security.CustomAccessDeniedHandler;
+import com.eduforge.auth.security.JwtAuthenticationEntryPoint;
 import com.eduforge.auth.security.JwtAuthenticationFilter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,12 @@ public class SecurityConfig {
   // JWT Filter used to authenticate protected requests
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+  // JWt entry point custom class jwtAuthenticationEntryPoint for Override 403 generic error
+  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+  // JWt entry pointHandles access denied exceptions thrown by Spring Security
+  private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -39,6 +47,12 @@ public class SecurityConfig {
                     .permitAll()
                     .anyRequest()
                     .authenticated())
+        // Exception handling Generic one without Token it is saying 403
+        .exceptionHandling(
+            exception ->
+                exception
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .accessDeniedHandler(customAccessDeniedHandler))
 
         // Uses JWT instead of HTTP Session
         .sessionManagement(

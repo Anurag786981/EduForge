@@ -1,5 +1,7 @@
 package com.eduforge.auth.entity;
 
+import com.eduforge.role.entity.Role;
+import com.eduforge.school.entity.School;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -29,10 +31,18 @@ public class User implements UserDetails {
   private String email;
 
   private String password;
-  private String role;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "role_id")
+  private Role role;
+
   private Boolean active;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "school_id")
+  private School school;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

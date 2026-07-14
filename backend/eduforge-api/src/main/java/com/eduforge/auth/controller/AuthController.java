@@ -6,6 +6,8 @@ import com.eduforge.auth.dto.RegisterRequest;
 import com.eduforge.auth.dto.RegisterResponse;
 import com.eduforge.auth.service.AuthService;
 import com.eduforge.common.dto.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,12 +25,18 @@ public class AuthController {
 
   private final AuthService authService;
 
-  /**
-   * Registers a new user after validating the request.
-   *
-   * @param registerRequest Registration details.
-   * @return Registered user information.
-   */
+  @Operation(summary = "Register User", description = "Registers a new user in the system.")
+  @ApiResponses({
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "201",
+        description = "User registered successfully"),
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "400",
+        description = "Validation failed"),
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "409",
+        description = "User already exists")
+  })
   @PostMapping("/register")
   public ResponseEntity<ApiResponse<RegisterResponse>> register(
       @Valid @RequestBody RegisterRequest registerRequest) {
@@ -45,12 +53,20 @@ public class AuthController {
     return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
   }
 
-  /**
-   * Authenticates a user and returns login details with a JWT token.
-   *
-   * @param loginRequest User login credentials.
-   * @return Authenticated user information and JWT token.
-   */
+  @Operation(
+      summary = "Login User",
+      description = "Authenticates the user and returns a JWT token.")
+  @ApiResponses({
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "200",
+        description = "Login successful"),
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "400",
+        description = "Validation failed"),
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+        responseCode = "401",
+        description = "Invalid username or password")
+  })
   @PostMapping("/login")
   public ResponseEntity<ApiResponse<LoginResponse>> login(
       @Valid @RequestBody LoginRequest loginRequest) {
