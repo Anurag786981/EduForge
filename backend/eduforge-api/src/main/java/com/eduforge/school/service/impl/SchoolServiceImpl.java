@@ -34,7 +34,6 @@ public class SchoolServiceImpl implements SchoolService {
             .email(schoolRequest.getEmail())
             .phoneNumber(schoolRequest.getPhoneNumber())
             .address(schoolRequest.getAddress())
-            .active(true)
             .build();
 
     School savedSchool = schoolRepository.save(school);

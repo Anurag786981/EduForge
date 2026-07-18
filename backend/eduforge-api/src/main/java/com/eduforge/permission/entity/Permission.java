@@ -1,7 +1,12 @@
 package com.eduforge.permission.entity;
 
 import com.eduforge.common.entity.BaseEntity;
+import com.eduforge.common.enums.ModuleName;
+import com.eduforge.common.enums.PermissionAction;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -16,14 +21,23 @@ public class Permission extends BaseEntity {
   // id came form BaseEntity
 
   // Name of the permission.
-  @Column(nullable = false, unique = true)
+  @Column(name = "permission_name", nullable = false, unique = true, length = 100)
+  @NotBlank(message = "Permission name is required")
   private String permissionName;
 
   // Description of the permission.
-  @Column(length = 500)
+  @Size(max = 255, message = "Description must not exceed 255 characters")
+  @Column(length = 255)
   private String description;
 
   // Module to which the permission belongs.
-  @Column(nullable = false)
-  private String module;
+  @NotNull(message = "Module is required")
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 50)
+  private ModuleName module;
+
+  @NotNull(message = "Action is required")
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 30)
+  private PermissionAction action;
 }

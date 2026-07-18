@@ -16,4 +16,6 @@ public class RoleResponse {
   private Boolean active;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
+  private Long schoolId;
+  private String schoolName;
 }

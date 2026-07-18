@@ -23,6 +23,8 @@ public class RoleMapper {
   public RoleResponse toResponse(Role role) {
     return RoleResponse.builder()
         .id(role.getId())
+        .schoolId(role.getSchool().getId())
+        .schoolName(role.getSchool().getSchoolName())
         .roleName(role.getRoleName())
         .description(role.getDescription())
         .active(role.getActive())

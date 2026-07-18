@@ -12,4 +12,5 @@ public class RegisterResponse {
   private String lastName;
   private String email;
   private String role;
+  private String school;
 }

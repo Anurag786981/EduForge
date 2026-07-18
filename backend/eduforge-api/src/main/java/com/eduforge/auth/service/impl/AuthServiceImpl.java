@@ -10,7 +10,12 @@ import com.eduforge.auth.exception.UserAlreadyExistsException;
 import com.eduforge.auth.repository.UserRepository;
 import com.eduforge.auth.security.JwtService;
 import com.eduforge.auth.service.AuthService;
+import com.eduforge.common.exception.BadRequestException;
+import com.eduforge.common.exception.ResourceNotFoundException;
 import com.eduforge.role.entity.Role;
+import com.eduforge.role.repository.RoleRepository;
+import com.eduforge.school.entity.School;
+import com.eduforge.school.repository.SchoolRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +28,8 @@ public class AuthServiceImpl implements AuthService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
+  private final SchoolRepository schoolRepository;
+  private final RoleRepository roleRepository;
 
   @Override
   public RegisterResponse register(RegisterRequest registerRequest) {
@@ -30,18 +37,47 @@ public class AuthServiceImpl implements AuthService {
     // Checking Duplicate
     Optional<User> existingUser = userRepository.findByEmail(registerRequest.getEmail());
 
-    //
+    // Null check for every user must be part of school
+
+    if (registerRequest.getSchoolId() == null) {
+      throw new BadRequestException("School Id is required.");
+    }
+    // Checking School with id
+    School school =
+        schoolRepository
+            .findById(registerRequest.getSchoolId())
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "School not found with id : " + registerRequest.getSchoolId()));
+
+    // fetch Role
+    Role role =
+        roleRepository
+            .findById(registerRequest.getRoleId())
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "Role not found with id : " + registerRequest.getRoleId()));
+
+    // checking email
     if (existingUser.isPresent()) {
       throw new UserAlreadyExistsException(
           "An Account with this email already exists. :" + registerRequest.getEmail());
     }
+    // Ensure the selected role is associated with the requested school
+    if (role.getSchool() == null || !role.getSchool().getId().equals(school.getId())) {
+      throw new BadRequestException("Selected role does not belongs to the selected school.");
+    }
+    // Build user with the selected role and School
     User user =
         User.builder()
             .firstName(registerRequest.getFirstName())
             .lastName(registerRequest.getLastName())
             .email(registerRequest.getEmail())
             .password(passwordEncoder.encode(registerRequest.getPassword()))
-            .role(Role.builder().build())
+            .school(school)
+            .role(role)
             .build();
 
     /*
@@ -56,7 +92,8 @@ public class AuthServiceImpl implements AuthService {
             .firstName(savedUser.getFirstName())
             .lastName(savedUser.getLastName())
             .email(savedUser.getEmail())
-            .role(String.valueOf(savedUser.getRole()))
+            .role(savedUser.getRole().getRoleName())
+            .school(savedUser.getSchool().getSchoolName())
             .build();
 
     return registerResponse;
@@ -88,11 +125,10 @@ public class AuthServiceImpl implements AuthService {
         .firstName(user.getFirstName())
         .lastname(user.getLastName())
         .email(user.getEmail())
-        // TODO: Add role-based authorization is implemented
-        // .role(user.getRole())
+        .role(user.getRole().getRoleName())
+        .schoolId(user.getSchool() != null ? user.getSchool().getId() : null)
+        .schoolName(user.getSchool() != null ? user.getSchool().getSchoolName() : null)
         .token(token)
-        .schoolId(null)
-        .schoolName(null)
         .active(true)
         .build();
   }

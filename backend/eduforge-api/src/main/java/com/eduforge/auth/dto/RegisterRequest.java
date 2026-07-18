@@ -2,6 +2,7 @@ package com.eduforge.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -30,4 +31,10 @@ public class RegisterRequest {
       message =
           "Password must be 8–20 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.")
   private String password;
+
+  @NotNull(message = "School Id is required")
+  private Long schoolId;
+
+  @NotNull(message = "Role id is required")
+  private Long roleId;
 }

@@ -6,6 +6,8 @@ import com.eduforge.school.service.SchoolService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +18,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/schools")
 @RequiredArgsConstructor
+@Tag(name = "School Management", description = "APIs for managing system School")
+@SecurityRequirement(name = "Bearer Authentication")
 public class SchoolController {
 
   private final SchoolService schoolService;
 
   @Operation(summary = "Create School", description = "Creates a new School in the system.")
   @ApiResponses({
-    @ApiResponse(responseCode = "201", description = "School created successfully"),
+    @ApiResponse(responseCode = "201", description = "Resource created successfully"),
     @ApiResponse(responseCode = "400", description = "Validation failed"),
-    @ApiResponse(responseCode = "409", description = "School already exists")
+    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+    @ApiResponse(responseCode = "403", description = "Access denied"),
+    @ApiResponse(responseCode = "409", description = "Resource already exists")
   })
   @PostMapping("/registerSchool")
   public ResponseEntity<SchoolResponse> createSchool(
@@ -33,16 +39,37 @@ public class SchoolController {
         .body(schoolService.createSchool(schoolRequest));
   }
 
+  @Operation(summary = "Get School By ID", description = "Retrieves School detail using role Id.")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Resource retrieved successfully"),
+    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+    @ApiResponse(responseCode = "403", description = "Access denied"),
+    @ApiResponse(responseCode = "404", description = "Resource not found")
+  })
   @GetMapping("/{schoolId}")
   public ResponseEntity<SchoolResponse> getSchoolById(@PathVariable Long schoolId) {
     return ResponseEntity.ok(schoolService.getSchoolById(schoolId));
   }
 
+  @Operation(summary = "Get All School ", description = "Retrieves All School")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Resources retrieved successfully"),
+    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+    @ApiResponse(responseCode = "403", description = "Access denied")
+  })
   @GetMapping()
   public ResponseEntity<List<SchoolResponse>> getAllSchools() {
     return ResponseEntity.ok(schoolService.getAllSchools());
   }
 
+  @Operation(summary = "Update School", description = "Update existing school in the system.")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Resource updated successfully"),
+    @ApiResponse(responseCode = "400", description = "Validation failed"),
+    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+    @ApiResponse(responseCode = "403", description = "Access denied"),
+    @ApiResponse(responseCode = "404", description = "Resource not found")
+  })
   @PutMapping("/{schoolId}")
   public ResponseEntity<SchoolResponse> updateSchool(
       @PathVariable Long schoolId, @Valid @RequestBody SchoolRequest schoolRequest) {
@@ -53,10 +80,10 @@ public class SchoolController {
       summary = "Activate School",
       description = "Activates an existing school in the system.")
   @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "School activated successfully"),
-    @ApiResponse(responseCode = "404", description = "School not found"),
+    @ApiResponse(responseCode = "200", description = "Resource activated successfully"),
     @ApiResponse(responseCode = "401", description = "Unauthorized"),
-    @ApiResponse(responseCode = "403", description = "Forbidden")
+    @ApiResponse(responseCode = "403", description = "Access denied"),
+    @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PatchMapping("/{schoolId}/activate")
   public ResponseEntity<SchoolResponse> activateSchool(@PathVariable Long schoolId) {
@@ -67,10 +94,10 @@ public class SchoolController {
       summary = "Deactivate School",
       description = "Deactivates an existing school in the system.")
   @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "School deactivated successfully"),
-    @ApiResponse(responseCode = "404", description = "school not found"),
+    @ApiResponse(responseCode = "200", description = "Resource deactivated successfully"),
     @ApiResponse(responseCode = "401", description = "Unauthorized"),
-    @ApiResponse(responseCode = "403", description = "Forbidden")
+    @ApiResponse(responseCode = "403", description = "Access denied"),
+    @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PatchMapping("/{schoolId}/deactivate")
   public ResponseEntity<SchoolResponse> deActivateSchool(@PathVariable Long schoolId) {

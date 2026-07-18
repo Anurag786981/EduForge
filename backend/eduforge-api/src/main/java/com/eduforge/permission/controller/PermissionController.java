@@ -1,8 +1,8 @@
-package com.eduforge.role.controller;
+package com.eduforge.permission.controller;
 
-import com.eduforge.role.dto.RoleRequest;
-import com.eduforge.role.dto.RoleResponse;
-import com.eduforge.role.service.RoleService;
+import com.eduforge.permission.dto.PermissionRequest;
+import com.eduforge.permission.dto.PermissionResponse;
+import com.eduforge.permission.service.PermissionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,15 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/roles")
+@RequestMapping("/api/permissions")
 @RequiredArgsConstructor
-@Tag(name = "Role Management", description = "APIs for managing system Role")
+@Tag(name = "Permission Management", description = "APIs for managing system permissions")
 @SecurityRequirement(name = "Bearer Authentication")
-public class RoleController {
+public class PermissionController {
 
-  private final RoleService roleService;
+  private final PermissionService permissionService;
 
-  @Operation(summary = "Create Role", description = "Creates a new role in the system.")
+  @Operation(summary = "Create Permission", description = "Creates a new permission in the system.")
   @ApiResponses({
     @ApiResponse(responseCode = "201", description = "Resource created successfully"),
     @ApiResponse(responseCode = "400", description = "Validation failed"),
@@ -33,37 +33,44 @@ public class RoleController {
     @ApiResponse(responseCode = "409", description = "Resource already exists")
   })
   @PostMapping
-  public ResponseEntity<RoleResponse> createRole(@Valid @RequestBody RoleRequest roleRequest) {
+  public ResponseEntity<PermissionResponse> createPermission(
+      @Valid @RequestBody PermissionRequest permissionRequest) {
 
-    RoleResponse roleResponse = roleService.createRole(roleRequest);
+    PermissionResponse permissionResponse = permissionService.createPermission(permissionRequest);
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(roleResponse);
+    return ResponseEntity.status(HttpStatus.CREATED).body(permissionResponse);
   }
 
-  @Operation(summary = "Get Role By ID", description = "Retrieves Role detail using role Id.")
+  @Operation(
+      summary = "Get Permission By ID",
+      description = "Retrieves permission details using permission ID.")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "Resource retrieved successfully"),
     @ApiResponse(responseCode = "401", description = "Unauthorized"),
     @ApiResponse(responseCode = "403", description = "Access denied"),
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
-  @GetMapping("/{roleId}")
-  public ResponseEntity<RoleResponse> findRoleById(@Valid @PathVariable Long roleId) {
-    return ResponseEntity.ok(roleService.getRoleById(roleId));
+  @GetMapping("/{permissionId}")
+  public ResponseEntity<PermissionResponse> getPermissionById(@PathVariable Long permissionId) {
+
+    PermissionResponse permissionResponse = permissionService.getPermissionById(permissionId);
+
+    return ResponseEntity.ok(permissionResponse);
   }
 
-  @Operation(summary = "Get All Role ", description = "Retrieves All Role")
+  @Operation(summary = "Get All Permissions", description = "Retrieves all permissions.")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "Resources retrieved successfully"),
     @ApiResponse(responseCode = "401", description = "Unauthorized"),
     @ApiResponse(responseCode = "403", description = "Access denied")
   })
   @GetMapping
-  public ResponseEntity<List<RoleResponse>> getAllRoles(@RequestParam Long schoolId) {
-    return ResponseEntity.ok(roleService.getAllRoles(schoolId));
+  public ResponseEntity<List<PermissionResponse>> getAllPermissions() {
+
+    return ResponseEntity.ok(permissionService.getAllPermissions());
   }
 
-  @Operation(summary = "Update Role", description = "Update existing role role in the system.")
+  @Operation(summary = "Update Permission", description = "Updates permission description.")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "Resource updated successfully"),
     @ApiResponse(responseCode = "400", description = "Validation failed"),
@@ -71,35 +78,39 @@ public class RoleController {
     @ApiResponse(responseCode = "403", description = "Access denied"),
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
-  @PutMapping("/{roleId}")
-  ResponseEntity<RoleResponse> updateRole(
-      @PathVariable Long roleId, @Valid @RequestBody RoleRequest roleRequest) {
-    return ResponseEntity.ok(roleService.updateRole(roleId, roleRequest));
+  @PutMapping("/{permissionId}")
+  public ResponseEntity<PermissionResponse> updatePermissionDescription(
+      @PathVariable Long permissionId, @Valid @RequestBody PermissionRequest permissionRequest) {
+
+    PermissionResponse permissionResponse =
+        permissionService.updatePermissionDescription(permissionId, permissionRequest);
+
+    return ResponseEntity.ok(permissionResponse);
   }
 
-  @Operation(summary = "Activate Role", description = "Activates an existing role in the system.")
+  @Operation(summary = "Activate Permission", description = "Activates a permission.")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "Resource activated successfully"),
     @ApiResponse(responseCode = "401", description = "Unauthorized"),
     @ApiResponse(responseCode = "403", description = "Access denied"),
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
-  @PatchMapping("/{roleId}/activate")
-  public ResponseEntity<RoleResponse> activateSchool(@PathVariable Long roleId) {
-    return ResponseEntity.ok(roleService.activateRole(roleId));
+  @PatchMapping("/{permissionId}/activate")
+  public ResponseEntity<PermissionResponse> activatePermission(@PathVariable Long permissionId) {
+
+    return ResponseEntity.ok(permissionService.activatePermission(permissionId));
   }
 
-  @Operation(
-      summary = "Deactivate Role",
-      description = "Deactivates an existing role in the system.")
+  @Operation(summary = "Deactivate Permission", description = "Deactivates a permission.")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "Resource deactivated successfully"),
     @ApiResponse(responseCode = "401", description = "Unauthorized"),
     @ApiResponse(responseCode = "403", description = "Access denied"),
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
-  @PatchMapping("/{roleId}/deactivate")
-  public ResponseEntity<RoleResponse> deActivateSchool(@PathVariable Long roleId) {
-    return ResponseEntity.ok(roleService.deActivateRole(roleId));
+  @PatchMapping("/{permissionId}/deactivate")
+  public ResponseEntity<PermissionResponse> deactivatePermission(@PathVariable Long permissionId) {
+
+    return ResponseEntity.ok(permissionService.deactivatePermission(permissionId));
   }
 }

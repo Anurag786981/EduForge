@@ -5,6 +5,7 @@ import com.eduforge.auth.exception.InvalidJwtTokenException;
 import com.eduforge.auth.exception.JwtExpiredException;
 import com.eduforge.auth.exception.UserAlreadyExistsException;
 import com.eduforge.common.dto.ErrorResponse;
+import com.eduforge.permission.exception.DuplicatePermissionException;
 import com.eduforge.role.exception.DuplicateRoleException;
 import com.eduforge.school.exception.DuplicateDiseCodeException;
 import com.eduforge.school.exception.DuplicateSchoolEmailException;
@@ -93,6 +94,13 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(DuplicateRoleException.class)
   public ResponseEntity<ErrorResponse> handleDuplicateRoleException(
       DuplicateRoleException ex, HttpServletRequest request) {
+    return ResponseEntity.status(HttpStatus.CONFLICT)
+        .body(buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
+  }
+
+  @ExceptionHandler(DuplicatePermissionException.class)
+  public ResponseEntity<ErrorResponse> handleDuplicatePermissionException(
+      DuplicatePermissionException ex, HttpServletRequest request) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
         .body(buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
   }
