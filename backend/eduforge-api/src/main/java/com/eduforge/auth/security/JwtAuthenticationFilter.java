@@ -82,15 +82,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
     } catch (SignatureException ex) {
       jwtAuthenticationEntryPoint.commence(
-          request, response, new BadCredentialsException("Invalid Jwt Token."));
+          request, response, new BadCredentialsException("Invalid Jwt Token.", ex));
       return;
     } catch (ExpiredJwtException exception) {
       jwtAuthenticationEntryPoint.commence(
-          request, response, new BadCredentialsException("JWT token has expired."));
+          request, response, new BadCredentialsException("JWT token has expired.", exception));
       return;
     } catch (MalformedJwtException ex) {
       jwtAuthenticationEntryPoint.commence(
-          request, response, new BadCredentialsException("Malformed JWT token."));
+          request, response, new BadCredentialsException("Malformed JWT token.", ex));
       return;
     } catch (UnsupportedJwtException ex) {
       jwtAuthenticationEntryPoint.commence(
@@ -98,7 +98,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     } catch (IllegalArgumentException ex) {
       jwtAuthenticationEntryPoint.commence(
-          request, response, new BadCredentialsException("JWT token is missing or empty. "));
+          request, response, new BadCredentialsException("JWT token is missing or empty. ", ex));
       return;
     }
     // Continues the request.

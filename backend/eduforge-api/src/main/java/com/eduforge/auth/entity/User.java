@@ -1,29 +1,24 @@
 package com.eduforge.auth.entity;
 
+import com.eduforge.common.entity.BaseEntity;
 import com.eduforge.role.entity.Role;
 import com.eduforge.school.entity.School;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User implements UserDetails {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
+public class User extends BaseEntity implements UserDetails {
   private String firstName;
   private String lastName;
 
@@ -36,13 +31,17 @@ public class User implements UserDetails {
   @JoinColumn(name = "role_id")
   private Role role;
 
-  private Boolean active;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "school_id")
   private School school;
+
+  private Boolean passwordChangeRequired = true;
+
+  private LocalDateTime lastLoginAt;
+
+  private Integer failedLoginAttempts = 0;
+
+  private Boolean accountLocked = false;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

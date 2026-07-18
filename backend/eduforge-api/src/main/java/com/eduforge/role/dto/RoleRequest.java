@@ -28,4 +28,8 @@ public class RoleRequest {
   @Schema(description = "Role description", example = "Teacher role with attendance permission")
   @Size(max = 255, message = "Description cannot exceed 255 characters")
   private String description;
+
+  @Schema(description = "School ID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotBlank(message = "School ID is Required")
+  private Long schoolId;
 }
