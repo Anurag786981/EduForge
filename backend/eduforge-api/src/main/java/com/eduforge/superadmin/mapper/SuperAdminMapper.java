@@ -1,7 +1,7 @@
 package com.eduforge.superadmin.mapper;
 
-import com.eduforge.auth.entity.User;
 import com.eduforge.superadmin.dto.SuperAdminResponse;
+import com.eduforge.user.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component

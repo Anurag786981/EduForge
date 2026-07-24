@@ -1,4 +1,4 @@
-package com.eduforge.auth.dto;
+package com.eduforge.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class RegisterRequest {
+public class CreateUserRequest {
 
   @NotBlank(message = "First Name is Required")
   @Size(min = 2, max = 20, message = "First name must be between 2 and 20 characters")

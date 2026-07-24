@@ -1,9 +1,7 @@
 package com.eduforge.role.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
@@ -30,6 +28,7 @@ public class RoleRequest {
   private String description;
 
   @Schema(description = "School ID", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
-  @NotBlank(message = "School ID is Required")
+  @NotNull(message = "School ID is Required")
+  @Positive(message = "School Id must be greater than 0.")
   private Long schoolId;
 }

@@ -72,14 +72,8 @@ public class RolePermissionImpl implements RolePermissionService {
       permissionResponsesList.add(permissionRes);
     }
     // Prepare the response DTO.
-    RolePermissionResponse response =
-        RolePermissionResponse.builder()
-            .roleId(role.getId())
-            .roleName(role.getRoleName())
-            .permissions(permissionResponsesList)
-            .build();
 
-    return response;
+    return getPermissionsByRole(roleId);
   }
 
   @Override
@@ -105,11 +99,13 @@ public class RolePermissionImpl implements RolePermissionService {
     return RolePermissionResponse.builder()
         .roleId(role.getId())
         .roleName(role.getRoleName())
+        .description(role.getDescription())
         .permissions(permissionResponses)
         .build();
   }
 
   @Override
+  @Transactional
   public RolePermissionResponse updatePermissions(
       Long roleId, AssignPermissionRequest assignPermissionRequest) {
     // fetch the  Role by id
@@ -145,7 +141,7 @@ public class RolePermissionImpl implements RolePermissionService {
         rolePermissionRepository
             .findByRoleAndPermission(role, permission)
             .orElseThrow(
-                () -> new ResourceNotFoundException("Role permission mapping not found wit id."));
+                () -> new ResourceNotFoundException("Role permission mapping not found with id."));
     // Remove the role permission Mapping
 
     rolePermissionRepository.delete(rolePermission);

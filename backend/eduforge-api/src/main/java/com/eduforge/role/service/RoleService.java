@@ -10,7 +10,7 @@ public interface RoleService {
 
   RoleResponse getRoleById(Long roleId);
 
-  List<RoleResponse> getAllRoles(Long schoolId);
+  List<RoleResponse> getAllRoles();
 
   RoleResponse updateRole(Long roleId, RoleRequest roleRequest);
 

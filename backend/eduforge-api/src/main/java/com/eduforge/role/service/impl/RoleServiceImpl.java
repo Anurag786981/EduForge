@@ -1,5 +1,7 @@
 package com.eduforge.role.service.impl;
 
+import com.eduforge.auth.security.principal.CustomUserPrincipal;
+import com.eduforge.common.exception.BadRequestException;
 import com.eduforge.common.exception.ResourceNotFoundException;
 import com.eduforge.role.dto.RoleRequest;
 import com.eduforge.role.dto.RoleResponse;
@@ -10,9 +12,12 @@ import com.eduforge.role.repository.RoleRepository;
 import com.eduforge.role.service.RoleService;
 import com.eduforge.school.entity.School;
 import com.eduforge.school.repository.SchoolRepository;
+import com.eduforge.user.entity.User;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -47,12 +52,13 @@ public class RoleServiceImpl implements RoleService {
     // Check if role already exists in the school
     if (roleRepository.existsBySchoolAndRoleName(school, roleName)) {
       throw new DuplicateRoleException(
-          "Role' " + roleName + "' Already exists in the selected school.");
+          "Role ' " + roleName + "' Already exists in the selected school.");
     }
     // Mapper+entity
 
+    String normalizedRoleName = roleRequest.getRoleName().trim().toUpperCase().replace(" ", "_");
     Role role = roleMapper.toEntity(roleRequest);
-    role.setRoleName(roleRequest.getRoleName());
+    role.setRoleName(normalizedRoleName);
     role.setSchool(school);
     // Repository.save
     Role savedRole = roleRepository.save(role);
@@ -71,18 +77,31 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public List<RoleResponse> getAllRoles(Long schoolId) {
-    // Fetch school by id
-    School school =
-        schoolRepository
-            .findById(schoolId)
-            .orElseThrow(
-                () -> new ResourceNotFoundException("School not found with id : " + schoolId));
+  public List<RoleResponse> getAllRoles() {
+    // fetch School id from logged-in User
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    // retrieve all roles for the school
-    List<Role> roles = roleRepository.findBySchool(school);
+    CustomUserPrincipal principal = (CustomUserPrincipal) authentication.getPrincipal();
 
-    return roleMapper.toResponseList(roles);
+    User user = principal.getUser();
+
+    if (user.getSchool() == null) {
+      throw new BadRequestException("Use Super Admin endpoint");
+      // Super Admin
+    } else {
+      // Logged-in user School Id
+      Long schoolId = user.getSchool().getId();
+      School school =
+          schoolRepository
+              .findById(schoolId)
+              .orElseThrow(
+                  () -> new ResourceNotFoundException("School not found with id : " + schoolId));
+
+      // retrieve all roles for the school
+      List<Role> roles = roleRepository.findBySchool(school);
+
+      return roleMapper.toResponseList(roles);
+    }
   }
 
   @Override
@@ -93,7 +112,7 @@ public class RoleServiceImpl implements RoleService {
             .findById(roleId)
             .orElseThrow(() -> new ResourceNotFoundException("Role not found with id : " + roleId));
     // Normalize Role
-    String roleName = roleRequest.getRoleName().trim().toUpperCase();
+    String roleName = roleRequest.getRoleName().trim().toUpperCase().replace(" ", "_");
     // retrieve associated School
     School school = role.getSchool();
     // Check if another role with same name exists in the school

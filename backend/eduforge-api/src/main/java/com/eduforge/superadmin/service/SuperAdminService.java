@@ -1,5 +1,7 @@
 package com.eduforge.superadmin.service;
 
+import com.eduforge.auth.dto.UpdateAccountLockRequest;
+import com.eduforge.common.dto.ApiResponse;
 import com.eduforge.superadmin.dto.CreateSuperAdminRequest;
 import com.eduforge.superadmin.dto.SuperAdminResponse;
 import com.eduforge.superadmin.dto.UpdateAdminStatusRequest;
@@ -17,4 +19,6 @@ public interface SuperAdminService {
   SuperAdminResponse updateSuperAdmin(Long id, UpdateSuperAdminRequest request);
 
   SuperAdminResponse updateStatus(Long id, UpdateAdminStatusRequest request);
+
+  ApiResponse<SuperAdminResponse> updateAccountLock(Long id, UpdateAccountLockRequest request);
 }

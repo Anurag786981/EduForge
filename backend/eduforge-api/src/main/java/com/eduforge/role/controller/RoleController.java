@@ -13,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -59,8 +60,9 @@ public class RoleController {
     @ApiResponse(responseCode = "403", description = "Access denied")
   })
   @GetMapping
-  public ResponseEntity<List<RoleResponse>> getAllRoles(@RequestParam Long schoolId) {
-    return ResponseEntity.ok(roleService.getAllRoles(schoolId));
+  @PreAuthorize(("hasAuthority('ROLE_VIEW')"))
+  public ResponseEntity<List<RoleResponse>> getAllRoles() {
+    return ResponseEntity.ok(roleService.getAllRoles());
   }
 
   @Operation(summary = "Update Role", description = "Update existing role role in the system.")

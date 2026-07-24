@@ -1,8 +1,8 @@
 package com.eduforge.superadmin.service.impl;
 
-import com.eduforge.auth.entity.User;
+import com.eduforge.auth.dto.UpdateAccountLockRequest;
 import com.eduforge.auth.exception.UserAlreadyExistsException;
-import com.eduforge.auth.repository.UserRepository;
+import com.eduforge.common.dto.ApiResponse;
 import com.eduforge.common.exception.ResourceNotFoundException;
 import com.eduforge.role.entity.Role;
 import com.eduforge.role.repository.RoleRepository;
@@ -12,6 +12,8 @@ import com.eduforge.superadmin.dto.UpdateAdminStatusRequest;
 import com.eduforge.superadmin.dto.UpdateSuperAdminRequest;
 import com.eduforge.superadmin.mapper.SuperAdminMapper;
 import com.eduforge.superadmin.service.SuperAdminService;
+import com.eduforge.user.entity.User;
+import com.eduforge.user.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -115,6 +117,31 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     userRepository.save(user);
 
     return superAdminMapper.toResponse(user);
+  }
+
+  @Override
+  public ApiResponse<SuperAdminResponse> updateAccountLock(
+      Long id, UpdateAccountLockRequest request) {
+
+    User user =
+        userRepository
+            .findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id));
+
+    user.setAccountLocked(request.getAccountLocked());
+
+    // check in the request if it is true then don't reset else set to 0
+    if (!request.getAccountLocked()) {
+      user.setFailedLoginAttempts(0);
+    }
+
+    userRepository.save(user);
+
+    return ApiResponse.<SuperAdminResponse>builder()
+        .success(true)
+        .message("Account lock status updated successfully.")
+        .data(superAdminMapper.toResponse(user))
+        .build();
   }
 
   private User findSuperAdmin(Long id) {

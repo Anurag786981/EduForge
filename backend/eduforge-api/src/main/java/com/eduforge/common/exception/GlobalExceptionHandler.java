@@ -7,8 +7,10 @@ import com.eduforge.auth.exception.UserAlreadyExistsException;
 import com.eduforge.common.dto.ErrorResponse;
 import com.eduforge.permission.exception.DuplicatePermissionException;
 import com.eduforge.role.exception.DuplicateRoleException;
+import com.eduforge.rolepermission.exception.DuplicateRolePermissionException;
 import com.eduforge.school.exception.DuplicateDiseCodeException;
 import com.eduforge.school.exception.DuplicateSchoolEmailException;
+import com.sun.jdi.request.InvalidRequestStateException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -105,6 +108,13 @@ public class GlobalExceptionHandler {
         .body(buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
   }
 
+  @ExceptionHandler(DuplicateRolePermissionException.class)
+  public ResponseEntity<ErrorResponse> handleDuplicateRolePermissionException(
+      DuplicateRolePermissionException ex, HttpServletRequest request) {
+    return ResponseEntity.status(HttpStatus.CONFLICT)
+        .body(buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI()));
+  }
+
   // JWT and Generic Exception handler
 
   @ExceptionHandler(InvalidJwtTokenException.class)
@@ -154,6 +164,14 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()));
   }
 
+  // Handle JSON In correct error
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<ErrorResponse> handleBadRequestException(
+      BadRequestException ex, HttpServletRequest request) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI()));
+  }
+
   // Handle Invalid Path variable like roles/abc(400)
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
@@ -188,6 +206,23 @@ public class GlobalExceptionHandler {
                 HttpStatus.UNSUPPORTED_MEDIA_TYPE,
                 "Content-Type 'text/plain' is not supported. Please yse application/json.",
                 request.getRequestURI()));
+  }
+
+  // Invalid RequestState Exception
+  @ExceptionHandler(InvalidRequestStateException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidRequestStateException(
+      InvalidRequestStateException ex, HttpServletRequest request) {
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        .body(
+            buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), request.getRequestURI()));
+  }
+
+  // Access denied RequestState Exception
+  @ExceptionHandler(AuthorizationDeniedException.class)
+  public ResponseEntity<ErrorResponse> handleAuthorizationDeniedException(
+      AuthorizationDeniedException ex, HttpServletRequest request) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+        .body(buildErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI()));
   }
 
   // Handle Internal Server Error

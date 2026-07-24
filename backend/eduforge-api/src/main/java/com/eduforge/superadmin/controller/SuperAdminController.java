@@ -1,5 +1,6 @@
 package com.eduforge.superadmin.controller;
 
+import com.eduforge.auth.dto.UpdateAccountLockRequest;
 import com.eduforge.superadmin.dto.CreateSuperAdminRequest;
 import com.eduforge.superadmin.dto.SuperAdminResponse;
 import com.eduforge.superadmin.dto.UpdateAdminStatusRequest;
@@ -106,5 +107,19 @@ public class SuperAdminController {
       @PathVariable Long id, @Valid @RequestBody UpdateAdminStatusRequest request) {
 
     return ResponseEntity.ok(superAdminService.updateStatus(id, request));
+  }
+
+  @Operation(summary = "Activate Account", description = "Activates account in the system.")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Resource activated successfully"),
+    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+    @ApiResponse(responseCode = "403", description = "Access denied"),
+    @ApiResponse(responseCode = "404", description = "Resource not found")
+  })
+  @PatchMapping("/{id}/account-lock")
+  public ResponseEntity<com.eduforge.common.dto.ApiResponse<SuperAdminResponse>> updateAccountLock(
+      @PathVariable Long id, @Valid @RequestBody UpdateAccountLockRequest request) {
+
+    return ResponseEntity.ok(superAdminService.updateAccountLock(id, request));
   }
 }
