@@ -12,6 +12,7 @@ public enum PermissionAction {
   APPROVE,
   REJECT,
   IMPORT,
+  DEACTIVATE,
   EXPORT;
 
   public static PermissionAction from(String value) {

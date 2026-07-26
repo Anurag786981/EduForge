@@ -13,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,6 +34,7 @@ public class PermissionController {
     @ApiResponse(responseCode = "409", description = "Resource already exists")
   })
   @PostMapping
+  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('SCHOOL_ADMIN') ")
   public ResponseEntity<PermissionResponse> createPermission(
       @Valid @RequestBody PermissionRequest permissionRequest) {
 
@@ -51,6 +53,7 @@ public class PermissionController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @GetMapping("/{permissionId}")
+  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('SCHOOL_ADMIN') ")
   public ResponseEntity<PermissionResponse> getPermissionById(@PathVariable Long permissionId) {
 
     PermissionResponse permissionResponse = permissionService.getPermissionById(permissionId);
@@ -65,6 +68,7 @@ public class PermissionController {
     @ApiResponse(responseCode = "403", description = "Access denied")
   })
   @GetMapping
+  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('SCHOOL_ADMIN') ")
   public ResponseEntity<List<PermissionResponse>> getAllPermissions() {
 
     return ResponseEntity.ok(permissionService.getAllPermissions());
@@ -79,6 +83,7 @@ public class PermissionController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PutMapping("/{permissionId}")
+  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('SCHOOL_ADMIN') ")
   public ResponseEntity<PermissionResponse> updatePermissionDescription(
       @PathVariable Long permissionId, @Valid @RequestBody PermissionRequest permissionRequest) {
 
@@ -96,6 +101,7 @@ public class PermissionController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PatchMapping("/{permissionId}/activate")
+  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('SCHOOL_ADMIN') ")
   public ResponseEntity<PermissionResponse> activatePermission(@PathVariable Long permissionId) {
 
     return ResponseEntity.ok(permissionService.activatePermission(permissionId));
@@ -109,8 +115,24 @@ public class PermissionController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PatchMapping("/{permissionId}/deactivate")
+  @PreAuthorize("hasRole('SUPER_ADMIN') or hasRole('SCHOOL_ADMIN') ")
   public ResponseEntity<PermissionResponse> deactivatePermission(@PathVariable Long permissionId) {
 
     return ResponseEntity.ok(permissionService.deactivatePermission(permissionId));
+  }
+
+  @Operation(
+      summary = "Get My permission ",
+      description = "Retrieves all permissions of logged in user.")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Resources retrieved successfully"),
+    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+    @ApiResponse(responseCode = "403", description = "Access denied")
+  })
+  @GetMapping("/my-permission")
+  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<List<PermissionResponse>> getMyPerMission() {
+
+    return ResponseEntity.ok(permissionService.getMyPermission());
   }
 }

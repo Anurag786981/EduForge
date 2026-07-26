@@ -34,6 +34,7 @@ public class RoleController {
     @ApiResponse(responseCode = "409", description = "Resource already exists")
   })
   @PostMapping
+  @PreAuthorize(("hasAuthority('ROLE_CREATE')"))
   public ResponseEntity<RoleResponse> createRole(@Valid @RequestBody RoleRequest roleRequest) {
 
     RoleResponse roleResponse = roleService.createRole(roleRequest);
@@ -49,6 +50,7 @@ public class RoleController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @GetMapping("/{roleId}")
+  @PreAuthorize(("hasAuthority('ROLE_VIEW')"))
   public ResponseEntity<RoleResponse> findRoleById(@Valid @PathVariable Long roleId) {
     return ResponseEntity.ok(roleService.getRoleById(roleId));
   }
@@ -74,6 +76,7 @@ public class RoleController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PutMapping("/{roleId}")
+  @PreAuthorize(("hasAuthority('ROLE_UPDATE')"))
   ResponseEntity<RoleResponse> updateRole(
       @PathVariable Long roleId, @Valid @RequestBody RoleRequest roleRequest) {
     return ResponseEntity.ok(roleService.updateRole(roleId, roleRequest));
@@ -87,6 +90,7 @@ public class RoleController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PatchMapping("/{roleId}/activate")
+  @PreAuthorize(("hasAuthority('ROLE_ACTIVATE')"))
   public ResponseEntity<RoleResponse> activateSchool(@PathVariable Long roleId) {
     return ResponseEntity.ok(roleService.activateRole(roleId));
   }
@@ -101,6 +105,7 @@ public class RoleController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PatchMapping("/{roleId}/deactivate")
+  @PreAuthorize(("hasAuthority('ROLE_DEACTIVATE')"))
   public ResponseEntity<RoleResponse> deActivateSchool(@PathVariable Long roleId) {
     return ResponseEntity.ok(roleService.deActivateRole(roleId));
   }

@@ -1,5 +1,7 @@
 package com.eduforge.user.service.impl;
 
+import com.eduforge.auth.security.principal.CustomUserPrincipal;
+import com.eduforge.common.exception.AccessDeniedException;
 import com.eduforge.common.exception.BadRequestException;
 import com.eduforge.common.exception.ResourceNotFoundException;
 import com.eduforge.role.entity.Role;
@@ -16,6 +18,8 @@ import com.eduforge.user.service.UserService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +35,12 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse createUser(CreateUserRequest userRequest) {
+
+    // getting logged-in user for Multi school
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    CustomUserPrincipal customUserPrincipal = (CustomUserPrincipal) authentication.getPrincipal();
+
+    User loggedInUser = customUserPrincipal.getUser();
 
     // Checking Duplicate
     Optional<User> existingUser = userRepository.findByEmail(userRequest.getEmail());
@@ -62,6 +72,28 @@ public class UserServiceImpl implements UserService {
                     new ResourceNotFoundException(
                         "Role not found with id : " + userRequest.getRoleId()));
 
+    // Authorization Check
+    if ("SUPER_ADMIN".equals(loggedInUser.getRole().getRoleName())) {
+      // Super Admin can create any user. No Additional restrictions.
+    } else if ("SCHOOL_ADMIN".equals(loggedInUser.getRole().getRoleName())) {
+
+      // School Admin can create users only in their own school
+      if (!loggedInUser.getSchool().getId().equals(school.getId())) {
+        throw new AccessDeniedException("You can create Users only in your own school.");
+      }
+      // School Admin cannot create Super Admin
+      if ("SUPER_ADMIN".equals(role.getRoleName())) {
+        throw new AccessDeniedException("You are not allowed to create Super Admin.");
+      }
+      // School Admin cannot create another school Admin.
+
+      if ("SCHOOL_ADMIN".equals(role.getRoleName())) {
+        throw new AccessDeniedException("You are not allowed to create another School Admin.");
+      }
+    } else {
+      throw new AccessDeniedException("You are not authorized to create users.");
+    }
+
     // checking email
     if (existingUser.isPresent()) {
       throw new UserAlreadyExistsException(
@@ -69,7 +101,7 @@ public class UserServiceImpl implements UserService {
     }
     // Ensure the selected role is associated with the requested school
     if (role.getSchool() == null || !role.getSchool().getId().equals(school.getId())) {
-      throw new BadRequestException("Selected role does not belongs to the selected school.");
+      throw new AccessDeniedException("Selected role does not belongs to the selected school.");
     }
     // Ensure School have only one admin at a time
 
@@ -103,22 +135,45 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<UserResponse> getAllUsers() {
-    List<User> allUsers = userRepository.findAll();
-    return userMapper.toResponseList(allUsers);
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    CustomUserPrincipal customUserPrincipal = (CustomUserPrincipal) authentication.getPrincipal();
+
+    User loggedInUser = customUserPrincipal.getUser();
+
+    List<User> users;
+
+    if ("SUPER_ADMIN".equals(loggedInUser.getRole().getRoleName())) {
+      users = userRepository.findAll();
+    } else {
+      users = userRepository.findBySchool(loggedInUser.getSchool());
+    }
+    return userMapper.toResponseList(users);
   }
 
   @Override
   public UserResponse getUserById(Long userId) {
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    CustomUserPrincipal customUserPrincipal = (CustomUserPrincipal) authentication.getPrincipal();
+
+    User loggedInUser = customUserPrincipal.getUser();
     User user =
         userRepository
             .findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("User Not found with ID " + userId));
 
+    if (!"SUPER_ADMIN".equals(loggedInUser.getRole().getRoleName())) {
+      if (!loggedInUser.getSchool().getId().equals(user.getSchool().getId())) {
+        throw new AccessDeniedException("You are not allowed to access users from another school.");
+      }
+    }
     return userMapper.mapToResponse(user);
   }
 
   @Override
   public UserResponse activateUser(Long userId) {
+
     return updateUserStatus(userId, true);
   }
 
@@ -194,11 +249,21 @@ public class UserServiceImpl implements UserService {
   }
 
   private UserResponse updateUserStatus(Long userId, Boolean status) {
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    CustomUserPrincipal customUserPrincipal = (CustomUserPrincipal) authentication.getPrincipal();
+
+    User loggedInUser = customUserPrincipal.getUser();
     User user =
         userRepository
             .findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("User Not found with ID " + userId));
 
+    if (!"SUPER_ADMIN".equals(loggedInUser.getRole().getRoleName())) {
+      if (!loggedInUser.getSchool().getId().equals(user.getSchool().getId())) {
+        throw new AccessDeniedException("You are not allowed to modify users from another school.");
+      }
+    }
     user.setActive(status);
 
     User updatedUser = userRepository.save(user);

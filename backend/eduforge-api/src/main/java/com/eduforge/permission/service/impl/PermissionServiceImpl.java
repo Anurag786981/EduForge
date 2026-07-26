@@ -1,5 +1,6 @@
 package com.eduforge.permission.service.impl;
 
+import com.eduforge.auth.security.principal.CustomUserPrincipal;
 import com.eduforge.common.enums.ModuleName;
 import com.eduforge.common.enums.PermissionAction;
 import com.eduforge.common.exception.ResourceNotFoundException;
@@ -10,8 +11,14 @@ import com.eduforge.permission.exception.DuplicatePermissionException;
 import com.eduforge.permission.mapper.PermissionMapper;
 import com.eduforge.permission.repository.PermissionRepository;
 import com.eduforge.permission.service.PermissionService;
+import com.eduforge.role.entity.Role;
+import com.eduforge.rolepermission.entity.RolePermission;
+import com.eduforge.rolepermission.repository.RolePermissionRepository;
+import com.eduforge.user.entity.User;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +27,8 @@ public class PermissionServiceImpl implements PermissionService {
 
   private final PermissionRepository permissionRepository;
   private final PermissionMapper permissionMapper;
+
+  private final RolePermissionRepository rolePermissionRepository;
 
   @Override
   public PermissionResponse createPermission(PermissionRequest request) {
@@ -86,6 +95,24 @@ public class PermissionServiceImpl implements PermissionService {
 
     Permission updatedPermission = permissionRepository.save(permission);
     return permissionMapper.toResponse(updatedPermission);
+  }
+
+  @Override
+  public List<PermissionResponse> getMyPermission() {
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    CustomUserPrincipal principal = (CustomUserPrincipal) authentication.getPrincipal();
+
+    User currentUser = principal.getUser();
+    Role role = currentUser.getRole();
+
+    List<RolePermission> rolePermissions = rolePermissionRepository.findByRole(role);
+
+    return rolePermissions.stream()
+        .map(RolePermission::getPermission)
+        .map(permissionMapper::toResponse)
+        .toList();
   }
 
   @Override

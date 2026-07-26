@@ -38,7 +38,7 @@ public class UserController {
         description = "User already exists")
   })
   @PostMapping()
-  @PreAuthorize("hasRole('SUPER_ADMIN')")
+  @PreAuthorize("hasAuthority('USER_CREATE')")
   public ResponseEntity<ApiResponse<UserResponse>> register(
       @Valid @RequestBody CreateUserRequest registerRequest) {
 
@@ -70,6 +70,7 @@ public class UserController {
         description = "Resource not found")
   })
   @GetMapping("/{userId}")
+  @PreAuthorize("hasAuthority('USER_VIEW')")
   public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
     return ResponseEntity.ok(userService.getUserById(userId));
   }
@@ -87,6 +88,7 @@ public class UserController {
         description = "Access denied")
   })
   @GetMapping()
+  @PreAuthorize("hasAuthority('USER_VIEW')")
   public ResponseEntity<List<UserResponse>> getAllUsers() {
     return ResponseEntity.ok(userService.getAllUsers());
   }
@@ -110,6 +112,7 @@ public class UserController {
         description = "Resource not found")
   })
   @PutMapping("/{userId}")
+  @PreAuthorize("hasAuthority('USER_UPDATE')")
   public ResponseEntity<UserResponse> updateUser(
       @PathVariable Long userId, @Valid @RequestBody CreateUserRequest userRequest) {
     return ResponseEntity.ok(userService.updateUser(userId, userRequest));
@@ -131,6 +134,7 @@ public class UserController {
         description = "Resource not found")
   })
   @PatchMapping("/{userId}/activate")
+  @PreAuthorize("hasAuthority('USER_ACTIVATE')")
   public ResponseEntity<UserResponse> activateUser(@PathVariable Long userId) {
     return ResponseEntity.ok(userService.activateUser(userId));
   }
@@ -153,6 +157,7 @@ public class UserController {
         description = "Resource not found")
   })
   @PatchMapping("/{userId}/deactivate")
+  @PreAuthorize("hasAuthority('USER_DEACTIVATE')")
   public ResponseEntity<UserResponse> deActivateSchool(@PathVariable Long userId) {
     return ResponseEntity.ok(userService.deactivateUser(userId));
   }

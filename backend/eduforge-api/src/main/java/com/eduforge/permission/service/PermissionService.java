@@ -17,4 +17,6 @@ public interface PermissionService {
   PermissionResponse activatePermission(Long permissionId);
 
   PermissionResponse deactivatePermission(Long permissionId);
+
+  List<PermissionResponse> getMyPermission();
 }

@@ -1,9 +1,8 @@
 package com.eduforge.user.dto;
 
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -22,6 +21,4 @@ public class UserResponse {
   private LocalDateTime updatedAt;
   private Boolean accountLocked;
   private LocalDateTime lastLoginAt;
-
-
 }

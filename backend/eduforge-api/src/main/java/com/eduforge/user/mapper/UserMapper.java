@@ -16,14 +16,14 @@ public class UserMapper {
         .lastName(user.getLastName())
         .email(user.getEmail())
         .role(user.getRole().getRoleName())
-            .roleId(user.getRole().getId())
-            .schoolId(user.getSchool()!=null ? user.getSchool().getId() : null)
-        .school(user.getSchool()!=null ? user.getSchool().getSchoolName() : null)
-            .active(user.getActive())
-            .createdAt(user.getCreatedAt())
-            .updatedAt(user.getUpdatedAt())
-            .accountLocked(user.getAccountLocked())
-            .lastLoginAt(user.getLastLoginAt())
+        .roleId(user.getRole().getId())
+        .schoolId(user.getSchool() != null ? user.getSchool().getId() : null)
+        .school(user.getSchool() != null ? user.getSchool().getSchoolName() : null)
+        .active(user.getActive())
+        .createdAt(user.getCreatedAt())
+        .updatedAt(user.getUpdatedAt())
+        .accountLocked(user.getAccountLocked())
+        .lastLoginAt(user.getLastLoginAt())
         .build();
   }
 

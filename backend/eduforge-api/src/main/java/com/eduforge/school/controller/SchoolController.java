@@ -13,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,6 +34,7 @@ public class SchoolController {
     @ApiResponse(responseCode = "409", description = "Resource already exists")
   })
   @PostMapping("/registerSchool")
+  @PreAuthorize("hasAuthority('SCHOOL_CREATE')")
   public ResponseEntity<SchoolResponse> createSchool(
       @Valid @RequestBody SchoolRequest schoolRequest) {
     return ResponseEntity.status(HttpStatus.CREATED)
@@ -47,6 +49,7 @@ public class SchoolController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @GetMapping("/{schoolId}")
+  @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<SchoolResponse> getSchoolById(@PathVariable Long schoolId) {
     return ResponseEntity.ok(schoolService.getSchoolById(schoolId));
   }
@@ -58,6 +61,7 @@ public class SchoolController {
     @ApiResponse(responseCode = "403", description = "Access denied")
   })
   @GetMapping()
+  @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<List<SchoolResponse>> getAllSchools() {
     return ResponseEntity.ok(schoolService.getAllSchools());
   }
@@ -71,6 +75,7 @@ public class SchoolController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PutMapping("/{schoolId}")
+  @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<SchoolResponse> updateSchool(
       @PathVariable Long schoolId, @Valid @RequestBody SchoolRequest schoolRequest) {
     return ResponseEntity.ok(schoolService.updateSchool(schoolId, schoolRequest));
@@ -86,6 +91,7 @@ public class SchoolController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PatchMapping("/{schoolId}/activate")
+  @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<SchoolResponse> activateSchool(@PathVariable Long schoolId) {
     return ResponseEntity.ok(schoolService.activateSchool(schoolId));
   }
@@ -100,7 +106,22 @@ public class SchoolController {
     @ApiResponse(responseCode = "404", description = "Resource not found")
   })
   @PatchMapping("/{schoolId}/deactivate")
+  @PreAuthorize("hasRole('SUPER_ADMIN')")
   public ResponseEntity<SchoolResponse> deActivateSchool(@PathVariable Long schoolId) {
     return ResponseEntity.ok(schoolService.deactivateSchool(schoolId));
+  }
+
+  @Operation(
+      summary = "Get School for Logged in User",
+      description = "Retrieves School detail for login user")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Resource retrieved successfully"),
+    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+    @ApiResponse(responseCode = "403", description = "Access denied"),
+    @ApiResponse(responseCode = "404", description = "Resource not found")
+  })
+  @GetMapping("/my-school")
+  public ResponseEntity<SchoolResponse> getMySchool() {
+    return ResponseEntity.ok(schoolService.getMySchool());
   }
 }
