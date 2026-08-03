@@ -43,4 +43,9 @@ public interface SchoolService {
    * @return Updated School
    */
   SchoolResponse deactivateSchool(Long schoolId);
+
+  /**
+   * @return School Information
+   */
+  SchoolResponse getMySchool();
 }

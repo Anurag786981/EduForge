@@ -8,7 +8,9 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "role_permissions")
+@Table(
+    name = "role_permissions",
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"role_id", "permission_id"})})
 @Getter
 @Setter
 @NoArgsConstructor

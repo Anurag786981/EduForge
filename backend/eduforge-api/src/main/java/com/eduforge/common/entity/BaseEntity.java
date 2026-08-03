@@ -36,6 +36,7 @@ public abstract class BaseEntity {
   // Sets the initial audit fields before persisting the entity.
   @PrePersist
   public void onCreate() {
+    this.active = true;
     createdAt = LocalDateTime.now();
     updatedAt = LocalDateTime.now();
   }

@@ -1,7 +1,8 @@
 package com.eduforge.auth.security.impl;
 
-import com.eduforge.auth.entity.User;
+import com.eduforge.auth.constant.JwtClaims;
 import com.eduforge.auth.security.JwtService;
+import com.eduforge.user.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -9,6 +10,7 @@ import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,12 +39,18 @@ public class JwtServiceImpl implements JwtService {
     // Stores Additional information inside the Jwt Payload
     Map<String, Object> claims = new HashMap<>();
 
-    // Stores the User's role for authorization
+    // Adds Custom Claim
+    claims.put(JwtClaims.USER_ID, user.getId());
+    claims.put(JwtClaims.ROLE, user.getRole().getRoleName());
+    if (user.getSchool() != null) {
+      claims.put(JwtClaims.SCHOOL_ID, user.getSchool().getId());
+    }
     // claims.put("role",user.getRole().user);
 
     return Jwts.builder()
-        // Adds Custom Claim
-        // .claims()
+
+        // Custom claim Added
+        .claims(claims)
         // Sets the logged-in users email as the subject
         .subject(user.getEmail())
         // Sets Token creation time
@@ -72,6 +80,38 @@ public class JwtServiceImpl implements JwtService {
     return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
   }
 
+  /*
+  Extract the logged-in user unique id
+  Reads the custom claim
+   */
+  @Override
+  public Long extractUserId(String token) {
+
+    // returns the User id  stored as the JWt subject
+    return extractClaim(token, claims -> claims.get(JwtClaims.USER_ID, Long.class));
+  }
+
+  /*
+  Extract the logged-in user Role
+  role: SCHOOL_ADMIN
+  Reads the custom claim
+   */
+  @Override
+  public String extractRole(String token) {
+    return extractClaim(token, claims -> claims.get(JwtClaims.ROLE, String.class));
+  }
+
+  /*
+  Extract the logged-in user school id from the jwt
+  schoolId:1
+  For Super Admin this value will be null because a super admin is not associated aith a single school
+   */
+
+  @Override
+  public Long extractSchoolId(String token) {
+    return extractClaim(token, claims -> claims.get(JwtClaims.SCHOOL_ID, Long.class));
+  }
+
   // Check whether JWT is Expired or Not
   private boolean isTokenExpired(String token) {
     return extractAllClaims(token).getExpiration().before(new Date());
@@ -87,5 +127,22 @@ public class JwtServiceImpl implements JwtService {
         .parseSignedClaims(token)
         // Return all JWt claims
         .getPayload();
+  }
+
+  /*
+   * Extracts any claims for the JWt Token
+   *
+   * Instead of writing separate Code to read each claim (UserId, role,SchoolId)
+   * Example:
+   * extractClaim(token, Claims::getSubject)
+   * extractClaim(token, Claims-> claims.get(role))
+   *
+   * */
+
+  private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    // read all claims Present inside the Payload
+    Claims claims = extractAllClaims(token);
+    // Apply the requested extraction logic and return the value.
+    return claimsResolver.apply(claims);
   }
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -29,12 +30,18 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
       HttpServletResponse response,
       AuthenticationException authException)
       throws IOException, ServletException {
+    String message;
+    if (authException instanceof InsufficientAuthenticationException) {
+      message = "JWT token is required.";
+    } else {
+      message = authException.getMessage();
+    }
     ErrorResponse errorResponse =
         ErrorResponse.builder()
             .timestamp(LocalDateTime.now())
             .status(HttpStatus.UNAUTHORIZED.value())
             .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
-            .message("Please provide a valid JWT token.")
+            .message(message)
             .path(request.getRequestURI())
             .build();
 
