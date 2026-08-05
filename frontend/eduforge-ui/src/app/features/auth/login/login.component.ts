@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import{MatCheckboxModule} from '@angular/material/checkbox';
+import{MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AuthService } from '../../../features/auth/services/auth.service';
 
 
@@ -19,7 +21,9 @@ import { AuthService } from '../../../features/auth/services/auth.service';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -30,6 +34,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
+  isLoading: boolean = false; // Loading state variable
 
   hidePassword: boolean = true;
 
@@ -42,7 +47,8 @@ export class LoginComponent {
       password: ['', [
         Validators.required,
         Validators.minLength(8)
-      ]]
+      ]],
+      rememberMe: [false] // Add a form control for the "Remember Me" checkbox
     });
   }
   
@@ -56,6 +62,7 @@ export class LoginComponent {
     this.loginForm.markAllAsTouched();
     return;
   }
+  this.isLoading = true; // Set loading state to true when the form is submitted
 
   const loginRequest = this.loginForm.value;
 
@@ -68,6 +75,7 @@ export class LoginComponent {
 
       this.successMessage = response.message;
       this.errorMessage = '';
+      this.isLoading = false; // Reset loading state on success
 
       console.log('Success Response:', response);
 
@@ -76,10 +84,14 @@ export class LoginComponent {
     },
 
     error: (error) => {
+      this.isLoading = false; // Reset loading state on error
 
       this.successMessage = '';
 
-      if (error.error && error.error.message) {
+      if (error.status === 0) {
+        this.errorMessage = 'Unable to connect to the server. Please check your network connection.';
+
+       }else  if (error.error && error.error.message) {
         this.errorMessage = error.error.message;
       } else {
         this.errorMessage = 'Something went wrong. Please try again.';

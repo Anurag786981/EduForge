@@ -1,90 +1,654 @@
-.login-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #f4f6f9, #e8edf5);
+/* ============================================================
+   EduForge Login Page — Responsive, single-viewport layout
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
 }
 
-.login-card {
-  width: 380px;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+:host {
+  --brand-blue: #2563eb;
+  --brand-blue-light: #3b82f6;
+  --brand-blue-deep: #1d4ed8;
+  --brand-purple: #6d28d9;
+  --brand-gradient: linear-gradient(135deg, var(--brand-purple) 0%, var(--brand-blue) 100%);
+  display: block;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatIllustration {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes ambientPulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.06); }
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-14px, 10px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes statPop {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.login-container {
+  height: 100vh;
+  width: 100%;
+   background: #f7faff;
+  overflow: hidden; /* no page-level scroll */
+}
+
+.login-page {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  margin: auto;
+}
+
+/* ================= LEFT PANEL ================= */
+
+.left-panel {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+  overflow-y: auto; /* internal scroll only kicks in on very short screens */
+  min-width: 0;
+}
+
+.left-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  gap: 1.25rem;
+  max-width: 460px;
+  width: 100%;
+  margin: 0 auto;
+  animation: fadeSlideUp 0.5s ease-out;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--brand-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.logo-box:hover {
+  transform: rotate(-6deg) scale(1.06);
+  box-shadow: 0 8px 18px rgba(109, 40, 217, 0.35);
+}
+
+.logo-box mat-icon {
+  color: #fff;
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+}
+
+.brand-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.brand-title .edu {
+  color: #2563eb;
+}
+
+.brand-title .forge {
+  color: #0f172a;
+}
+
+.brand-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: #5b6b8c;
+}
+
+/* Welcome */
+.welcome-section {
+  margin-top: 0.5rem;
+}
+
+.welcome-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.welcome-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #5b6b8c;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .full-width {
   width: 100%;
-  display: block;
-  margin-bottom: 12px;
+  margin-bottom: 0.25rem;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 8px;
-  color: #0a58a6;
-  font-weight: 600;
+/* Trim Material's default field spacing so the form is compact */
+:host ::ng-deep .full-width .mat-mdc-form-field-subscript-wrapper {
+  font-size: 0.75rem;
+  min-height: 1.25rem;
 }
 
-p {
-  text-align: center;
-  color: #6b7280;
-  margin-bottom: 24px;
-  font-size: 16px;
+:host ::ng-deep .full-width .mat-mdc-form-field-error-wrapper {
+  padding-top: 2px;
 }
 
-button {
-  width: 100%;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 500;
-  margin-top: 10px;
+:host ::ng-deep .full-width .mdc-text-field {
+  padding-top: 4px;
+  transition: box-shadow 0.25s ease, transform 0.15s ease;
+  border-radius: 8px;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  transition: 0.2s ease;
+:host ::ng-deep .full-width:hover .mdc-text-field {
+  transform: translateY(-1px);
 }
 
-.logo {
-  text-align: center;
-  margin-bottom: 16px;
+:host ::ng-deep .full-width.mat-focused .mdc-text-field {
+  box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1), 0 0 0 4px rgba(37, 99, 235, 0.08);
 }
 
-.logo mat-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  color: #115eab;
+:host ::ng-deep .full-width.mat-focused .mdc-notched-outline__leading,
+:host ::ng-deep .full-width.mat-focused .mdc-notched-outline__notch,
+:host ::ng-deep .full-width.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--brand-blue) !important;
 }
 
-mat-icon {
+:host ::ng-deep .full-width .mdc-notched-outline__leading,
+:host ::ng-deep .full-width .mdc-notched-outline__notch,
+:host ::ng-deep .full-width .mdc-notched-outline__trailing {
+  transition: border-color 0.2s ease;
+}
+
+:host ::ng-deep .full-width button.mat-mdc-icon-button {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+:host ::ng-deep .full-width button.mat-mdc-icon-button:hover {
+  transform: scale(1.12);
+  color: #2563eb;
+}
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.25rem 0 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.mat-typography a.forgot-password,
+.mat-typography a.forgot-password:link,
+.mat-typography a.forgot-password:visited,
+.mat-typography a.forgot-password:hover,
+.mat-typography a.forgot-password:active,
+.mat-typography a.forgot-password:focus,
+a.forgot-password,
+a.forgot-password:link,
+a.forgot-password:visited,
+a.forgot-password:hover,
+a.forgot-password:active,
+a.forgot-password:focus {
+  text-decoration: none !important;
+}
+
+.forgot-password {
+  position: relative;
+  z-index: 5;
+  display: inline-block;
+  color: var(--brand-blue);
+  font-size: 0.85rem;
   cursor: pointer;
-  color: #666666;
+  pointer-events: auto;
 }
 
-mat-icon:hover {
-  color: #1565c0;
+.forgot-password::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1.5px;
+  background: var(--brand-blue);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s ease;
+}
+
+.forgot-password:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+:host ::ng-deep .mat-mdc-checkbox {
+  transition: transform 0.15s ease;
+}
+
+:host ::ng-deep .mat-mdc-checkbox:hover {
+  transform: scale(1.05);
+}
+
+/* Success / Error messages */
+.success-message,
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
 }
 
 .success-message {
-  color: #2e7d32;
-  background-color: #e8f5e9;
-  border: 1px solid #81c784;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-size: 14px;
+  background: #ecfdf5;
+  color: #047857;
 }
 
 .error-message {
-  color: #c62828;
-  background-color: #ffebee;
-  border: 1px solid #ef9a9a;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 15px;
+  background: #fee5e5;
+  color: #b91c1c;
+}
+
+.success-message mat-icon,
+.error-message mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Login Button */
+.login-button {
+  position: relative;
+  height: 48px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--brand-blue-light) 0%, var(--brand-blue) 55%, var(--brand-blue-deep) 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  margin-top: 0.5rem;
+  border: none;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.25s ease, background 0.3s ease;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 55%, #2563eb 100%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.login-button:not(:disabled):hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.45);
+}
+
+.login-button:not(:disabled):hover::before {
+  opacity: 1;
+}
+
+.login-button:not(:disabled):active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+.login-button:disabled {
+  background: #c7cfe8;
+  color: #eef1fb;
+  box-shadow: none;
+}
+
+.btn-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #ffffff;
+}
+
+.btn-content mat-icon {
+  transition: transform 0.25s ease;
+}
+
+.login-button:not(:disabled):hover .btn-content mat-icon {
+  transform: translateX(6px);
+}
+
+:host ::ng-deep .login-button .mdc-button__label,
+:host ::ng-deep .login-button .mat-mdc-button-touch-target,
+:host ::ng-deep .login-button span {
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .login-button:disabled .mdc-button__label {
+  color: #eef1fb !important;
+}
+
+:host ::ng-deep .login-button .mat-ripple-element {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Footer */
+.login-footer {
   text-align: center;
-  font-size: 14px;
+  font-size: 0.8rem;
+  color: #8b96b3;
+  padding-top: 1rem;
+  flex-shrink: 0;
+}
+
+/* ================= RIGHT PANEL ================= */
+
+.right-panel {
+  position: relative;
+  flex: 1 1 50%;
+  height: 100vh;
+  background: linear-gradient(160deg, #3b82f6 0%, #2563eb 45%, #1e40af 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #fff;
+  overflow: hidden;
+}
+
+.right-panel::before,
+.right-panel::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.right-panel::before {
+  width: 320px;
+  height: 320px;
+  top: -80px;
+  right: -80px;
+  animation: drift 9s ease-in-out infinite;
+}
+
+.right-panel::after {
+  width: 220px;
+  height: 220px;
+  bottom: -60px;
+  left: -60px;
+  background: rgba(255, 255, 255, 0.06);
+  animation: drift 11s ease-in-out infinite reverse;
+}
+
+.illustration {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 48vh;
+  margin-bottom: 1rem;
+}
+
+.illustration::before {
+  content: "";
+  position: absolute;
+  width: 78%;
+  height: 78%;
+  background: radial-gradient(circle, rgba(255, 200, 120, 0.35) 0%, rgba(255, 255, 255, 0.25) 45%, transparent 72%);
+  border-radius: 50%;
+  animation: ambientPulse 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+.illustration-image {
+  position: relative;
+  z-index: 1;
+  max-height: 48vh;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: saturate(1.35) contrast(1.08) drop-shadow(0 18px 30px rgba(15, 40, 120, 0.35));
+  animation: floatIllustration 5s ease-in-out infinite;
+}
+
+.right-content {
+  text-align: center;
+  max-width: 480px;
+  position: relative;
+  z-index: 1;
+  animation: fadeSlideUp 0.6s ease-out 0.1s both;
+}
+
+.right-content h2 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+
+.right-content p {
+  font-size: 0.95rem;
+  color: #eff6ff;
+  margin: 0 0 1.25rem;
+  line-height: 1.4;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.stat {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  min-width: 90px;
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  animation: statPop 0.5s ease-out both;
+}
+
+.stat:nth-child(1) { animation-delay: 0.15s; }
+.stat:nth-child(2) { animation-delay: 0.28s; }
+.stat:nth-child(3) { animation-delay: 0.41s; }
+
+.stat:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+.stat h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.stat span {
+  font-size: 0.75rem;
+  color: #eff6ff;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+/* Tablets and small laptops — shrink paddings/text, keep both panels */
+@media (max-width: 1100px) {
+  .left-panel {
+    padding: 1.5rem 2.5rem;
+  }
+
+  .welcome-title {
+    font-size: 1.5rem;
+  }
+
+  .right-content h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Narrow screens — drop the illustration panel, form takes full width */
+@media (max-width: 900px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .right-panel {
+    display: none;
+  }
+
+  .left-panel {
+    flex: 1 1 100%;
+    height: 100vh;
+    padding: 1.5rem 1.75rem;
+  }
+
+  .left-content {
+    max-width: 420px;
+  }
+}
+
+/* Short-height screens (small laptops, landscape phones) — compact everything */
+@media (max-height: 750px) {
+  .left-content {
+    gap: 0.75rem;
+  }
+
+  .logo-box {
+    width: 40px;
+    height: 40px;
+  }
+
+  .welcome-title {
+    font-size: 1.4rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .login-form {
+    gap: 0.25rem;
+  }
+
+  .login-button {
+    height: 42px;
+    margin-top: 0.25rem;
+  }
+
+  .login-footer {
+    padding-top: 0.5rem;
+  }
+
+  .illustration,
+  .illustration-image {
+    max-height: 30vh;
+  }
+
+  .right-content h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .right-content p {
+    margin-bottom: 0.75rem;
+  }
+
+  .stat {
+    padding: 0.5rem 0.9rem;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 420px) {
+  .left-panel {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .brand-title {
+    font-size: 1.25rem;
+  }
+
+  .welcome-title {
+    font-size: 1.3rem;
+  }
 }
