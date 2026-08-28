@@ -1,0 +1,65 @@
+<mat-toolbar class="header">
+  <!-- Sidebar toggle -->
+  <button
+    mat-icon-button
+    class="header__icon-btn"
+    matTooltip="Toggle sidebar"
+    (click)="toggleSidebar.emit()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!-- Global search -->
+  <div class="header__search">
+    <mat-icon class="header__search-icon">search</mat-icon>
+    <input
+      class="header__search-input"
+      type="text"
+      placeholder="Search anything..."
+      [value]="searchQuery()"
+      (input)="onSearchInput($event)"
+    />
+    <span class="header__search-kbd">Ctrl + K</span>
+  </div>
+
+  <span class="header__spacer"></span>
+
+  <!-- Theme toggle (placeholder) -->
+  <button
+    mat-icon-button
+    class="header__icon-btn"
+    matTooltip="Toggle theme"
+    (click)="toggleTheme.emit()"
+  >
+    <mat-icon>dark_mode</mat-icon>
+  </button>
+
+  <!-- Notifications -->
+  <button
+    mat-icon-button
+    class="header__icon-btn"
+    matTooltip="Notifications"
+    [matMenuTriggerFor]="notificationsMenu"
+  >
+    <mat-icon
+      [matBadge]="notificationCount() > 0 ? notificationCount() : null"
+      matBadgeColor="warn"
+      matBadgeSize="small"
+    >
+      notifications
+    </mat-icon>
+  </button>
+  <mat-menu #notificationsMenu="matMenu" class="header__menu">
+    <div class="header__menu-header">Notifications</div>
+    <button mat-menu-item disabled>No new notifications</button>
+  </mat-menu>
+
+  <mat-divider [vertical]="true" class="header__divider"></mat-divider>
+
+  <!-- Profile dropdown -->
+  <ef-profile-menu
+    [userName]="userName"
+    [userRole]="userRole"
+    (logout)="logout.emit()"
+  />
+</mat-toolbar>

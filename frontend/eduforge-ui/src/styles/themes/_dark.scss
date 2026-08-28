@@ -1,0 +1,30 @@
+/* ==========================================================
+   EduForge Dark Theme
+   ========================================================== */
+
+.dark-theme {
+  --ef-primary: #60a5fa;
+  --ef-primary-hover: #3b82f6;
+  --ef-primary-light: #1e3a8a;
+
+  --ef-bg: #0f172a;
+  --ef-surface: #1e293b;
+  --ef-surface-hover: #334155;
+
+  --ef-border: #334155;
+  --ef-divider: #475569;
+
+  /* Main text system */
+  --ef-text-primary: #f8fafc;
+  --ef-text-secondary: #cbd5e1;
+  --ef-text-disabled: #94a3b8;
+
+  /* Aliases used by layout/components */
+  --ef-text: var(--ef-text-primary);
+  --ef-text-muted: var(--ef-text-secondary);
+  --ef-text-faint: var(--ef-text-disabled);
+
+  --ef-success: #22c55e;
+  --ef-warning: #f59e0b;
+  --ef-danger: #ef4444;
+}

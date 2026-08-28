@@ -1,0 +1,76 @@
+/* ==========================================================
+   EduForge Design System
+   Reusable Mixins
+   ========================================================== */
+
+/* ---------- Flex Center ---------- */
+
+@mixin flex-center {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+/* ---------- Flex Between ---------- */
+
+@mixin flex-between {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+/* ---------- Card ---------- */
+
+@mixin card {
+
+  background: var(--ef-surface);
+
+  border: 1px solid var(--ef-border);
+
+  border-radius: var(--ef-radius-lg);
+
+  box-shadow: var(--ef-shadow-md);
+
+  padding: var(--ef-space-6);
+
+}
+
+/* ---------- Input ---------- */
+
+@mixin input {
+
+  height: 44px;
+
+  border-radius: var(--ef-radius-md);
+
+  border: 1px solid var(--ef-border);
+
+  background: var(--ef-surface);
+
+  transition: var(--ef-transition);
+
+}
+
+/* ---------- Scroll ---------- */
+
+@mixin scrollbar {
+
+  &::-webkit-scrollbar {
+
+    width: 8px;
+
+  }
+
+  &::-webkit-scrollbar-thumb {
+
+    background: #cbd5e1;
+
+    border-radius: var(--ef-radius-pill);
+
+  }
+
+}

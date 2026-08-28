@@ -1,0 +1,20 @@
+/* ==========================================================
+   EduForge Design System
+   Shadow Tokens
+   ========================================================== */
+
+:root {
+
+  /* Small Shadow */
+  --ef-shadow-sm:
+    0 2px 8px rgba(15, 23, 42, 0.05);
+
+  /* Medium Shadow */
+  --ef-shadow-md:
+    0 8px 24px rgba(15, 23, 42, 0.08);
+
+  /* Large Shadow */
+  --ef-shadow-lg:
+    0 20px 40px rgba(15, 23, 42, 0.12);
+
+}

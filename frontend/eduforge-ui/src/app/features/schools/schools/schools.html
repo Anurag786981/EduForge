@@ -1,0 +1,1181 @@
+<!-- Main Schools management page. -->
+<div class="schools-page" (click)="closeActions()">
+
+  <!-- ==========================================================
+       PAGE HEADER
+       ========================================================== -->
+
+  <section class="schools-page__header">
+
+    <!-- Page heading. -->
+    <div class="schools-page__heading">
+
+      <!-- Super Admin section label. -->
+      @if (isSuperAdmin) {
+        <span class="schools-page__eyebrow">
+          ORGANIZATION
+        </span>
+      }
+
+      <!-- Page title. -->
+      <h1>
+        {{ isSuperAdmin ? 'Schools' : 'My School' }}
+      </h1>
+
+      <!-- Page description. -->
+      <p>
+        @if (isSuperAdmin) {
+          Manage all schools registered on the EduForge platform.
+        } @else {
+          View information for your assigned school.
+        }
+      </p>
+
+    </div>
+
+
+    <!-- ========================================================
+         ADD SCHOOL BUTTON
+         ======================================================== -->
+
+    @if (isSuperAdmin) {
+
+      <button
+        type="button"
+        class="schools-page__add-button"
+        (click)="openAddSchool(); $event.stopPropagation()"
+      >
+
+        <span class="material-symbols-outlined">
+          add_business
+        </span>
+
+        Add School
+
+      </button>
+
+    }
+
+  </section>
+
+
+  <!-- ==========================================================
+       SUCCESS MESSAGE
+       ========================================================== -->
+
+  @if (successMessage()) {
+
+    <div class="schools-alert schools-alert--success">
+
+      <span class="material-symbols-outlined">
+        check_circle
+      </span>
+
+      <span>
+        {{ successMessage() }}
+      </span>
+
+      <button
+        type="button"
+        aria-label="Close notification"
+        (click)="successMessage.set('')"
+      >
+
+        <span class="material-symbols-outlined">
+          close
+        </span>
+
+      </button>
+
+    </div>
+
+  }
+
+
+  <!-- ==========================================================
+       ERROR MESSAGE
+       ========================================================== -->
+
+  @if (errorMessage()) {
+
+    <div class="schools-alert schools-alert--error">
+
+      <span class="material-symbols-outlined">
+        error
+      </span>
+
+      <span>
+        {{ errorMessage() }}
+      </span>
+
+      <button
+        type="button"
+        aria-label="Close notification"
+        (click)="errorMessage.set('')"
+      >
+
+        <span class="material-symbols-outlined">
+          close
+        </span>
+
+      </button>
+
+    </div>
+
+  }
+
+
+  <!-- ==========================================================
+       SEARCH / FILTER TOOLBAR
+       ========================================================== -->
+
+  <section class="schools-toolbar">
+
+    <!-- Search. -->
+    <div class="schools-search">
+
+      <span class="material-symbols-outlined">
+        search
+      </span>
+
+      <input
+        type="text"
+        placeholder="Search school, DISE code or email..."
+        [value]="searchText()"
+        (input)="onSearch($any($event.target).value)"
+        aria-label="Search schools"
+      />
+
+    </div>
+
+
+    <!-- Status filter. -->
+    @if (isSuperAdmin) {
+
+      <select
+        class="schools-status-filter"
+        [value]="statusFilter()"
+        (change)="onStatusChange($any($event.target).value)"
+        aria-label="Filter schools by status"
+      >
+
+        <option value="ALL">
+          All Status
+        </option>
+
+        <option value="ACTIVE">
+          Active
+        </option>
+
+        <option value="INACTIVE">
+          Inactive
+        </option>
+
+      </select>
+
+    }
+
+  </section>
+
+
+  <!-- ==========================================================
+       SCHOOL TABLE CARD
+       ========================================================== -->
+
+  <section class="schools-card">
+
+    <!-- Card header. -->
+    <div class="schools-card__header">
+
+      <div>
+
+        <h2>
+          {{ isSuperAdmin ? 'All Schools' : 'School Information' }}
+        </h2>
+
+        <p>
+          {{ filteredSchools().length }}
+          {{ filteredSchools().length === 1 ? 'school' : 'schools' }}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================================================
+         LOADING
+         ======================================================== -->
+
+    @if (loading()) {
+
+      <div class="schools-state">
+
+        <span class="schools-spinner"></span>
+
+        <p>
+          Loading schools...
+        </p>
+
+      </div>
+
+    }
+
+
+    <!-- ========================================================
+         ERROR STATE
+         ======================================================== -->
+
+    @else if (
+      errorMessage() &&
+      schools().length === 0
+    ) {
+
+      <div class="schools-state schools-state--error">
+
+        <span class="material-symbols-outlined">
+          error
+        </span>
+
+        <h3>
+          Unable to load schools
+        </h3>
+
+        <p>
+          {{ errorMessage() }}
+        </p>
+
+        <button
+          type="button"
+          (click)="loadSchools()"
+        >
+          Try Again
+        </button>
+
+      </div>
+
+    }
+
+
+    <!-- ========================================================
+         EMPTY STATE
+         ======================================================== -->
+
+    @else if (
+      filteredSchools().length === 0
+    ) {
+
+      <div class="schools-state">
+
+        <span class="material-symbols-outlined">
+          domain_disabled
+        </span>
+
+        <h3>
+          No schools found
+        </h3>
+
+        <p>
+          No schools match your current search or filter.
+        </p>
+
+      </div>
+
+    }
+
+
+    <!-- ========================================================
+         SCHOOL TABLE
+         ======================================================== -->
+
+    @else {
+
+      <div class="schools-table-wrapper">
+
+        <table class="schools-table">
+
+          <!-- Column definitions. -->
+          <colgroup>
+
+            <col class="col-school" />
+            <col class="col-dise" />
+            <col class="col-email" />
+            <col class="col-phone" />
+            <col class="col-status" />
+            <col class="col-created" />
+
+            @if (isSuperAdmin) {
+              <col class="col-actions" />
+            }
+
+          </colgroup>
+
+
+          <!-- Table header. -->
+          <thead>
+
+            <tr>
+
+              <th>
+                SCHOOL NAME
+              </th>
+
+              <th>
+                DISE CODE
+              </th>
+
+              <th>
+                EMAIL
+              </th>
+
+              <th>
+                PHONE
+              </th>
+
+              <th>
+                STATUS
+              </th>
+
+              <th>
+                CREATED
+              </th>
+
+              @if (isSuperAdmin) {
+
+                <th class="schools-table__actions-header">
+                  ACTIONS
+                </th>
+
+              }
+
+            </tr>
+
+          </thead>
+
+
+          <!-- Table body. -->
+          <tbody>
+
+            @for (
+              school of filteredSchools();
+              track school.id
+            ) {
+
+              <tr>
+
+                <!-- School name. -->
+                <td>
+
+                  <button
+                    type="button"
+                    class="school-name-button"
+                    [title]="school.schoolName"
+                    (click)="viewSchool(school); $event.stopPropagation()"
+                  >
+
+                    {{ school.schoolName }}
+
+                  </button>
+
+                </td>
+
+
+                <!-- DISE code. -->
+                <td>
+
+                  <span class="school-dise">
+                    {{ school.diseCode }}
+                  </span>
+
+                </td>
+
+
+                <!-- Email. -->
+                <td>
+
+                  <span
+                    class="school-email"
+                    [title]="school.email"
+                  >
+                    {{ school.email }}
+                  </span>
+
+                </td>
+
+
+                <!-- Phone. -->
+                <td>
+
+                  <span class="school-phone">
+                    {{ school.phoneNumber }}
+                  </span>
+
+                </td>
+
+
+                <!-- Status. -->
+                <td>
+
+                  <span
+                    class="status-badge"
+                    [class.status-badge--active]="school.active"
+                    [class.status-badge--inactive]="!school.active"
+                  >
+
+                    <span class="status-badge__dot"></span>
+
+                    {{ school.active ? 'Active' : 'Inactive' }}
+
+                  </span>
+
+                </td>
+
+
+                <!-- Created date. -->
+                <td>
+
+                  <span class="school-created">
+                    {{ school.createdAt | date:'dd MMM yyyy' }}
+                  </span>
+
+                </td>
+
+
+                <!-- Actions. -->
+                @if (isSuperAdmin) {
+
+                  <td
+                    class="schools-table__actions"
+                    (click)="$event.stopPropagation()"
+                  >
+
+                    <!-- Actions button. -->
+                    <button
+                      type="button"
+                      class="actions-button"
+                      aria-label="School actions"
+                      (click)="toggleActions(school.id)"
+                    >
+
+                      <span class="material-symbols-outlined">
+                        more_vert
+                      </span>
+
+                    </button>
+
+
+                    <!-- Action menu. -->
+                    @if (
+                      openActionSchoolId() === school.id
+                    ) {
+
+                      <div
+                        class="actions-menu"
+                        (click)="$event.stopPropagation()"
+                      >
+
+                        <!-- View. -->
+                        <button
+                          type="button"
+                          (click)="viewSchool(school)"
+                        >
+
+                          <span class="material-symbols-outlined">
+                            visibility
+                          </span>
+
+                          <span>
+                            View
+                          </span>
+
+                        </button>
+
+
+                        <!-- Edit. -->
+                        <button
+                          type="button"
+                          (click)="openEditSchool(school)"
+                        >
+
+                          <span class="material-symbols-outlined">
+                            edit
+                          </span>
+
+                          <span>
+                            Edit
+                          </span>
+
+                        </button>
+
+
+                        <!-- Activate / Deactivate. -->
+                        <button
+                          type="button"
+                          [class.action-danger]="school.active"
+                          (click)="confirmStatusChange(school)"
+                        >
+
+                          <span class="material-symbols-outlined">
+                            {{ school.active ? 'block' : 'check_circle' }}
+                          </span>
+
+                          <span>
+                            {{ school.active ? 'Deactivate' : 'Activate' }}
+                          </span>
+
+                        </button>
+
+                      </div>
+
+                    }
+
+                  </td>
+
+                }
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+  </section>
+
+
+  <!-- ==========================================================
+       VIEW SCHOOL MODAL
+       ========================================================== -->
+
+  @if (
+    viewModalOpen() &&
+    selectedSchool();
+    as school
+  ) {
+
+    <div
+      class="modal-backdrop"
+      (click)="closeViewModal()"
+    >
+
+      <section
+        class="school-modal school-modal--view"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="school-view-title"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- Header. -->
+        <div class="school-modal__header">
+
+          <div>
+
+            <span class="schools-page__eyebrow">
+              SCHOOL DETAILS
+            </span>
+
+            <h2 id="school-view-title">
+              {{ school.schoolName }}
+            </h2>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="modal-close-button"
+            aria-label="Close school details"
+            (click)="closeViewModal()"
+          >
+
+            <span class="material-symbols-outlined">
+              close
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- Details. -->
+        <div class="school-details-grid">
+
+          <div>
+            <span>
+              DISE Code
+            </span>
+
+            <strong>
+              {{ school.diseCode }}
+            </strong>
+          </div>
+
+
+          <div>
+
+            <span>
+              Status
+            </span>
+
+            <strong
+              [class.detail-active]="school.active"
+              [class.detail-inactive]="!school.active"
+            >
+              {{ school.active ? 'Active' : 'Inactive' }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Email
+            </span>
+
+            <strong [title]="school.email">
+              {{ school.email }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Phone
+            </span>
+
+            <strong>
+              {{ school.phoneNumber }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Created
+            </span>
+
+            <strong>
+              {{ school.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Updated
+            </span>
+
+            <strong>
+              {{ school.updatedAt | date:'dd MMM yyyy, hh:mm a' }}
+            </strong>
+
+          </div>
+
+
+          <div class="school-details-grid__full">
+
+            <span>
+              Address
+            </span>
+
+            <strong>
+              {{ school.address }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- Footer. -->
+        <div class="school-modal__footer">
+
+          <button
+            type="button"
+            class="secondary-button"
+            (click)="closeViewModal()"
+          >
+            Close
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  }
+
+
+  <!-- ==========================================================
+       EDIT SCHOOL MODAL
+       ========================================================== -->
+
+  @if (
+    formModalOpen() &&
+    editMode()
+  ) {
+
+    <div
+      class="modal-backdrop"
+      (click)="closeFormModal()"
+    >
+
+      <section
+        class="school-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="school-form-title"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- Header. -->
+        <div class="school-modal__header">
+
+          <div>
+
+            <span class="schools-page__eyebrow">
+              SCHOOL MANAGEMENT
+            </span>
+
+            <h2 id="school-form-title">
+              Edit School
+            </h2>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="modal-close-button"
+            aria-label="Close school form"
+            [disabled]="saving()"
+            (click)="closeFormModal()"
+          >
+
+            <span class="material-symbols-outlined">
+              close
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- Edit form. -->
+        <form
+          class="school-form"
+          [formGroup]="schoolForm"
+          (ngSubmit)="submitSchoolForm()"
+        >
+
+          <!-- School name. -->
+          <div class="form-field">
+
+            <label for="schoolName">
+
+              School Name
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+            <input
+              id="schoolName"
+              type="text"
+              formControlName="schoolName"
+              placeholder="Enter school name"
+            />
+
+
+            @if (
+              isFieldInvalid('schoolName')
+            ) {
+
+              <small>
+                School name is required.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- DISE code. -->
+          <div class="form-field">
+
+            <label for="diseCode">
+
+              DISE Code
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+            <input
+              id="diseCode"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              maxlength="11"
+              formControlName="diseCode"
+              placeholder="Enter 11 digit DISE code"
+            />
+
+
+            @if (
+              schoolForm.get('diseCode')?.touched &&
+              schoolForm.get('diseCode')?.hasError('required')
+            ) {
+
+              <small class="field-error">
+                DISE code is required.
+              </small>
+
+            }
+
+            @else if (
+              schoolForm.get('diseCode')?.touched &&
+              schoolForm.get('diseCode')?.hasError('pattern')
+            ) {
+
+              <small class="field-error">
+                DISE code must be exactly 11 digits.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- Email. -->
+          <div class="form-field">
+
+            <label for="schoolEmail">
+
+              Email
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+            <input
+              id="schoolEmail"
+              type="email"
+              formControlName="email"
+              placeholder="school@example.com"
+            />
+
+
+            @if (
+              isFieldInvalid('email')
+            ) {
+
+              <small>
+                Enter a valid email address.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- Phone. -->
+          <div class="form-field">
+
+            <label for="phoneNumber">
+
+              Phone Number
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+            <input
+              id="phoneNumber"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              maxlength="10"
+              formControlName="phoneNumber"
+              placeholder="Enter 10 digit mobile number"
+            />
+
+
+            @if (
+              schoolForm.get('phoneNumber')?.touched &&
+              schoolForm.get('phoneNumber')?.hasError('required')
+            ) {
+
+              <small class="field-error">
+                Phone number is required.
+              </small>
+
+            }
+
+            @else if (
+              schoolForm.get('phoneNumber')?.touched &&
+              schoolForm.get('phoneNumber')?.hasError('pattern')
+            ) {
+
+              <small class="field-error">
+                Phone number must be exactly 10 digits.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- Address. -->
+          <div class="form-field form-field--full">
+
+            <label for="schoolAddress">
+
+              Address
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+            <textarea
+              id="schoolAddress"
+              rows="3"
+              formControlName="address"
+              placeholder="Enter school address"
+            ></textarea>
+
+
+            @if (
+              isFieldInvalid('address')
+            ) {
+
+              <small>
+                Address is required.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- Footer. -->
+          <div class="school-modal__footer">
+
+            <button
+              type="button"
+              class="secondary-button"
+              [disabled]="saving()"
+              (click)="closeFormModal()"
+            >
+              Cancel
+            </button>
+
+
+            <button
+              type="submit"
+              class="primary-button"
+              [disabled]="saving()"
+            >
+
+              @if (saving()) {
+
+                <span class="button-spinner"></span>
+
+                Saving...
+
+              }
+              @else {
+
+                <span class="material-symbols-outlined">
+                  save
+                </span>
+
+                Update School
+
+              }
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+    </div>
+
+  }
+
+
+  <!-- ==========================================================
+       ACTIVATE / DEACTIVATE CONFIRMATION MODAL
+       ========================================================== -->
+
+  @if (
+    confirmationModalOpen() &&
+    pendingStatusSchool();
+    as school
+  ) {
+
+    <div
+      class="modal-backdrop"
+      (click)="closeConfirmationModal()"
+    >
+
+      <section
+        class="school-modal school-modal--confirmation"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirmation-title"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- Confirmation icon. -->
+        <div
+          class="confirmation-icon"
+          [class.confirmation-icon--danger]="school.active"
+        >
+
+          <span class="material-symbols-outlined">
+
+            {{ school.active ? 'warning' : 'check_circle' }}
+
+          </span>
+
+        </div>
+
+
+        <!-- Confirmation content. -->
+        <div class="confirmation-content">
+
+          <h2 id="confirmation-title">
+
+            {{ school.active
+              ? 'Deactivate School?'
+              : 'Activate School?' }}
+
+          </h2>
+
+
+          <p>
+
+            Are you sure you want to
+            {{ school.active ? 'deactivate' : 'activate' }}
+
+            <strong>
+              {{ school.schoolName }}
+            </strong>?
+
+          </p>
+
+
+          @if (school.active) {
+
+            <p class="confirmation-note">
+
+              The school will remain in the system
+              but will be marked inactive.
+
+            </p>
+
+          }
+
+        </div>
+
+
+        <!-- Confirmation actions. -->
+        <div class="school-modal__footer">
+
+          <button
+            type="button"
+            class="secondary-button"
+            [disabled]="saving()"
+            (click)="closeConfirmationModal()"
+          >
+            Cancel
+          </button>
+
+
+          <button
+            type="button"
+            [class]="
+              school.active
+                ? 'danger-button'
+                : 'primary-button'
+            "
+            [disabled]="saving()"
+            (click)="executeStatusChange()"
+          >
+
+            @if (saving()) {
+
+              <span class="button-spinner"></span>
+
+              Processing...
+
+            }
+            @else {
+
+              <span class="material-symbols-outlined">
+
+                {{ school.active
+                  ? 'block'
+                  : 'check_circle' }}
+
+              </span>
+
+              {{ school.active
+                ? 'Deactivate'
+                : 'Activate' }}
+
+            }
+
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  }
+
+
+  <!-- ==========================================================
+       REUSABLE ADD SCHOOL MODAL
+       ========================================================== -->
+
+  @if (addSchoolModalOpen()) {
+
+    <app-add-school-modal
+      (created)="onSchoolCreated($event)"
+      (closed)="closeAddSchoolModal()"
+    />
+
+  }
+
+</div>

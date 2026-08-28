@@ -1,0 +1,793 @@
+<!-- ==========================================================
+     EDUFORGE - SUPER ADMIN DASHBOARD
+     ========================================================== -->
+
+<div class="dashboard-page">
+
+  <!-- ========================================================
+       HEADER
+       ======================================================== -->
+
+  <section class="dashboard-header-section">
+
+    <app-dashboard-header
+      (addSchool)="openAddSchool()"
+    ></app-dashboard-header>
+
+  </section>
+
+
+  <!-- ========================================================
+       KPI STATISTICS
+       ======================================================== -->
+
+  <section class="dashboard-stats-section">
+
+    <app-dashboard-stat-cards
+      [stats]="stats()"
+    ></app-dashboard-stat-cards>
+
+  </section>
+
+
+  <!-- ========================================================
+       MAIN CONTENT
+       ======================================================== -->
+
+  <section class="dashboard-content">
+
+    <!-- ======================================================
+         SCHOOLS OVERVIEW
+         ====================================================== -->
+
+    <div class="dashboard-card dashboard-table-card">
+
+      <app-data-table
+        [schools]="schools()"
+        (view)="onDashboardViewSchool($event)"
+        (edit)="onDashboardEditSchool($event)"
+        (statusChange)="onDashboardStatusChange($event)"
+      ></app-data-table>
+
+    </div>
+
+
+    <!-- ======================================================
+         PLATFORM ACTIVITY
+         ====================================================== -->
+
+    <div class="dashboard-card dashboard-activity-card">
+
+      <app-activity-feed></app-activity-feed>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================================
+       ADD SCHOOL
+       ======================================================== -->
+
+  @if (addSchoolModalOpen()) {
+
+    <app-add-school-modal
+      (created)="onSchoolCreated($event)"
+      (closed)="closeAddSchoolModal()"
+    ></app-add-school-modal>
+
+  }
+
+
+  <!-- ========================================================
+       VIEW SCHOOL
+       ======================================================== -->
+
+  @if (viewModalOpen() && selectedSchool()) {
+
+    <div
+      class="dashboard-modal-backdrop"
+      (click)="closeDashboardView()"
+    >
+
+      <section
+        class="dashboard-modal dashboard-modal--view"
+        role="dialog"
+        aria-modal="true"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- ==================================================
+             VIEW HEADER
+             ================================================== -->
+
+        <div class="dashboard-modal__header">
+
+          <div>
+
+            <span class="dashboard-modal__eyebrow">
+              SCHOOL DETAILS
+            </span>
+
+            <h2>
+              {{ selectedSchool()!.schoolName }}
+            </h2>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="dashboard-modal__close"
+            (click)="closeDashboardView()"
+          >
+
+            <span class="material-symbols-outlined">
+              close
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- ==================================================
+             SCHOOL DETAILS
+             ================================================== -->
+
+        <div class="dashboard-details-grid">
+
+          <div>
+
+            <span>
+              DISE Code
+            </span>
+
+            <strong>
+              {{ selectedSchool()!.diseCode }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Status
+            </span>
+
+            <strong
+              [class.dashboard-detail-active]="selectedSchool()!.active"
+              [class.dashboard-detail-inactive]="!selectedSchool()!.active"
+            >
+              {{ selectedSchool()!.active
+                ? 'Active'
+                : 'Inactive' }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Email
+            </span>
+
+            <strong>
+              {{ selectedSchool()!.email }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Phone
+            </span>
+
+            <strong>
+              {{ selectedSchool()!.phoneNumber }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Created
+            </span>
+
+            <strong>
+              {{ selectedSchool()!.createdAt
+                | date:'dd MMM yyyy, hh:mm a' }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Updated
+            </span>
+
+            <strong>
+              {{ selectedSchool()!.updatedAt
+                | date:'dd MMM yyyy, hh:mm a' }}
+            </strong>
+
+          </div>
+
+
+          <div
+            class="dashboard-details-grid__full"
+          >
+
+            <span>
+              Address
+            </span>
+
+            <strong>
+              {{ selectedSchool()!.address }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             VIEW FOOTER
+             ================================================== -->
+
+        <div class="dashboard-modal__footer">
+
+          <button
+            type="button"
+            class="dashboard-secondary-button"
+            (click)="closeDashboardView()"
+          >
+            Close
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================
+       EDIT SCHOOL
+       ======================================================== -->
+
+  @if (editModalOpen()) {
+
+    <div
+      class="dashboard-modal-backdrop"
+      (click)="closeDashboardEdit()"
+    >
+
+      <section
+        class="dashboard-modal"
+        role="dialog"
+        aria-modal="true"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- ==================================================
+             EDIT HEADER
+             ================================================== -->
+
+        <div class="dashboard-modal__header">
+
+          <div>
+
+            <span class="dashboard-modal__eyebrow">
+              SCHOOL MANAGEMENT
+            </span>
+
+            <h2>
+              Edit School
+            </h2>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="dashboard-modal__close"
+            [disabled]="saving()"
+            (click)="closeDashboardEdit()"
+          >
+
+            <span class="material-symbols-outlined">
+              close
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- ==================================================
+             EDIT FORM
+             ================================================== -->
+
+        <form
+          class="dashboard-school-form"
+          [formGroup]="schoolForm"
+          (ngSubmit)="submitDashboardEdit()"
+        >
+
+          <!-- SCHOOL NAME -->
+
+          <div class="dashboard-form-field">
+
+            <label for="dashboardSchoolName">
+
+              School Name
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+
+            <input
+              id="dashboardSchoolName"
+              type="text"
+              formControlName="schoolName"
+              placeholder="Enter school name"
+            />
+
+
+            @if (isFieldInvalid('schoolName')) {
+
+              <small>
+                School name is required.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- DISE CODE -->
+
+          <div class="dashboard-form-field">
+
+            <label for="dashboardDiseCode">
+
+              DISE Code
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+
+            <input
+              id="dashboardDiseCode"
+              type="text"
+              inputmode="numeric"
+              maxlength="11"
+              formControlName="diseCode"
+              placeholder="Enter 11 digit DISE code"
+            />
+
+
+            @if (
+              schoolForm.get('diseCode')?.touched &&
+              schoolForm.get('diseCode')?.hasError('required')
+            ) {
+
+              <small>
+                DISE code is required.
+              </small>
+
+            }
+            @else if (
+              schoolForm.get('diseCode')?.touched &&
+              schoolForm.get('diseCode')?.hasError('pattern')
+            ) {
+
+              <small>
+                DISE code must be exactly 11 digits.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- EMAIL -->
+
+          <div class="dashboard-form-field">
+
+            <label for="dashboardEmail">
+
+              Email
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+
+            <input
+              id="dashboardEmail"
+              type="email"
+              formControlName="email"
+              placeholder="school@example.com"
+            />
+
+
+            @if (isFieldInvalid('email')) {
+
+              <small>
+                Enter a valid email address.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- PHONE -->
+
+          <div class="dashboard-form-field">
+
+            <label for="dashboardPhone">
+
+              Phone Number
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+
+            <input
+              id="dashboardPhone"
+              type="text"
+              inputmode="numeric"
+              maxlength="10"
+              formControlName="phoneNumber"
+              placeholder="Enter 10 digit mobile number"
+            />
+
+
+            @if (
+              schoolForm.get('phoneNumber')?.touched &&
+              schoolForm.get('phoneNumber')?.hasError('required')
+            ) {
+
+              <small>
+                Phone number is required.
+              </small>
+
+            }
+            @else if (
+              schoolForm.get('phoneNumber')?.touched &&
+              schoolForm.get('phoneNumber')?.hasError('pattern')
+            ) {
+
+              <small>
+                Phone number must be exactly 10 digits.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ADDRESS -->
+
+          <div
+            class="dashboard-form-field dashboard-form-field--full"
+          >
+
+            <label for="dashboardAddress">
+
+              Address
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+
+            <textarea
+              id="dashboardAddress"
+              rows="3"
+              formControlName="address"
+              placeholder="Enter school address"
+            ></textarea>
+
+
+            @if (isFieldInvalid('address')) {
+
+              <small>
+                Address is required.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ==================================================
+               EDIT FOOTER
+               ================================================== -->
+
+          <div class="dashboard-modal__footer">
+
+            <button
+              type="button"
+              class="dashboard-secondary-button"
+              [disabled]="saving()"
+              (click)="closeDashboardEdit()"
+            >
+              Cancel
+            </button>
+
+
+            <button
+              type="submit"
+              class="dashboard-primary-button"
+              [disabled]="saving()"
+            >
+
+              @if (saving()) {
+
+                Saving...
+
+              }
+              @else {
+
+                <span class="material-symbols-outlined">
+                  save
+                </span>
+
+                Update School
+
+              }
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================
+       ACTIVATE / DEACTIVATE
+       ======================================================== -->
+
+  @if (
+    confirmationModalOpen() &&
+    pendingStatusSchool()
+  ) {
+
+    <div
+      class="dashboard-modal-backdrop"
+      (click)="closeDashboardConfirmation()"
+    >
+
+      <section
+        class="dashboard-modal dashboard-modal--confirmation"
+        role="dialog"
+        aria-modal="true"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- ==================================================
+             CONFIRMATION ICON
+             ================================================== -->
+
+        <div class="dashboard-confirmation-icon">
+
+          <span class="material-symbols-outlined">
+
+            {{ pendingStatusSchool()!.active
+              ? 'warning'
+              : 'check_circle' }}
+
+          </span>
+
+        </div>
+
+
+        <!-- ==================================================
+             CONFIRMATION CONTENT
+             ================================================== -->
+
+        <div class="dashboard-confirmation-content">
+
+          <h2>
+
+            {{ pendingStatusSchool()!.active
+              ? 'Deactivate School?'
+              : 'Activate School?' }}
+
+          </h2>
+
+
+          <p>
+
+            Are you sure you want to
+            {{ pendingStatusSchool()!.active
+              ? 'deactivate'
+              : 'activate' }}
+
+            <strong>
+              {{ pendingStatusSchool()!.schoolName }}
+            </strong>?
+
+          </p>
+
+
+          @if (pendingStatusSchool()!.active) {
+
+            <p class="dashboard-confirmation-note">
+
+              The school will remain in the system
+              but will be marked inactive.
+
+            </p>
+
+          }
+
+        </div>
+
+
+        <!-- ==================================================
+             CONFIRMATION FOOTER
+             ================================================== -->
+
+        <div class="dashboard-modal__footer">
+
+          <button
+            type="button"
+            class="dashboard-secondary-button"
+            [disabled]="saving()"
+            (click)="closeDashboardConfirmation()"
+          >
+            Cancel
+          </button>
+
+
+          <button
+            type="button"
+            [class.dashboard-danger-button]="
+              pendingStatusSchool()!.active
+            "
+            [class.dashboard-primary-button]="
+              !pendingStatusSchool()!.active
+            "
+            [disabled]="saving()"
+            (click)="executeDashboardStatusChange()"
+          >
+
+            @if (saving()) {
+
+              Processing...
+
+            }
+            @else {
+
+              <span class="material-symbols-outlined">
+
+                {{ pendingStatusSchool()!.active
+                  ? 'block'
+                  : 'check_circle' }}
+
+              </span>
+
+
+              {{ pendingStatusSchool()!.active
+                ? 'Deactivate'
+                : 'Activate' }}
+
+            }
+
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================
+       SUCCESS MESSAGE
+       ======================================================== -->
+
+  @if (successMessage()) {
+
+    <div
+      class="dashboard-notification dashboard-notification--success"
+    >
+
+      <span class="material-symbols-outlined">
+        check_circle
+      </span>
+
+
+      <span>
+        {{ successMessage() }}
+      </span>
+
+
+      <button
+        type="button"
+        (click)="clearSuccess()"
+      >
+
+        <span class="material-symbols-outlined">
+          close
+        </span>
+
+      </button>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================
+       ERROR MESSAGE
+       ======================================================== -->
+
+  @if (errorMessage()) {
+
+    <div
+      class="dashboard-notification dashboard-notification--error"
+    >
+
+      <span class="material-symbols-outlined">
+        error
+      </span>
+
+
+      <span>
+        {{ errorMessage() }}
+      </span>
+
+
+      <button
+        type="button"
+        (click)="clearError()"
+      >
+
+        <span class="material-symbols-outlined">
+          close
+        </span>
+
+      </button>
+
+    </div>
+
+  }
+
+</div>

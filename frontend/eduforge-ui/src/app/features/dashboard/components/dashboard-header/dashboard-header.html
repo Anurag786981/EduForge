@@ -1,0 +1,22 @@
+<div class="dashboard-header">
+
+  <div class="dashboard-header__content">
+    <h1 class="dashboard-header__title">
+      {{ title }}
+    </h1>
+
+    <p class="dashboard-header__subtitle">
+      {{ subtitle }}
+    </p>
+  </div>
+
+ <button
+  type="button"
+  class="dashboard-header__action"
+  (click)="addSchool.emit()"
+>
+    <span class="dashboard-header__action-icon" aria-hidden="true">+</span>
+    <span>Add School</span>
+  </button>
+
+</div>

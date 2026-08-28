@@ -1,0 +1,64 @@
+<button
+  type="button"
+  class="profile-menu__trigger"
+  [matMenuTriggerFor]="menu"
+  [attr.aria-label]="userName() + ' profile menu'">
+
+  <div class="profile-menu__avatar-wrapper">
+
+    <div class="profile-menu__avatar">
+      {{ initials }}
+    </div>
+
+    <span
+      class="profile-menu__status-dot"
+      [class.profile-menu__status-dot--online]="status() === 'online'"
+      [class.profile-menu__status-dot--away]="status() === 'away'"
+      [class.profile-menu__status-dot--offline]="status() === 'offline'"
+      [attr.title]="statusLabel"
+      [attr.aria-label]="statusLabel">
+    </span>
+
+  </div>
+
+  <div class="profile-menu__info">
+
+    <span class="profile-menu__name">
+      {{ userName() }}
+    </span>
+
+    <span class="profile-menu__role">
+      {{ userRole() }}
+    </span>
+
+  </div>
+
+  <mat-icon class="profile-menu__chevron">
+    expand_more
+  </mat-icon>
+
+</button>
+
+
+<mat-menu #menu="matMenu" xPosition="before">
+
+  <button mat-menu-item disabled>
+    <mat-icon>person</mat-icon>
+    <span>My Profile</span>
+  </button>
+
+  <button mat-menu-item disabled>
+    <mat-icon>settings</mat-icon>
+    <span>Account Settings</span>
+  </button>
+
+  <mat-divider></mat-divider>
+
+  <button
+    mat-menu-item
+    (click)="logout.emit()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+
+</mat-menu>

@@ -1,0 +1,466 @@
+/* ==========================================================
+   EduForge - School Switcher
+   Theme-friendly + compact
+   ========================================================== */
+
+.school-switcher {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 16px 10px;
+
+  background: var(--ef-bg);
+  border-bottom: 1px solid var(--ef-divider);
+}
+
+/* ==========================================================
+   ORGANIZATION HEADING
+   ========================================================== */
+
+.school-switcher__heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin: 0 0 6px;
+
+  color: var(--ef-text-muted);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.school-switcher__heading-icon {
+  width: 16px;
+
+  font-size: 17px;
+  line-height: 16px;
+
+  color: var(--ef-text-muted);
+}
+
+/* ==========================================================
+   SCHOOL SELECTOR
+   ========================================================== */
+
+.school-selector {
+  width: 100%;
+  height: 50px;
+  min-height: 50px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+  padding: 7px 10px;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 9px;
+
+  background: var(--ef-surface);
+  color: var(--ef-text);
+
+  text-align: left;
+  cursor: pointer;
+
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    border-color .15s ease,
+    background-color .15s ease,
+    box-shadow .18s ease,
+    transform .12s ease;
+}
+
+.school-selector::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    120deg,
+    rgba(37, 99, 235, 0) 0%,
+    rgba(37, 99, 235, .05) 50%,
+    rgba(37, 99, 235, 0) 100%
+  );
+
+  transform: translateX(-100%);
+
+  pointer-events: none;
+}
+
+.school-selector:not(:disabled):hover {
+  border-color: var(--ef-primary);
+  background: var(--ef-surface-hover);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, .12);
+}
+
+.school-selector:not(:disabled):hover::before {
+  transform: translateX(100%);
+  transition: transform .6s ease;
+}
+
+.school-selector:not(:disabled):active {
+  transform: scale(.99);
+}
+
+.school-selector--open {
+  border-color: var(--ef-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, .1),
+    0 6px 16px rgba(37, 99, 235, .1);
+}
+
+.school-selector:focus-visible {
+  outline: 2px solid var(--ef-primary-light);
+  outline-offset: 2px;
+}
+
+.school-selector:disabled {
+  cursor: default;
+}
+
+/* ==========================================================
+   SELECTED SCHOOL CONTENT
+   ========================================================== */
+
+.school-selector__content {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 1px;
+}
+
+.school-selector__content strong {
+  max-width: 235px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--ef-text-primary);
+
+  font-size: 13px;
+  line-height: 17px;
+  font-weight: 600;
+}
+
+.school-selector__content small {
+  color: var(--ef-text-secondary);
+
+  font-size: 10px;
+  line-height: 13px;
+
+  letter-spacing: .01em;
+}
+
+/* ==========================================================
+   ARROW
+   ========================================================== */
+
+.school-selector__arrow {
+  flex: 0 0 auto;
+
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  text-align: center;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 20px;
+  line-height: 18px;
+
+  transition:
+    color .15s ease,
+    background-color .15s ease;
+}
+
+.school-selector--open .school-selector__arrow {
+  color: var(--ef-primary);
+  background: rgba(37, 99, 235, .1);
+}
+
+/* ==========================================================
+   SCHOOL DROPDOWN
+   ========================================================== */
+
+.school-dropdown {
+  position: absolute;
+
+  z-index: 1000;
+
+  left: 0;
+  right: 0;
+
+  top: calc(100% - 3px);
+
+  max-height: 210px;
+  overflow-y: auto;
+
+  box-sizing: border-box;
+
+  padding: 6px;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 10px;
+
+  background: var(--ef-surface);
+
+  box-shadow:
+    0 14px 32px rgba(15, 23, 42, .18),
+    0 4px 10px rgba(15, 23, 42, .08);
+
+  backdrop-filter: blur(6px);
+
+  transform-origin: top center;
+
+  animation: school-dropdown-in .18s cubic-bezier(.16, 1, .3, 1);
+}
+
+@keyframes school-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================
+   SCHOOL OPTION
+   ========================================================== */
+
+.school-option {
+  width: 100%;
+  min-height: 45px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 6px 10px;
+  margin-bottom: 2px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: var(--ef-text);
+
+  text-align: left;
+  cursor: pointer;
+
+  position: relative;
+
+  transition:
+    background-color .15s ease,
+    transform .12s ease,
+    padding-left .15s ease;
+}
+
+.school-option:last-child {
+  margin-bottom: 0;
+}
+
+.school-option::before {
+  content: '';
+
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+
+  width: 3px;
+  border-radius: 3px;
+
+  background: var(--ef-primary);
+
+  opacity: 0;
+  transform: scaleY(.4);
+
+  transition:
+    opacity .15s ease,
+    transform .15s ease;
+}
+
+.school-option:hover {
+  background: var(--ef-surface-hover);
+  padding-left: 13px;
+}
+
+.school-option:hover::before {
+  opacity: .4;
+  transform: scaleY(1);
+}
+
+.school-option:active {
+  transform: scale(.98);
+}
+
+.school-option:focus-visible {
+  outline: 2px solid var(--ef-primary-light);
+  outline-offset: -2px;
+}
+
+.school-option--selected {
+  background: var(--ef-primary-light);
+}
+
+.school-option--selected::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.school-option--selected:hover {
+  background: var(--ef-primary-light);
+}
+
+/* ==========================================================
+   OPTION CONTENT
+   ========================================================== */
+
+.school-option__content {
+  min-width: 0;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
+}
+
+.school-option__content strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--ef-text-primary);
+
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
+.school-option__content small {
+  color: var(--ef-text-secondary);
+
+  font-size: 9px;
+  line-height: 12px;
+}
+
+/* ==========================================================
+   SELECTED CHECK
+   ========================================================== */
+
+.school-option__check {
+  flex: 0 0 auto;
+
+  width: 18px;
+  height: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--ef-primary);
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  animation: school-check-in .18s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes school-check-in {
+  from {
+    opacity: 0;
+    transform: scale(.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==========================================================
+   DROPDOWN SCROLLBAR
+   ========================================================== */
+
+.school-dropdown::-webkit-scrollbar {
+  width: 5px;
+}
+
+.school-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.school-dropdown::-webkit-scrollbar-thumb {
+  background: var(--ef-border);
+  border-radius: 10px;
+}
+
+.school-dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--ef-text-disabled);
+}
+
+/* ==========================================================
+   COLLAPSED SIDEBAR
+   ========================================================== */
+
+:host-context(.sidebar--collapsed) .school-switcher {
+  padding: 8px 7px;
+}
+
+:host-context(.sidebar--collapsed)
+.school-switcher__heading span:last-child,
+:host-context(.sidebar--collapsed)
+.school-selector__content,
+:host-context(.sidebar--collapsed)
+.school-selector__arrow {
+  display: none;
+}
+
+:host-context(.sidebar--collapsed) .school-selector {
+  justify-content: center;
+
+  height: 40px;
+  min-height: 40px;
+
+  padding: 6px;
+
+  border: 0;
+
+  background: transparent;
+}
+
+:host-context(.sidebar--collapsed) .school-dropdown {
+  left: 58px;
+  right: auto;
+
+  top: 8px;
+
+  width: 250px;
+}

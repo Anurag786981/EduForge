@@ -1,0 +1,338 @@
+<div class="modal-backdrop" (click)="close()">
+
+  <section
+    class="school-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="school-form-title"
+    (click)="$event.stopPropagation()"
+  >
+
+    <!-- =====================================================
+         MODAL HEADER
+         ===================================================== -->
+
+    <div class="school-modal__header">
+
+      <div>
+
+        <span class="schools-page__eyebrow">
+          SCHOOL MANAGEMENT
+        </span>
+
+        <h2 id="school-form-title">
+          Add School
+        </h2>
+
+      </div>
+
+
+      <!-- Close button -->
+
+      <button
+        type="button"
+        class="modal-close-button"
+        aria-label="Close add school form"
+        [disabled]="saving()"
+        (click)="close()"
+      >
+
+        <span class="material-symbols-outlined">
+          close
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         ERROR MESSAGE
+         ===================================================== -->
+
+    @if (errorMessage()) {
+
+      <div class="schools-alert schools-alert--error">
+
+        <span class="material-symbols-outlined">
+          error
+        </span>
+
+        <span>
+          {{ errorMessage() }}
+        </span>
+
+        <button
+          type="button"
+          aria-label="Close error message"
+          (click)="errorMessage.set('')"
+        >
+
+          <span class="material-symbols-outlined">
+            close
+          </span>
+
+        </button>
+
+      </div>
+
+    }
+
+
+    <!-- =====================================================
+         ADD SCHOOL FORM
+         ===================================================== -->
+
+    <form
+      class="school-form"
+      [formGroup]="schoolForm"
+      (ngSubmit)="submit()"
+    >
+
+
+      <!-- ===================================================
+           SCHOOL NAME
+           =================================================== -->
+
+      <div class="form-field">
+
+        <label for="addSchoolName">
+          School Name
+          <span>*</span>
+        </label>
+
+        <input
+          id="addSchoolName"
+          type="text"
+          formControlName="schoolName"
+          placeholder="Enter school name"
+          autocomplete="organization"
+        />
+
+        @if (
+          isFieldInvalid('schoolName')
+        ) {
+
+          <small class="field-error">
+
+            School name is required.
+
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- ===================================================
+           DISE CODE
+           =================================================== -->
+
+      <div class="form-field">
+
+        <label for="addDiseCode">
+          DISE Code
+          <span>*</span>
+        </label>
+
+        <input
+          id="addDiseCode"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          maxlength="11"
+          formControlName="diseCode"
+          placeholder="Enter 11 digit DISE code"
+        />
+
+
+        @if (
+          schoolForm.get('diseCode')?.touched &&
+          schoolForm.get('diseCode')?.hasError('required')
+        ) {
+
+          <small class="field-error">
+            DISE code is required.
+          </small>
+
+        }
+
+        @else if (
+          schoolForm.get('diseCode')?.touched &&
+          schoolForm.get('diseCode')?.hasError('pattern')
+        ) {
+
+          <small class="field-error">
+            DISE code must be exactly 11 digits.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- ===================================================
+           EMAIL
+           =================================================== -->
+
+      <div class="form-field">
+
+        <label for="addSchoolEmail">
+          Email
+          <span>*</span>
+        </label>
+
+        <input
+          id="addSchoolEmail"
+          type="email"
+          formControlName="email"
+          placeholder="school@example.com"
+          autocomplete="email"
+        />
+
+        @if (
+          isFieldInvalid('email')
+        ) {
+
+          <small class="field-error">
+            Enter a valid email address.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- ===================================================
+           PHONE NUMBER
+           =================================================== -->
+
+      <div class="form-field">
+
+        <label for="addPhoneNumber">
+          Phone Number
+          <span>*</span>
+        </label>
+
+        <input
+          id="addPhoneNumber"
+          type="text"
+          inputmode="numeric"
+          autocomplete="tel"
+          maxlength="10"
+          formControlName="phoneNumber"
+          placeholder="Enter 10 digit mobile number"
+        />
+
+
+        @if (
+          schoolForm.get('phoneNumber')?.touched &&
+          schoolForm.get('phoneNumber')?.hasError('required')
+        ) {
+
+          <small class="field-error">
+            Phone number is required.
+          </small>
+
+        }
+
+        @else if (
+          schoolForm.get('phoneNumber')?.touched &&
+          schoolForm.get('phoneNumber')?.hasError('pattern')
+        ) {
+
+          <small class="field-error">
+            Please enter valid 10 digit mobile number.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- ===================================================
+           ADDRESS
+           =================================================== -->
+
+      <div class="form-field form-field--full">
+
+        <label for="addSchoolAddress">
+          Address
+          <span>*</span>
+        </label>
+
+        <textarea
+          id="addSchoolAddress"
+          rows="3"
+          formControlName="address"
+          placeholder="Enter school address"
+        ></textarea>
+
+        @if (
+          isFieldInvalid('address')
+        ) {
+
+          <small class="field-error">
+            Address is required.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- ===================================================
+           FORM FOOTER
+           =================================================== -->
+
+      <div class="school-modal__footer">
+
+        <!-- Cancel -->
+
+        <button
+          type="button"
+          class="secondary-button"
+          [disabled]="saving()"
+          (click)="close()"
+        >
+
+          Cancel
+
+        </button>
+
+
+        <!-- Create -->
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="saving()"
+        >
+
+          @if (saving()) {
+
+            <span class="button-spinner"></span>
+
+            Saving...
+
+          }
+
+          @else {
+
+            <span class="material-symbols-outlined">
+              add_business
+            </span>
+
+            Create School
+
+          }
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+</div>

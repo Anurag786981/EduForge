@@ -1,24 +1,61 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './features/auth/login/login.component';
-import {TeacherSidebarComponent} from './features/teacher/teacher-sidebar/teacher-sidebar.component';
-import {TeacherDashboardComponent} from './features/teacher/teacher-dashboard/teacher-dashboard.component';
-import { TodayComponent } from './features/teacher/pages/today/today.component';
-import { teacherChildRoutes } from './teacher.routes';
 
-
+import { authGuard } from './core/auth/guards/auth.guard';
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
+
+  // Login page does not require authentication.
   {
     path: 'login',
-    component: LoginComponent
+    loadComponent: () =>
+      import('./features/auth/login/login.component')
+        .then(c => c.LoginComponent)
   },
+
+
+  // Application shell for authenticated users.
   {
-    path: 'teacher-dashboard',
-    component: TeacherDashboardComponent,
-    children: teacherChildRoutes
+    path: '',
+
+    loadComponent: () =>
+      import('./core/layout/layout/layout.component')
+        .then(c => c.LayoutComponent),
+
+    // Check authentication and role for every child route.
+    canActivateChild: [authGuard],
+
+    children: [
+
+      // Redirect the application root to Dashboard.
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+
+
+      // Dashboard is available to authenticated users.
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/dashboard')
+            .then(c => c.Dashboard)
+      },
+
+
+      // All-schools management is Super Admin only.
+      {
+        path: 'schools',
+        loadComponent: () =>
+          import('./features/schools/schools/schools')
+            .then(c => c.Schools),
+
+        // Only Super Admin can access all schools.
+        data: {
+          roles: ['SUPER_ADMIN']
+        }
+      }
+
+    ]
   }
+
 ];

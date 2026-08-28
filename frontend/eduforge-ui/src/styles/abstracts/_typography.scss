@@ -1,0 +1,35 @@
+/* ==========================================================
+   EduForge Design System
+   Typography Tokens
+   ========================================================== */
+
+:root {
+
+  /* ---------- Font Family ---------- */
+
+  --ef-font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* ---------- Font Size ---------- */
+
+  --ef-font-xs: 12px;
+  --ef-font-sm: 14px;
+  --ef-font-md: 16px;
+  --ef-font-lg: 18px;
+  --ef-font-xl: 20px;
+  --ef-font-2xl: 24px;
+  --ef-font-3xl: 32px;
+
+  /* ---------- Font Weight ---------- */
+
+  --ef-fw-regular: 400;
+  --ef-fw-medium: 500;
+  --ef-fw-semibold: 600;
+  --ef-fw-bold: 700;
+
+  /* ---------- Line Height ---------- */
+
+  --ef-line-tight: 1.2;
+  --ef-line-normal: 1.5;
+  --ef-line-relaxed: 1.75;
+
+}

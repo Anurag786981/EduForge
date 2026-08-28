@@ -1,0 +1,68 @@
+/* ==========================================================
+   EduForge Design System
+   ========================================================== */
+
+/* ==========================
+   ABSTRACTS
+========================== */
+
+@use "abstracts/colors";
+@use "abstracts/spacing";
+@use "abstracts/typography";
+@use "abstracts/radius";
+@use "abstracts/shadows";
+@use "abstracts/animations";
+@use "abstracts/mixins";
+
+/* ==========================
+   BASE
+========================== */
+
+@use "base/reset";
+@use "base/global";
+@use "base/scrollbar";
+
+/* ==========================
+   THEMES
+========================== */
+
+@use "themes/light";
+@use "themes/dark";
+
+/* ==========================================================
+   MATERIAL SYMBOLS
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300,0,0');
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+
+  font-weight: 400;
+  font-style: normal;
+
+  font-size: 20px;
+  line-height: 1;
+
+  letter-spacing: normal;
+  text-transform: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+
+  font-feature-settings: 'liga';
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}

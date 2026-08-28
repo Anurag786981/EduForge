@@ -1,0 +1,617 @@
+/* ==========================================================
+   EDUFORGE DASHBOARD
+   ========================================================== */
+
+
+/* ==========================================================
+   DASHBOARD SECTION SPACING
+   ========================================================== */
+
+.dashboard-stats-section {
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
+
+
+/* ==========================================================
+   DASHBOARD MAIN CONTENT GRID
+   ========================================================== */
+
+.dashboard-content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(320px, 1fr);
+
+  gap: 20px;
+
+  align-items: stretch;
+
+  margin-top: 0;
+}
+
+
+/* ==========================================================
+   DASHBOARD CONTENT CARDS
+   ========================================================== */
+
+.dashboard-table-card,
+.dashboard-activity-card {
+  min-width: 0;
+
+  overflow: visible;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 12px;
+
+  background: var(--ef-surface);
+}
+
+
+.dashboard-activity-card {
+  min-height: 100%;
+}
+
+
+/* ==========================================================
+   TABLE CARD
+   ========================================================== */
+
+.dashboard-table-card {
+  overflow: visible;
+}
+
+
+/* ==========================================================
+   MODAL BACKDROP
+   ========================================================== */
+
+.dashboard-modal-backdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(0, 0, 0, 0.55);
+}
+
+
+/* ==========================================================
+   MODAL
+   ========================================================== */
+
+.dashboard-modal {
+  width: min(720px, 100%);
+
+  max-height: calc(100vh - 48px);
+
+  overflow-y: auto;
+
+  border: 1px solid var(--ef-border);
+
+  border-radius: 12px;
+
+  background: var(--ef-surface);
+
+  box-shadow: var(--ef-shadow-lg);
+}
+
+
+.dashboard-modal--view {
+  width: min(760px, 100%);
+}
+
+
+.dashboard-modal--confirmation {
+  width: min(440px, 100%);
+
+  text-align: center;
+}
+
+
+/* ==========================================================
+   MODAL HEADER
+   ========================================================== */
+
+.dashboard-modal__header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding: 22px 24px;
+
+  border-bottom: 1px solid var(--ef-border);
+}
+
+
+.dashboard-modal__eyebrow {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--ef-primary);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+}
+
+
+.dashboard-modal__header h2 {
+  margin: 0;
+
+  color: var(--ef-text-primary);
+
+  font-size: 20px;
+  font-weight: 650;
+}
+
+
+.dashboard-modal__close {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  padding: 0;
+
+  border: 0;
+
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: var(--ef-text-secondary);
+
+  cursor: pointer;
+}
+
+
+.dashboard-modal__close:hover {
+  background: var(--ef-surface-hover);
+
+  color: var(--ef-text-primary);
+}
+
+
+/* ==========================================================
+   VIEW SCHOOL DETAILS
+   ========================================================== */
+
+.dashboard-details-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 18px;
+
+  padding: 24px;
+}
+
+
+.dashboard-details-grid > div {
+  min-width: 0;
+}
+
+
+.dashboard-details-grid span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 11px;
+}
+
+
+.dashboard-details-grid strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: var(--ef-text-primary);
+
+  font-size: 13px;
+
+  text-overflow: ellipsis;
+}
+
+
+.dashboard-details-grid__full {
+  grid-column: 1 / -1;
+}
+
+
+.dashboard-detail-active {
+  color: var(--ef-success) !important;
+}
+
+
+.dashboard-detail-inactive {
+  color: var(--ef-danger) !important;
+}
+
+
+/* ==========================================================
+   EDIT SCHOOL FORM
+   ========================================================== */
+
+.dashboard-school-form {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 18px;
+
+  padding: 24px;
+}
+
+
+.dashboard-form-field {
+  min-width: 0;
+}
+
+
+.dashboard-form-field--full {
+  grid-column: 1 / -1;
+}
+
+
+.dashboard-form-field label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--ef-text-primary);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.dashboard-form-field label span {
+  color: var(--ef-danger);
+}
+
+
+.dashboard-form-field input,
+.dashboard-form-field textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 11px;
+
+  border: 1px solid var(--ef-border);
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: var(--ef-bg);
+
+  color: var(--ef-text-primary);
+
+  font: inherit;
+
+  font-size: 13px;
+}
+
+
+.dashboard-form-field input {
+  height: 40px;
+}
+
+
+.dashboard-form-field textarea {
+  resize: vertical;
+}
+
+
+.dashboard-form-field input:focus,
+.dashboard-form-field textarea:focus {
+  border-color: var(--ef-primary);
+}
+
+
+.dashboard-form-field small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--ef-danger);
+
+  font-size: 11px;
+}
+
+
+/* ==========================================================
+   MODAL FOOTER
+   ========================================================== */
+
+.dashboard-modal__footer {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  padding: 18px 24px;
+
+  border-top: 1px solid var(--ef-border);
+}
+
+
+/* ==========================================================
+   BUTTONS
+   ========================================================== */
+
+.dashboard-primary-button,
+.dashboard-secondary-button,
+.dashboard-danger-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  min-height: 38px;
+
+  padding: 0 15px;
+
+  border-radius: 8px;
+
+  font: inherit;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.dashboard-primary-button {
+  border: 1px solid var(--ef-primary);
+
+  background: var(--ef-primary);
+
+  color: #fff;
+}
+
+
+.dashboard-secondary-button {
+  border: 1px solid var(--ef-border);
+
+  background: transparent;
+
+  color: var(--ef-text-primary);
+}
+
+
+.dashboard-danger-button {
+  border: 1px solid var(--ef-danger);
+
+  background: var(--ef-danger);
+
+  color: #fff;
+}
+
+
+.dashboard-primary-button:disabled,
+.dashboard-secondary-button:disabled,
+.dashboard-danger-button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+
+/* ==========================================================
+   CONFIRMATION MODAL
+   ========================================================== */
+
+.dashboard-confirmation-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 52px;
+  height: 52px;
+
+  margin: 26px auto 14px;
+
+  border-radius: 50%;
+
+  background: color-mix(
+    in srgb,
+    var(--ef-warning) 12%,
+    transparent
+  );
+
+  color: var(--ef-warning);
+}
+
+
+.dashboard-confirmation-content {
+  padding: 0 24px 22px;
+}
+
+
+.dashboard-confirmation-content h2 {
+  margin: 0 0 8px;
+
+  color: var(--ef-text-primary);
+
+  font-size: 18px;
+}
+
+
+.dashboard-confirmation-content p {
+  margin: 0;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+.dashboard-confirmation-content strong {
+  color: var(--ef-text-primary);
+}
+
+
+.dashboard-confirmation-note {
+  margin-top: 10px !important;
+
+  font-size: 12px !important;
+}
+
+
+/* ==========================================================
+   NOTIFICATIONS
+   ========================================================== */
+
+.dashboard-notification {
+  position: fixed;
+
+  right: 24px;
+  bottom: 24px;
+
+  z-index: 1200;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  max-width: 420px;
+
+  padding: 12px 14px;
+
+  border: 1px solid var(--ef-border);
+
+  border-radius: 9px;
+
+  background: var(--ef-surface);
+
+  box-shadow: var(--ef-shadow-lg);
+
+  color: var(--ef-text-primary);
+
+  font-size: 13px;
+}
+
+
+.dashboard-notification--success {
+  border-color: color-mix(
+    in srgb,
+    var(--ef-success) 30%,
+    var(--ef-border)
+  );
+}
+
+
+.dashboard-notification--error {
+  border-color: color-mix(
+    in srgb,
+    var(--ef-danger) 30%,
+    var(--ef-border)
+  );
+}
+
+
+.dashboard-notification button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-left: auto;
+
+  width: 28px;
+  height: 28px;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--ef-text-secondary);
+
+  cursor: pointer;
+}
+
+
+/* ==========================================================
+   DASHBOARD RESPONSIVE GRID
+   ========================================================== */
+
+@media (max-width: 1100px) {
+
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* ==========================================================
+   MODAL RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 700px) {
+
+  .dashboard-modal-backdrop {
+    padding: 12px;
+  }
+
+
+  .dashboard-details-grid,
+  .dashboard-school-form {
+    grid-template-columns: 1fr;
+  }
+
+
+  .dashboard-details-grid__full,
+  .dashboard-form-field--full {
+    grid-column: auto;
+  }
+
+
+  .dashboard-modal__header,
+  .dashboard-modal__footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+
+  .dashboard-details-grid,
+  .dashboard-school-form {
+    padding: 16px;
+  }
+
+}
