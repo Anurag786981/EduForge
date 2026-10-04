@@ -3,8 +3,6 @@ package com.eduforge.auth.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Builder
 @Data
 public class LoginResponse {
@@ -29,6 +27,4 @@ public class LoginResponse {
   private boolean active;
 
   private boolean mustChangePassword;
-
-
 }
