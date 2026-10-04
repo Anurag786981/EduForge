@@ -1,0 +1,255 @@
+<!-- ==========================================================
+     EDUFORGE - SCHOOLS OVERVIEW
+     ========================================================== -->
+
+<div
+  class="data-table"
+  (click)="closeActions()"
+>
+
+  <!-- ========================================================
+       HEADER
+       ======================================================== -->
+
+  <div class="data-table__header">
+
+    <div>
+
+      <h2>
+        Schools Overview
+      </h2>
+
+      <p>
+        All schools registered on the platform
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="data-table__view-all"
+      (click)="viewAllSchools(); $event.stopPropagation()"
+    >
+      View all
+    </button>
+
+  </div>
+
+
+  <!-- ========================================================
+       TABLE
+       ======================================================== -->
+
+  @if (schools.length > 0) {
+
+    <div class="data-table__wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              School Name
+            </th>
+
+            <th>
+              DISE Code
+            </th>
+
+            <th>
+              Email
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Created
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (
+            school of schools.slice(0, 5);
+            track school.id
+          ) {
+
+            <tr>
+
+              <td>
+
+                <div
+                  class="school-name"
+                  [title]="school.schoolName"
+                >
+                  {{ school.schoolName }}
+                </div>
+
+              </td>
+
+
+              <td>
+                {{ school.diseCode }}
+              </td>
+
+
+              <td
+                [title]="school.email"
+              >
+                {{ school.email }}
+              </td>
+
+
+              <td>
+
+                <span
+                  class="status"
+                  [class.status--active]="school.active"
+                  [class.status--inactive]="!school.active"
+                >
+                  {{ school.active ? 'Active' : 'Inactive' }}
+                </span>
+
+              </td>
+
+
+              <td>
+                {{ school.createdAt | date:'dd MMM yyyy' }}
+              </td>
+
+
+              <!-- ==================================================
+                   ACTIONS
+                   ================================================== -->
+
+              <td
+                class="data-table__actions"
+                (click)="$event.stopPropagation()"
+              >
+
+                <button
+                  type="button"
+                  class="action-button"
+                  aria-label="School actions"
+                  (click)="
+                    toggleActions(school.id);
+                    $event.stopPropagation()
+                  "
+                >
+
+                  <span class="material-symbols-outlined">
+                    more_vert
+                  </span>
+
+                </button>
+
+
+                @if (
+                  openActionSchoolId === school.id
+                ) {
+
+                  <div
+                    class="action-menu"
+                    (click)="$event.stopPropagation()"
+                  >
+
+                    <!-- View -->
+                    <button
+                      type="button"
+                      (click)="onView(school)"
+                    >
+
+                      <span class="material-symbols-outlined">
+                        visibility
+                      </span>
+
+                      <span>
+                        View
+                      </span>
+
+                    </button>
+
+
+                    <!-- Edit -->
+                    <button
+                      type="button"
+                      (click)="onEdit(school)"
+                    >
+
+                      <span class="material-symbols-outlined">
+                        edit
+                      </span>
+
+                      <span>
+                        Edit
+                      </span>
+
+                    </button>
+
+
+                    <!-- Activate / Deactivate -->
+                    <button
+                      type="button"
+                      [class.action-danger]="school.active"
+                      (click)="onStatusChange(school)"
+                    >
+
+                      <span class="material-symbols-outlined">
+
+                        {{ school.active
+                          ? 'block'
+                          : 'check_circle' }}
+
+                      </span>
+
+                      <span>
+                        {{ school.active
+                          ? 'Deactivate'
+                          : 'Activate' }}
+                      </span>
+
+                    </button>
+
+                  </div>
+
+                }
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+  @else {
+
+    <div class="data-table__empty">
+
+      <p>
+        No schools found.
+      </p>
+
+    </div>
+
+  }
+
+</div>

@@ -1,0 +1,506 @@
+/* ==========================================================
+   DASHBOARD DATA TABLE
+   ========================================================== */
+
+.data-table {
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+
+.data-table__header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 72px;
+
+  padding: 0 20px;
+
+  border-bottom: 1px solid var(--ef-border);
+}
+
+
+.data-table__header h2 {
+  margin: 0;
+
+  color: var(--ef-text-primary);
+
+  font-size: 16px;
+  font-weight: 650;
+}
+
+
+.data-table__header p {
+  margin: 4px 0 0;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 12px;
+}
+
+
+/* ==========================================================
+   VIEW ALL
+   ========================================================== */
+
+.data-table__view-all {
+  flex: 0 0 auto;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--ef-primary);
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.data-table__view-all:hover {
+  text-decoration: underline;
+}
+
+
+/* ==========================================================
+   TABLE WRAPPER
+   ========================================================== */
+
+.data-table__wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+
+/* ==========================================================
+   TABLE
+   ========================================================== */
+
+.data-table table {
+  width: 100%;
+
+  /*
+   * Do not force the table to 720px on desktop.
+   * The Dashboard has a two-column layout, so the
+   * table must be able to shrink with its card.
+   */
+  min-width: 0;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+}
+
+
+/* ==========================================================
+   COLUMN WIDTHS
+   ========================================================== */
+
+/*
+ * These widths keep the important columns separated
+ * when the Dashboard table becomes narrower.
+ *
+ * If your HTML uses normal table columns in this order:
+ *
+ * School Name | DISE Code | Email | Status | Created | Actions
+ */
+
+.data-table th:nth-child(1),
+.data-table td:nth-child(1) {
+  width: 22%;
+}
+
+
+.data-table th:nth-child(2),
+.data-table td:nth-child(2) {
+  width: 16%;
+}
+
+
+.data-table th:nth-child(3),
+.data-table td:nth-child(3) {
+  width: 24%;
+}
+
+
+.data-table th:nth-child(4),
+.data-table td:nth-child(4) {
+  width: 13%;
+}
+
+
+.data-table th:nth-child(5),
+.data-table td:nth-child(5) {
+  width: 17%;
+}
+
+
+.data-table th:nth-child(6),
+.data-table td:nth-child(6) {
+  width: 8%;
+}
+
+
+/* ==========================================================
+   TABLE HEADER
+   ========================================================== */
+
+.data-table th {
+  height: 42px;
+
+  padding: 0 12px;
+
+  border-bottom: 1px solid var(--ef-border);
+
+  background: var(--ef-surface-hover);
+
+  color: var(--ef-text-secondary);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   TABLE CELLS
+   ========================================================== */
+
+.data-table td {
+  height: 56px;
+
+  padding: 0 12px;
+
+  border-bottom: 1px solid var(--ef-border);
+
+  color: var(--ef-text-secondary);
+
+  font-size: 13px;
+
+  vertical-align: middle;
+
+  /*
+   * Important for ellipsis to work correctly
+   * inside fixed-width table columns.
+   */
+  overflow: hidden;
+}
+
+
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+.data-table tbody tr:hover {
+  background: color-mix(
+    in srgb,
+    var(--ef-surface-hover) 70%,
+    transparent
+  );
+}
+
+
+/* ==========================================================
+   SCHOOL NAME
+   ========================================================== */
+
+.school-name {
+  display: block;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  color: var(--ef-text-primary);
+
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   EMAIL
+   ========================================================== */
+
+.data-table td:nth-child(3) {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.data-table td:nth-child(3) {
+  color: var(--ef-text-secondary);
+}
+
+
+/* ==========================================================
+   DISE CODE
+   ========================================================== */
+
+.data-table td:nth-child(2) {
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   CREATED DATE
+   ========================================================== */
+
+.data-table td:nth-child(5) {
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   STATUS
+   ========================================================== */
+
+.status {
+  display: inline-flex;
+
+  align-items: center;
+
+  max-width: 100%;
+
+  min-height: 24px;
+
+  padding: 0 8px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+.status--active {
+  color: var(--ef-success);
+
+  background: color-mix(
+    in srgb,
+    var(--ef-success) 10%,
+    transparent
+  );
+}
+
+
+.status--inactive {
+  color: var(--ef-danger);
+
+  background: color-mix(
+    in srgb,
+    var(--ef-danger) 10%,
+    transparent
+  );
+}
+
+
+/* ==========================================================
+   ACTIONS
+   ========================================================== */
+
+.data-table__actions {
+  position: relative;
+
+  width: auto;
+
+  text-align: center;
+
+  overflow: visible !important;
+}
+
+
+.action-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: var(--ef-text-secondary);
+
+  cursor: pointer;
+
+  transition:
+    background var(--ef-transition),
+    color var(--ef-transition),
+    border-color var(--ef-transition);
+}
+
+
+.action-button:hover {
+  background: var(--ef-surface-hover);
+
+  border-color: var(--ef-border);
+
+  color: var(--ef-text-primary);
+}
+
+
+.action-button .material-symbols-outlined {
+  font-size: 20px;
+}
+
+
+/* ==========================================================
+   ACTION MENU
+   ========================================================== */
+
+.action-menu {
+  position: absolute;
+
+  top: 42px;
+
+  right: 8px;
+
+  z-index: 1000;
+
+  width: 178px;
+
+  padding: 6px;
+
+  border: 1px solid var(--ef-border);
+
+  border-radius: 9px;
+
+  background: var(--ef-surface);
+
+  box-shadow: var(--ef-shadow-lg);
+}
+
+
+.action-menu button {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+
+  min-height: 38px;
+
+  padding: 0 10px;
+
+  border: 0;
+
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: var(--ef-text-primary);
+
+  font: inherit;
+
+  font-size: 13px;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+
+.action-menu button:hover {
+  background: var(--ef-surface-hover);
+}
+
+
+.action-menu .material-symbols-outlined {
+  width: 20px;
+
+  flex: 0 0 20px;
+
+  font-size: 19px;
+}
+
+
+.action-menu .action-danger {
+  color: var(--ef-danger);
+}
+
+
+/* ==========================================================
+   EMPTY STATE
+   ========================================================== */
+
+.data-table__empty {
+  min-height: 220px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 13px;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 1100px) {
+
+  /*
+   * Give the table enough room when the Dashboard
+   * changes to a single-column layout.
+   */
+
+  .data-table table {
+    min-width: 720px;
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .data-table__header {
+    padding: 0 16px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .data-table__header {
+    min-height: 64px;
+  }
+
+}

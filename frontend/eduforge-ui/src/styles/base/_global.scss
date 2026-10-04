@@ -1,0 +1,44 @@
+/* ==========================================================
+   EduForge Global Styles
+   ========================================================== */
+
+body {
+
+  font-family: var(--ef-font-family);
+
+  font-size: var(--ef-font-sm);
+
+  color: var(--ef-text-primary);
+
+  background: var(--ef-bg);
+
+  line-height: var(--ef-line-normal);
+
+  -webkit-font-smoothing: antialiased;
+
+}
+
+a {
+
+  text-decoration: none;
+
+  color: inherit;
+
+}
+
+button {
+
+  cursor: pointer;
+
+  border: none;
+
+  background: none;
+
+}
+
+ul,
+ol {
+
+  list-style: none;
+
+}

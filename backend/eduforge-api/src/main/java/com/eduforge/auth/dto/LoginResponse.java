@@ -10,7 +10,7 @@ public class LoginResponse {
   // User Information
   private Long id;
   private String firstName;
-  private String lastname;
+  private String lastName;
   private String email;
 
   // Authorization
@@ -25,4 +25,6 @@ public class LoginResponse {
 
   // Account Status
   private boolean active;
+
+  private boolean mustChangePassword;
 }

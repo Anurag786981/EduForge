@@ -1,0 +1,295 @@
+:host {
+  display: block;
+}
+
+/* =========================================================
+   PROFILE MENU TRIGGER
+   ========================================================= */
+
+.profile-menu__trigger {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: auto;
+  min-width: 180px;
+  height: 56px;
+
+  padding: 6px 8px 6px 10px;
+  gap: 10px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: transparent;
+  color: var(--ef-text-primary);
+
+  cursor: pointer;
+  text-align: left;
+
+  box-sizing: border-box;
+
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    background: var(--ef-surface-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ef-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+.profile-menu__avatar-wrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  min-width: 36px;
+  max-width: 36px;
+
+  flex: 0 0 36px;
+
+  visibility: visible;
+  opacity: 1;
+
+  box-sizing: border-box;
+}
+
+.profile-menu__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  min-width: 36px;
+  max-width: 36px;
+
+  flex: 0 0 36px;
+
+  border-radius: 50%;
+
+  background: var(--ef-primary);
+  color: var(--ef-on-primary, #ffffff);
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1;
+  letter-spacing: 0.2px;
+
+  box-sizing: border-box;
+
+  visibility: visible;
+  opacity: 1;
+
+  user-select: none;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.profile-menu__status-dot {
+  position: absolute;
+
+  right: -1px;
+  bottom: -1px;
+
+  width: 9px;
+  height: 9px;
+
+  min-width: 9px;
+  min-height: 9px;
+
+  border-radius: 50%;
+
+  border: 2px solid var(--ef-surface);
+
+  background: var(--ef-text-faint);
+
+  box-sizing: content-box;
+
+  z-index: 10;
+
+  visibility: visible;
+  opacity: 1;
+}
+
+.profile-menu__status-dot--online {
+  background: var(--ef-success);
+}
+
+.profile-menu__status-dot--away {
+  background: var(--ef-warning);
+}
+
+.profile-menu__status-dot--offline {
+  background: var(--ef-danger);
+}
+
+/* =========================================================
+   USER INFORMATION
+   ========================================================= */
+
+.profile-menu__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  min-width: 0;
+
+  flex: 1 1 auto;
+
+  overflow: hidden;
+
+  line-height: 1.15;
+}
+
+.profile-menu__name {
+  display: block;
+
+  max-width: 120px;
+
+  margin: 0;
+
+  overflow: hidden;
+
+  color: var(--ef-text-primary);
+
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 17px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-menu__role {
+  display: block;
+
+  max-width: 120px;
+
+  margin: 2px 0 0;
+
+  overflow: hidden;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 11px;
+  font-weight: 500;
+
+  line-height: 14px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   CHEVRON
+   ========================================================= */
+
+.profile-menu__trigger > mat-icon,
+.profile-menu__trigger mat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+
+  min-width: 20px;
+
+  margin-left: auto;
+
+  color: var(--ef-text-muted);
+
+  font-size: 20px;
+  line-height: 20px;
+
+  flex: 0 0 20px;
+}
+
+/* =========================================================
+   ANGULAR MATERIAL MENU
+   ========================================================= */
+
+::ng-deep .mat-mdc-menu-panel {
+  min-width: 180px !important;
+
+  border-radius: 10px !important;
+
+  background: var(--ef-surface) !important;
+
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.12),
+    0 2px 6px rgba(15, 23, 42, 0.06) !important;
+}
+
+::ng-deep .mat-mdc-menu-item {
+  min-height: 44px !important;
+
+  color: var(--ef-text-primary) !important;
+
+  font-size: 14px !important;
+}
+
+::ng-deep .mat-mdc-menu-item:hover {
+  background: var(--ef-surface-hover) !important;
+}
+
+::ng-deep .mat-mdc-menu-item .mat-icon {
+  color: var(--ef-text-secondary);
+}
+
+/* =========================================================
+   OPEN STATE
+   ========================================================= */
+
+.profile-menu__trigger[aria-expanded='true'] {
+  background: var(--ef-surface-hover);
+}
+
+/* =========================================================
+   SMALLER SCREENS
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .profile-menu__trigger {
+    min-width: 150px;
+    gap: 8px;
+  }
+
+  .profile-menu__name,
+  .profile-menu__role {
+    max-width: 90px;
+  }
+}
+
+/* =========================================================
+   DARK THEME
+   No separate hard-coded colors needed.
+   Theme tokens control the component.
+   ========================================================= */
+
+:host-context(.dark-theme) {
+  .profile-menu__status-dot {
+    border-color: var(--ef-surface);
+  }
+}

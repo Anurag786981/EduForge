@@ -73,7 +73,7 @@ public class SecurityConfig {
     // Allows requests from the Angular Application.
     configuration.setAllowedOrigins(List.of("http://localhost:4200"));
     // Allows the specified HTTP Methods
-    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
     // Allows all request headers
     configuration.setAllowedHeaders(List.of("*"));
     configuration.setAllowCredentials(true);

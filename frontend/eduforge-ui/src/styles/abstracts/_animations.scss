@@ -1,0 +1,26 @@
+/* ==========================================================
+   EduForge Design System
+   Animation Tokens
+   ========================================================== */
+
+:root {
+
+  /* ---------- Duration ---------- */
+
+  --ef-duration-fast: 150ms;
+  --ef-duration-normal: 250ms;
+  --ef-duration-slow: 350ms;
+
+  /* ---------- Timing ---------- */
+
+  --ef-ease: ease;
+  --ef-ease-in: ease-in;
+  --ef-ease-out: ease-out;
+  --ef-ease-in-out: ease-in-out;
+
+  /* ---------- Standard Transition ---------- */
+
+  --ef-transition:
+    all var(--ef-duration-normal) var(--ef-ease);
+
+}

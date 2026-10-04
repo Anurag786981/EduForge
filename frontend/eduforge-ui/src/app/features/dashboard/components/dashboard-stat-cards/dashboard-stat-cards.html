@@ -1,0 +1,86 @@
+<!-- Container for all dashboard KPI cards. -->
+<div class="stat-cards">
+
+  <!-- Render every KPI received from the dashboard. -->
+  @for (stat of stats; track stat.title) {
+
+    <!-- Apply a different visual style to each Super Admin KPI. -->
+    <article
+      class="stat-card"
+      [class.stat-card--schools]="stat.title === 'Total Schools'"
+      [class.stat-card--users]="stat.title === 'Total Users'"
+      [class.stat-card--active]="stat.title === 'Active Schools'"
+      [class.stat-card--billing]="stat.title === 'Overdue Billing'"
+    >
+
+      <!-- KPI icon area. -->
+      <div class="stat-card__top">
+
+        <!-- Render the Material icon instead of displaying its name as text. -->
+        <div class="stat-card__icon" aria-hidden="true">
+
+          <!-- The icon name comes from the existing KPI data. -->
+          <mat-icon>
+            {{ stat.icon }}
+          </mat-icon>
+
+        </div>
+
+      </div>
+
+
+      <!-- KPI title. -->
+      <p class="stat-card__title">
+        {{ stat.title }}
+      </p>
+
+
+      <!-- KPI value received from the API/dashboard logic. -->
+      <p class="stat-card__value">
+        {{ stat.value }}
+      </p>
+
+
+      <!-- Show placeholder when the KPI is not connected yet. -->
+      @if (stat.placeholder) {
+
+        <p class="stat-card__placeholder">
+          Coming soon
+        </p>
+
+      }
+
+
+      <!-- Show percentage change when available. -->
+      @else if (stat.change !== undefined) {
+
+        <div class="stat-card__footer">
+
+          <!-- Display positive or negative percentage. -->
+          <span
+            class="stat-card__change"
+            [class.stat-card__change--positive]="stat.trend === 'positive'"
+            [class.stat-card__change--negative]="stat.trend === 'negative'"
+          >
+            {{ stat.change }}%
+          </span>
+
+
+          <!-- Display the change description when available. -->
+          @if (stat.changeLabel) {
+
+            <span class="stat-card__change-label">
+              {{ stat.changeLabel }}
+            </span>
+
+          }
+
+        </div>
+
+      }
+
+    </article>
+
+  }
+
+</div>

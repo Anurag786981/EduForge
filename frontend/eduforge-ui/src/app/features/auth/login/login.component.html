@@ -1,71 +1,167 @@
 <div class="login-container">
-
-    <mat-card class="login-card">
-
-        <div class="logo">
+  <div class="login-page">
+    <!-- ================= LEFT PANEL ================= -->
+    <div class="left-panel">
+      <div class="left-content">
+        <!-- Brand -->
+        <div class="brand">
+          <div class="logo-box">
             <mat-icon>school</mat-icon>
+          </div>
+
+          <div class="brand-info">
+            <h2 class="brand-title">
+              <span class="edu">Edu</span><span class="forge">Forge</span>
+            </h2>
+
+            <p class="brand-subtitle">Smarter Schools. Brighter Future.</p>
+          </div>
         </div>
 
-        <h1>Welcome to EduForge</h1>
-        <p>Student Management Platform</p>
+        <!-- Welcome -->
+        <div class="welcome-section">
+          <h1 class="welcome-title">Welcome Back!</h1>
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <p class="welcome-subtitle">
+            Sign in to access your school management dashboard
+          </p>
+        </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email">
+        <!-- Login Form -->
+        <form
+          class="login-form"
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <!-- Email -->
 
-                <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-                    Email is required
-                </mat-error>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email Address</mat-label>
 
-                <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-                    Enter a valid email
-                </mat-error>
-            </mat-form-field>
+            <input matInput formControlName="email" type="email" />
 
-            <mat-form-field appearance="outline" class="full-width">
+            <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
 
-                <mat-label>Password</mat-label>
+            <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+              Enter a valid email
+            </mat-error>
+          </mat-form-field>
 
-                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <!-- Password -->
 
-                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
 
-                    <mat-icon>
-                        {{ hidePassword ? 'visibility_off' : 'visibility' }}
-                    </mat-icon>
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+            />
 
-                </button>
-
-                <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-                    Password is required
-                </mat-error>
-
-                <mat-error *ngIf="
-      loginForm.get('password')?.touched &&
-      loginForm.get('password')?.hasError('minlength')
-    ">
-                    Password must be at least 8 characters
-                </mat-error>
-
-            </mat-form-field>
-            <!-- Success Message -->
-            <div class="success-message" *ngIf="successMessage">
-                {{ successMessage }}
-            </div>
-
-            <!-- Error Message -->
-            <div class="error-message" *ngIf="errorMessage">
-                {{ errorMessage }}
-            </div>
-
-            <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="loginForm.invalid">
-                Login
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="hidePassword = !hidePassword"
+            >
+              <mat-icon>
+                {{ hidePassword ? "visibility_off" : "visibility" }}
+              </mat-icon>
             </button>
 
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+
+            <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+              Password must be at least 8 characters
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Remember Me & Forgot Password -->
+          <div class="form-options">
+            <mat-checkbox color="primary" formControlName="rememberMe">
+              Remember Me
+            </mat-checkbox>
+
+            <a routerLink="/forgot-password" class="forgot-password">
+              Forgot Password?
+            </a>
+          </div>
+
+          <!-- Success -->
+          <div class="success-message" *ngIf="successMessage">
+            <mat-icon>check_circle</mat-icon>
+            <span>{{ successMessage }}</span>
+          </div>
+
+          <!-- Error -->
+
+          <div class="error-message" *ngIf="errorMessage">
+            <mat-icon>error</mat-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+
+          <!-- Login Button -->
+
+          <button
+            mat-raised-button
+            class="login-button"
+            type="submit"
+            [disabled]="loginForm.invalid || isLoading"
+          >
+            <span class="btn-content" *ngIf="!isLoading">
+              <span>Login</span>
+              <mat-icon>arrow_forward</mat-icon>
+            </span>
+
+            <span *ngIf="isLoading"> Signing In... </span>
+          </button>
         </form>
+      </div>
 
-    </mat-card>
+      <footer class="login-footer">
+        © 2026 EduForge. All rights reserved.
+      </footer>
+    </div>
+    <!-- ================= RIGHT PANEL ================= -->
 
+    <div class="right-panel">
+      <div class="illustration">
+        <img
+          class="illustration-image"
+          src="assets/illustrations/right-panel-illustration.svg"
+          alt="EduForge Illustration"
+        />
+      </div>
+
+      <div class="right-content">
+        <h2>Modern School ERP</h2>
+
+        <p>
+          Trusted by schools across the country to simplify management and
+          improve learning outcomes.
+        </p>
+
+        <div class="stats">
+          <div class="stat">
+            <h3>500+</h3>
+            <span>Schools</span>
+          </div>
+
+          <div class="stat">
+            <h3>25K+</h3>
+            <span>Students</span>
+          </div>
+
+          <div class="stat">
+            <h3>1M+</h3>
+            <span>Transactions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

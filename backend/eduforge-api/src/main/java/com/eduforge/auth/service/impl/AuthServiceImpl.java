@@ -30,6 +30,7 @@ public class AuthServiceImpl implements AuthService {
 
   // maximum Allowed failed login Attempts before locking the account.
   private static final int MAX_FAILED_LOGIN_ATTEMPTS = 3;
+  private String token;
 
   @Override
   public LoginResponse login(LoginRequest loginRequest) {
@@ -74,13 +75,14 @@ public class AuthServiceImpl implements AuthService {
     return LoginResponse.builder()
         .id(user.getId())
         .firstName(user.getFirstName())
-        .lastname(user.getLastName())
+        .lastName(user.getLastName())
         .email(user.getEmail())
         .role(user.getRole().getRoleName())
         .schoolId(user.getSchool() != null ? user.getSchool().getId() : null)
         .schoolName(user.getSchool() != null ? user.getSchool().getSchoolName() : null)
         .token(token)
         .active(true)
+        .mustChangePassword(user.getPasswordChangeRequired())
         .build();
   }
 
@@ -119,6 +121,8 @@ public class AuthServiceImpl implements AuthService {
 
     // persists the updated user details
     userRepository.save(user);
+
+    System.out.println(passwordEncoder.encode("YourNewPassword@123"));
 
     return ApiResponse.<Void>builder()
         .success(true)

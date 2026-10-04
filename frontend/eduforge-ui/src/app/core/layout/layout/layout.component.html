@@ -1,0 +1,32 @@
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside
+    class="layout__sidenav"
+    [class.layout__sidenav--collapsed]="sidebarCollapsed()">
+
+    <ef-sidebar
+      [collapsed]="sidebarCollapsed()"
+      (logout)="onLogout()">
+    </ef-sidebar>
+
+  </aside>
+
+  <!-- MAIN AREA -->
+  <section class="layout__content">
+
+    <ef-header
+      (toggleSidebar)="onToggleSidebar()"
+      (toggleTheme)="onToggleTheme()"
+      (logout)="onLogout()">
+    </ef-header>
+
+    <ef-breadcrumb></ef-breadcrumb>
+
+    <main class="layout__router-outlet">
+      <router-outlet></router-outlet>
+    </main>
+
+  </section>
+
+</div>

@@ -1,0 +1,47 @@
+<section class="school-switcher">
+
+  <button
+    type="button"
+    class="school-selector"
+    [class.school-selector--open]="dropdownOpen()"
+    [disabled]="schools().length <= 1"
+    (click)="toggleDropdown()"
+    aria-label="Select school"
+  >
+    <span class="school-selector__content">
+      <strong>{{ selectedSchool()?.schoolName || 'Select School' }}</strong>
+      @if (selectedSchool()?.diseCode) {
+        <small>DISE: {{ selectedSchool()?.diseCode }}</small>
+      }
+    </span>
+
+    @if (schools().length > 1) {
+      <span class="school-selector__arrow">
+        {{ dropdownOpen() ? '⌃' : '⌄' }}
+      </span>
+    }
+  </button>
+
+  @if (dropdownOpen() && schools().length > 1) {
+    <div class="school-dropdown">
+      @for (school of schools(); track school.id) {
+        <button
+          type="button"
+          class="school-option"
+          [class.school-option--selected]="selectedSchool()?.id === school.id"
+          (click)="selectSchool(school)"
+        >
+          <span class="school-option__content">
+            <strong>{{ school.schoolName }}</strong>
+            <small>DISE: {{ school.diseCode }}</small>
+          </span>
+
+          @if (selectedSchool()?.id === school.id) {
+            <span class="school-option__check">✓</span>
+          }
+        </button>
+      }
+    </div>
+  }
+
+</section>

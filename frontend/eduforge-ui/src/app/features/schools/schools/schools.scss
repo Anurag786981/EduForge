@@ -1,0 +1,1474 @@
+/* Main Schools page container. */
+.schools-page {
+  min-height: 100%;
+  padding: 32px 28px 40px;
+  box-sizing: border-box;
+
+  background: var(--ef-bg);
+  color: var(--ef-text-primary);
+}
+
+
+/* Page heading layout. */
+.schools-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+
+/* Page heading content. */
+.schools-page__heading {
+  min-width: 0;
+}
+
+
+/* Small section label. */
+.schools-page__eyebrow {
+  display: inline-block;
+
+  margin-bottom: 6px;
+
+  color: var(--ef-primary);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+
+/* Main page title. */
+.schools-page h1 {
+  margin: 0;
+
+  color: var(--ef-text-primary);
+
+  font-size: 30px;
+  line-height: 38px;
+  font-weight: 700;
+}
+
+
+/* Page description. */
+.schools-page__heading p {
+  margin: 6px 0 0;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 14px;
+  line-height: 22px;
+}
+
+
+/* Add School button. */
+.schools-page__add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 42px;
+  padding: 0 16px;
+
+  border: 1px solid var(--ef-primary);
+  border-radius: 8px;
+
+  background: var(--ef-primary);
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background var(--ef-transition),
+    box-shadow var(--ef-transition),
+    transform var(--ef-transition);
+}
+
+
+/* Add School hover state. */
+.schools-page__add-button:hover {
+  background: var(--ef-primary-hover);
+
+  box-shadow: 0 6px 18px color-mix(
+    in srgb,
+    var(--ef-primary) 20%,
+    transparent
+  );
+}
+
+
+/* Add School active state. */
+.schools-page__add-button:active {
+  transform: translateY(1px);
+}
+
+
+/* Alert container. */
+.schools-alert {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  min-height: 42px;
+
+  margin-bottom: 16px;
+  padding: 0 12px;
+
+  border: 1px solid;
+  border-radius: 8px;
+
+  font-size: 13px;
+}
+
+
+/* Alert close button. */
+.schools-alert > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  margin-left: auto;
+  padding: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+  color: currentColor;
+
+  cursor: pointer;
+}
+
+
+/* Success alert. */
+.schools-alert--success {
+  color: var(--ef-success);
+
+  background: color-mix(
+    in srgb,
+    var(--ef-success) 10%,
+    transparent
+  );
+
+  border-color: color-mix(
+    in srgb,
+    var(--ef-success) 25%,
+    transparent
+  );
+}
+
+
+/* Error alert. */
+.schools-alert--error {
+  color: var(--ef-danger);
+
+  background: color-mix(
+    in srgb,
+    var(--ef-danger) 10%,
+    transparent
+  );
+
+  border-color: color-mix(
+    in srgb,
+    var(--ef-danger) 25%,
+    transparent
+  );
+}
+
+
+/* Search and filter toolbar. */
+.schools-toolbar {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+
+/* Search container. */
+.schools-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: min(420px, 100%);
+  height: 40px;
+
+  padding: 0 11px;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 8px;
+
+  background: var(--ef-surface);
+}
+
+
+/* Search icon. */
+.schools-search .material-symbols-outlined {
+  color: var(--ef-text-secondary);
+  font-size: 19px;
+}
+
+
+/* Search input. */
+.schools-search input {
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: var(--ef-text-primary);
+
+  font: inherit;
+  font-size: 13px;
+}
+
+
+/* Search placeholder. */
+.schools-search input::placeholder {
+  color: var(--ef-text-secondary);
+}
+
+
+/* Search focus state. */
+.schools-search:focus-within {
+  border-color: var(--ef-primary);
+
+  box-shadow: 0 0 0 3px color-mix(
+    in srgb,
+    var(--ef-primary) 10%,
+    transparent
+  );
+}
+
+
+/* Status filter. */
+.schools-status-filter {
+  height: 40px;
+
+  padding: 0 11px;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 8px;
+
+  outline: 0;
+
+  background: var(--ef-surface);
+  color: var(--ef-text-primary);
+
+  font: inherit;
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+
+/* Main school table card. */
+.schools-card {
+  overflow: visible;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 12px;
+
+  background: var(--ef-surface);
+
+  box-shadow: var(--ef-shadow-sm);
+}
+
+
+/* Table card header. */
+.schools-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 64px;
+
+  padding: 0 20px;
+
+  border-bottom: 1px solid var(--ef-border);
+}
+
+
+/* Table title. */
+.schools-card__header h2 {
+  margin: 0;
+
+  color: var(--ef-text-primary);
+
+  font-size: 16px;
+  font-weight: 650;
+}
+
+
+/* School count. */
+.schools-card__header p {
+  margin: 4px 0 0;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 12px;
+}
+
+
+/* Horizontal table scrolling. */
+.schools-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* Main table. */
+.schools-table {
+  width: 100%;
+  min-width: 960px;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+}
+
+
+/* Column widths. */
+.schools-table .col-school {
+  width: 22%;
+}
+
+.schools-table .col-dise {
+  width: 13%;
+}
+
+.schools-table .col-email {
+  width: 22%;
+}
+
+.schools-table .col-phone {
+  width: 13%;
+}
+
+.schools-table .col-status {
+  width: 11%;
+}
+
+.schools-table .col-created {
+  width: 13%;
+}
+
+.schools-table .col-actions {
+  width: 6%;
+}
+
+
+/* Table headers. */
+.schools-table th {
+  height: 44px;
+
+  padding: 0 14px;
+
+  border-bottom: 1px solid var(--ef-border);
+
+  background: var(--ef-surface-hover);
+
+  color: var(--ef-text-secondary);
+
+  text-align: left;
+  white-space: nowrap;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+
+/* Table cells. */
+.schools-table td {
+  height: 58px;
+
+  padding: 0 14px;
+
+  border-bottom: 1px solid var(--ef-border);
+
+  color: var(--ef-text-secondary);
+
+  font-size: 13px;
+
+  vertical-align: middle;
+}
+
+
+/* Remove border from final row. */
+.schools-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* Table row hover. */
+.schools-table tbody tr {
+  transition: background var(--ef-transition);
+}
+
+
+/* Table row hover state. */
+.schools-table tbody tr:hover {
+  background: color-mix(
+    in srgb,
+    var(--ef-surface-hover) 70%,
+    transparent
+  );
+}
+
+
+/* School name button. */
+.school-name-button {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  overflow: hidden;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: var(--ef-text-primary);
+
+  font: inherit;
+  font-weight: 600;
+
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+
+/* School name hover. */
+.school-name-button:hover {
+  color: var(--ef-primary);
+}
+
+
+/* DISE code. */
+.school-dise {
+  color: var(--ef-text-primary);
+
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* Email. */
+.school-email {
+  display: block;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  color: var(--ef-text-secondary);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* Phone. */
+.school-phone {
+  color: var(--ef-text-secondary);
+}
+
+
+/* Created date. */
+.school-created {
+  color: var(--ef-text-secondary);
+  white-space: nowrap;
+}
+
+
+/* Status badge. */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  min-height: 24px;
+
+  padding: 0 8px;
+
+  border: 1px solid transparent;
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+/* Active badge. */
+.status-badge--active {
+  color: var(--ef-success);
+
+  background: color-mix(
+    in srgb,
+    var(--ef-success) 10%,
+    transparent
+  );
+
+  border-color: color-mix(
+    in srgb,
+    var(--ef-success) 24%,
+    transparent
+  );
+}
+
+
+/* Inactive badge. */
+.status-badge--inactive {
+  color: var(--ef-danger);
+
+  background: color-mix(
+    in srgb,
+    var(--ef-danger) 10%,
+    transparent
+  );
+
+  border-color: color-mix(
+    in srgb,
+    var(--ef-danger) 24%,
+    transparent
+  );
+}
+
+
+/* Status dot. */
+.status-badge__dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+
+/* Actions table cell. */
+.schools-table__actions {
+  position: relative;
+
+  width: 100%;
+
+  text-align: center;
+}
+
+
+/* Actions header. */
+.schools-table__actions-header {
+  text-align: center;
+}
+
+
+/* Actions icon button. */
+.actions-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+  border-radius: 7px;
+
+  background: transparent;
+  color: var(--ef-text-secondary);
+
+  cursor: pointer;
+
+  transition:
+    background var(--ef-transition),
+    color var(--ef-transition),
+    border-color var(--ef-transition);
+}
+
+
+/* Actions button hover. */
+.actions-button:hover {
+  background: var(--ef-surface-hover);
+  border-color: var(--ef-border);
+
+  color: var(--ef-text-primary);
+}
+
+
+/* Actions dropdown. */
+.actions-menu {
+  position: absolute;
+  z-index: 50;
+
+  top: 42px;
+  right: 8px;
+
+  width: 170px;
+
+  padding: 5px;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 9px;
+
+  background: var(--ef-surface);
+
+  box-shadow: var(--ef-shadow-lg);
+}
+
+
+/* Action menu item. */
+.actions-menu button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  width: 100%;
+  height: 36px;
+
+  padding: 0 9px;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+  color: var(--ef-text-primary);
+
+  font: inherit;
+  font-size: 13px;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+
+/* Action menu hover. */
+.actions-menu button:hover {
+  background: var(--ef-surface-hover);
+}
+
+
+/* Destructive action. */
+.actions-menu .action-danger {
+  color: var(--ef-danger);
+}
+
+
+/* Loading/empty/error state. */
+.schools-state {
+  min-height: 260px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  color: var(--ef-text-secondary);
+
+  text-align: center;
+}
+
+
+/* State icon. */
+.schools-state .material-symbols-outlined {
+  margin-bottom: 10px;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 36px;
+}
+
+
+/* State title. */
+.schools-state h3 {
+  margin: 0 0 5px;
+
+  color: var(--ef-text-primary);
+
+  font-size: 15px;
+}
+
+
+/* State paragraph. */
+.schools-state p {
+  margin: 0;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 13px;
+}
+
+
+/* Error state. */
+.schools-state--error {
+  color: var(--ef-danger);
+}
+
+
+/* Error retry button. */
+.schools-state--error button {
+  margin-top: 14px;
+
+  min-height: 36px;
+  padding: 0 14px;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 7px;
+
+  background: var(--ef-surface-hover);
+  color: var(--ef-text-primary);
+
+  cursor: pointer;
+}
+
+
+/* Loading spinner. */
+.schools-spinner {
+  width: 28px;
+  height: 28px;
+
+  margin-bottom: 12px;
+
+  border: 3px solid var(--ef-border);
+  border-top-color: var(--ef-primary);
+
+  border-radius: 50%;
+
+  animation: schools-spin .8s linear infinite;
+}
+
+
+/* Spinner animation. */
+@keyframes schools-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Modal backdrop. */
+.modal-backdrop {
+  position: fixed;
+  z-index: 1000;
+
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(15, 23, 42, .58);
+
+  backdrop-filter: blur(2px);
+}
+
+
+/* Common modal. */
+.school-modal {
+  width: min(620px, 100%);
+  max-height: calc(100vh - 40px);
+
+  overflow-y: auto;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 14px;
+
+  background: var(--ef-surface);
+
+  box-shadow: var(--ef-shadow-lg);
+}
+
+
+/* View modal width. */
+.school-modal--view {
+  width: min(700px, 100%);
+}
+
+
+/* Confirmation modal width. */
+.school-modal--confirmation {
+  width: min(430px, 100%);
+
+  padding-top: 24px;
+}
+
+
+/* Modal header. */
+.school-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 22px;
+
+  border-bottom: 1px solid var(--ef-border);
+}
+
+
+/* Modal title. */
+.school-modal__header h2 {
+  margin: 0;
+
+  color: var(--ef-text-primary);
+
+  font-size: 20px;
+  font-weight: 650;
+}
+
+
+/* Close button. */
+.modal-close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  width: 34px;
+  height: 34px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 7px;
+
+  background: transparent;
+  color: var(--ef-text-secondary);
+
+  cursor: pointer;
+}
+
+
+/* Close button hover. */
+.modal-close-button:hover {
+  background: var(--ef-surface-hover);
+  color: var(--ef-text-primary);
+}
+
+
+/* School details grid. */
+.school-details-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+
+  padding: 22px;
+}
+
+
+/* Detail item. */
+.school-details-grid > div {
+  min-width: 0;
+}
+
+
+/* Detail label. */
+.school-details-grid span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+
+/* Detail value. */
+.school-details-grid strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: var(--ef-text-primary);
+
+  font-size: 13px;
+  font-weight: 500;
+
+  text-overflow: ellipsis;
+}
+
+
+/* Full-width detail. */
+.school-details-grid__full {
+  grid-column: 1 / -1;
+}
+
+
+/* Active detail. */
+.detail-active {
+  color: var(--ef-success) !important;
+}
+
+
+/* Inactive detail. */
+.detail-inactive {
+  color: var(--ef-danger) !important;
+}
+
+
+/* School form layout. */
+.school-form {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 17px;
+
+  padding: 22px;
+}
+
+
+/* Form field. */
+.form-field {
+  min-width: 0;
+}
+
+
+/* Full-width form field. */
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+
+/* Form label. */
+.form-field label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--ef-text-primary);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* Required indicator. */
+.form-field label span {
+  color: var(--ef-danger);
+}
+
+
+/* Form controls. */
+.form-field input,
+.form-field textarea {
+  display: block;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 8px;
+
+  outline: 0;
+
+  background: var(--ef-surface);
+  color: var(--ef-text-primary);
+
+  font: inherit;
+  font-size: 13px;
+
+  transition:
+    border-color var(--ef-transition),
+    box-shadow var(--ef-transition);
+}
+
+
+/* Input sizing. */
+.form-field input {
+  height: 40px;
+
+  padding: 0 11px;
+}
+
+
+/* Textarea sizing. */
+.form-field textarea {
+  min-height: 88px;
+
+  padding: 10px 11px;
+
+  resize: vertical;
+}
+
+
+/* Form placeholder. */
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--ef-text-secondary);
+}
+
+
+/* Form control focus. */
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--ef-primary);
+
+  box-shadow: 0 0 0 3px color-mix(
+    in srgb,
+    var(--ef-primary) 10%,
+    transparent
+  );
+}
+
+
+/* Form validation message. */
+.form-field small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--ef-danger);
+
+  font-size: 11px;
+}
+
+
+/* Modal footer. */
+.school-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  padding: 16px 22px;
+
+  border-top: 1px solid var(--ef-border);
+}
+
+
+/* Secondary button. */
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 38px;
+
+  padding: 0 14px;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 7px;
+
+  background: var(--ef-surface);
+  color: var(--ef-text-primary);
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* Secondary button hover. */
+.secondary-button:hover:not(:disabled) {
+  background: var(--ef-surface-hover);
+}
+
+
+/* Primary button. */
+.primary-button,
+.danger-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 38px;
+
+  padding: 0 15px;
+
+  border: 1px solid transparent;
+  border-radius: 7px;
+
+  color: #ffffff;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* Primary button. */
+.primary-button {
+  background: var(--ef-primary);
+  border-color: var(--ef-primary);
+}
+
+
+/* Primary button hover. */
+.primary-button:hover:not(:disabled) {
+  background: var(--ef-primary-hover);
+}
+
+
+/* Danger button. */
+.danger-button {
+  background: var(--ef-danger);
+  border-color: var(--ef-danger);
+}
+
+
+/* Danger button hover. */
+.danger-button:hover:not(:disabled) {
+  opacity: .9;
+}
+
+
+/* Disabled buttons. */
+.primary-button:disabled,
+.danger-button:disabled,
+.secondary-button:disabled,
+.modal-close-button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+
+/* Button spinner. */
+.button-spinner {
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid rgba(255, 255, 255, .45);
+  border-top-color: #ffffff;
+
+  border-radius: 50%;
+
+  animation: schools-spin .7s linear infinite;
+}
+
+
+/* Confirmation icon. */
+.confirmation-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  margin: 0 auto 14px;
+
+  border-radius: 50%;
+
+  background: color-mix(
+    in srgb,
+    var(--ef-success) 12%,
+    transparent
+  );
+
+  color: var(--ef-success);
+}
+
+
+/* Confirmation danger icon. */
+.confirmation-icon--danger {
+  background: color-mix(
+    in srgb,
+    var(--ef-danger) 12%,
+    transparent
+  );
+
+  color: var(--ef-danger);
+}
+
+
+/* Confirmation content. */
+.confirmation-content {
+  padding: 0 22px 18px;
+
+  text-align: center;
+}
+
+
+/* Confirmation title. */
+.confirmation-content h2 {
+  margin: 0 0 8px;
+
+  color: var(--ef-text-primary);
+
+  font-size: 18px;
+}
+
+
+/* Confirmation text. */
+.confirmation-content p {
+  margin: 0;
+
+  color: var(--ef-text-secondary);
+
+  font-size: 13px;
+  line-height: 20px;
+}
+
+
+/* Confirmation note. */
+.confirmation-content .confirmation-note {
+  margin-top: 8px;
+
+  font-size: 12px;
+}
+
+
+/* Responsive tablet layout. */
+@media (max-width: 900px) {
+
+  .schools-page {
+    padding: 24px 18px 32px;
+  }
+
+
+  .schools-page__header {
+    gap: 16px;
+  }
+
+
+  .school-form {
+    grid-template-columns: 1fr;
+  }
+
+
+  .form-field--full {
+    grid-column: auto;
+  }
+
+}
+
+
+/* Responsive small-screen layout. */
+@media (max-width: 640px) {
+
+  .schools-page {
+    padding: 20px 14px 28px;
+  }
+
+
+  .schools-page__header {
+    flex-direction: column;
+  }
+
+
+  .schools-page__add-button {
+    width: 100%;
+  }
+
+
+  .schools-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+
+  .schools-search {
+    width: 100%;
+  }
+
+
+  .schools-status-filter {
+    width: 100%;
+  }
+
+
+  .school-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .school-details-grid__full {
+    grid-column: auto;
+  }
+
+
+  .school-modal__header,
+  .school-modal__footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+
+  .school-form {
+    padding: 16px;
+  }
+
+
+  .modal-backdrop {
+    padding: 10px;
+  }
+
+}
+
+/* ==========================================================
+   FINAL ICON + ALIGNMENT OVERRIDES
+   ========================================================== */
+
+/* Add School button */
+.schools-page__add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.schools-page__add-button .material-symbols-outlined {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  font-size: 20px;
+}
+
+/* Search icon */
+.schools-search .material-symbols-outlined {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  font-size: 20px;
+}
+
+/* Table/action alignment */
+.schools-table th,
+.schools-table td {
+  vertical-align: middle;
+}
+
+.schools-table__actions {
+  width: 58px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+}
+
+.schools-table__actions-header {
+  width: 58px;
+  text-align: center;
+}
+
+/* Three-dot action button */
+.actions-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  margin: 0 auto;
+  padding: 0;
+}
+
+.actions-button .material-symbols-outlined {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  font-size: 20px;
+}
+
+/* Action menu */
+.actions-menu {
+  width: 178px;
+  padding: 6px;
+}
+
+.actions-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 38px;
+  height: auto;
+
+  padding: 0 10px;
+  box-sizing: border-box;
+
+  white-space: nowrap;
+}
+
+.actions-menu button .material-symbols-outlined {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  font-size: 19px;
+}
+
+/* Status alignment */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-badge__dot {
+  flex: 0 0 6px;
+}
+
+/* Modal/form/button icons */
+.school-modal .material-symbols-outlined,
+.primary-button .material-symbols-outlined,
+.secondary-button .material-symbols-outlined,
+.danger-button .material-symbols-outlined,
+.modal-close-button .material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Alert icons */
+.schools-alert > .material-symbols-outlined {
+  width: 20px;
+  flex: 0 0 20px;
+  font-size: 20px;
+}
+
+.schools-alert > button .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* State icons */
+.schools-state .material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

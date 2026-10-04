@@ -1,0 +1,229 @@
+/* =========================================================
+   EDUFORGE - MASTER LAYOUT
+   ========================================================= */
+
+:host {
+  display: block;
+
+  width: 100%;
+  height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.layout {
+  display: flex;
+
+  width: 100%;
+  height: 100vh;
+
+  min-width: 0;
+  min-height: 0;
+
+  margin: 0;
+  padding: 0;
+
+  gap: 0;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   SIDEBAR CONTAINER
+   IMPORTANT:
+   Sidebar component itself = 306px
+   Therefore parent must also reserve exactly 306px.
+   ========================================================= */
+
+.layout__sidenav {
+  flex: 0 0 306px;
+
+  width: 306px;
+  height: 100vh;
+
+  min-width: 0;
+  min-height: 0;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  transition:
+    width 220ms ease,
+    flex-basis 220ms ease;
+}
+
+/* =========================================================
+   COLLAPSED SIDEBAR
+   ========================================================= */
+
+.layout__sidenav--collapsed {
+  flex: 0 0 86px;
+
+  width: 86px;
+}
+
+/* =========================================================
+   MAIN CONTENT AREA
+   ========================================================= */
+
+.layout__content {
+  position: relative;
+
+  flex: 1 1 auto;
+
+  width: auto;
+
+  min-width: 0;
+  min-height: 0;
+
+  height: 100vh;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.layout__content > ef-header {
+  display: block;
+
+  flex: 0 0 auto;
+
+  width: 100%;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   BREADCRUMB
+   ========================================================= */
+
+.layout__content > ef-breadcrumb {
+  display: block;
+
+  flex: 0 0 auto;
+
+  width: 100%;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ROUTER CONTENT
+   ========================================================= */
+
+.layout__router-outlet {
+  flex: 1 1 auto;
+
+  width: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: auto;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   REMOVE DEFAULT SPACING
+   ========================================================= */
+
+.layout *,
+.layout *::before,
+.layout *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   PREVENT CHILD COMPONENTS FROM CREATING
+   EXTRA OUTER SPACE
+   ========================================================= */
+
+.layout__sidenav > ef-sidebar {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.layout__content > ef-header,
+.layout__content > ef-breadcrumb,
+.layout__content > .layout__router-outlet {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* =========================================================
+   DARK THEME SUPPORT
+   ========================================================= */
+
+:host-context(.dark-theme) .layout {
+  background: #0f172a;
+}
+
+/* =========================================================
+   LARGE SCREEN SAFETY
+   ========================================================= */
+
+@media (min-width: 1200px) {
+  .layout__sidenav {
+    flex-basis: 306px;
+    width: 306px;
+  }
+
+  .layout__sidenav--collapsed {
+    flex-basis: 86px;
+    width: 86px;
+  }
+}
+
+/* =========================================================
+   SMALL DESKTOP SAFETY
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .layout__sidenav {
+    flex-basis: 280px;
+    width: 280px;
+  }
+
+  .layout__sidenav--collapsed {
+    flex-basis: 86px;
+    width: 86px;
+  }
+}

@@ -1,0 +1,65 @@
+<svg width="500" height="400" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- soft background circle -->
+  <circle cx="250" cy="210" r="150" fill="#e6f0ff"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="250" cy="352" rx="140" ry="12" fill="#dbe6f7"/>
+
+  <!-- clouds -->
+  <g fill="#ffffff">
+    <ellipse cx="140" cy="80" rx="26" ry="14"/>
+    <ellipse cx="162" cy="74" rx="18" ry="11"/>
+    <ellipse cx="118" cy="76" rx="16" ry="10"/>
+
+    <ellipse cx="372" cy="108" rx="22" ry="12"/>
+    <ellipse cx="390" cy="103" rx="15" ry="9"/>
+  </g>
+
+  <!-- trees -->
+  <g>
+    <rect x="146" y="298" width="6" height="34" rx="2" fill="#94a3b8"/>
+    <circle cx="149" cy="286" r="22" fill="#93c5fd"/>
+
+    <rect x="360" y="292" width="6" height="34" rx="2" fill="#94a3b8"/>
+    <circle cx="363" cy="280" r="20" fill="#bfdbfe"/>
+  </g>
+
+  <!-- building -->
+  <g>
+    <!-- roof -->
+    <polygon points="250,140 178,196 322,196" fill="url(#roofGrad)"/>
+    <!-- walls -->
+    <rect x="188" y="196" width="124" height="122" rx="4" fill="#ffffff" stroke="#dbe4f3" stroke-width="2"/>
+    <!-- windows -->
+    <rect x="206" y="216" width="30" height="30" rx="6" fill="none" stroke="#2563eb" stroke-width="4"/>
+    <rect x="264" y="216" width="30" height="30" rx="6" fill="none" stroke="#2563eb" stroke-width="4"/>
+    <rect x="206" y="258" width="30" height="30" rx="6" fill="none" stroke="#2563eb" stroke-width="4"/>
+    <rect x="264" y="258" width="30" height="30" rx="6" fill="none" stroke="#2563eb" stroke-width="4"/>
+    <!-- door -->
+    <rect x="234" y="288" width="32" height="30" rx="3" fill="#2563eb"/>
+    <circle cx="258" cy="304" r="2" fill="#ffffff"/>
+  </g>
+
+  <!-- floating card: mini bar chart -->
+  <g transform="translate(96,214)">
+    <rect x="0" y="0" width="76" height="66" rx="12" fill="#ffffff" filter="drop-shadow(0 6px 14px rgba(37,99,235,0.18))"/>
+    <rect x="14" y="34" width="10" height="18" rx="2" fill="#bfdbfe"/>
+    <rect x="30" y="22" width="10" height="30" rx="2" fill="#60a5fa"/>
+    <rect x="46" y="12" width="10" height="40" rx="2" fill="#2563eb"/>
+  </g>
+
+  <!-- floating card: notification/chat -->
+  <g transform="translate(338,242)">
+    <rect x="0" y="0" width="94" height="52" rx="14" fill="#ffffff" filter="drop-shadow(0 6px 14px rgba(37,99,235,0.18))"/>
+    <circle cx="24" cy="26" r="11" fill="#818cf8"/>
+    <rect x="42" y="18" width="38" height="6" rx="3" fill="#dbe4f3"/>
+    <rect x="42" y="30" width="26" height="6" rx="3" fill="#e9eef7"/>
+  </g>
+</svg>
